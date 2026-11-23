@@ -14,9 +14,11 @@ rows for three probe rows. [Measurements and per-query data](docs/results.md)
 ## Build and verify
 
 Use Linux or WSL with a current Python 3.10+ security release, Bash, GNU
-patch, CMake, Ninja and GCC or Clang.
+patch, CMake, Ninja and GCC or Clang. Start in the root of the combined
+repository.
 
 ```sh
+cd duckdb
 cmake -S . -B build/core -G Ninja -DCMAKE_BUILD_TYPE=Debug
 cmake --build build/core
 ctest --test-dir build/core --output-on-failure

@@ -1,0 +1,146 @@
+{
+  "wg5M_sorted/stock": {
+    "cycles": 2543696475.0,
+    "instructions": 6629097382.0,
+    "dTLB-load-misses": 1716180.0,
+    "wall_ns": -109797693.0
+  },
+  "wg5M_sorted/v14": {
+    "cycles": 3387601417.0,
+    "instructions": 7878051146.0,
+    "dTLB-load-misses": 4062642.0,
+    "wall_ns": -105591631.0
+  },
+  "wg5M_sorted/part": {
+    "cycles": 3012219732.0,
+    "instructions": 7996753991.0,
+    "dTLB-load-misses": 1875400.0,
+    "wall_ns": -110372901.0
+  },
+  "wg5M_perm/stock": {
+    "cycles": 3910639868.0,
+    "instructions": 6637075051.0,
+    "dTLB-load-misses": 15453105.0,
+    "wall_ns": -137139361.0
+  },
+  "wg5M_perm/v14": {
+    "cycles": 3601245266.0,
+    "instructions": 7875157159.0,
+    "dTLB-load-misses": 16041216.0,
+    "wall_ns": -121924167.0
+  },
+  "wg5M_perm/part": {
+    "cycles": 2917747218.0,
+    "instructions": 8047005795.0,
+    "dTLB-load-misses": 1777649.0,
+    "wall_ns": -134321145.0
+  },
+  "sd948k_sorted/stock": {
+    "cycles": 2190158132.0,
+    "instructions": 8733513087.0,
+    "dTLB-load-misses": 269821.0,
+    "wall_ns": -21874108.0
+  },
+  "sd948k_sorted/v14": {
+    "cycles": 2285663729.0,
+    "instructions": 9008640920.0,
+    "dTLB-load-misses": 494302.0,
+    "wall_ns": -30741144.0
+  },
+  "sd948k_sorted/part": {
+    "cycles": 2157842116.0,
+    "instructions": 9058304559.0,
+    "dTLB-load-misses": 292210.0,
+    "wall_ns": -32987275.0
+  },
+  "sd948k_perm/stock": {
+    "cycles": 2398842810.0,
+    "instructions": 8785700191.0,
+    "dTLB-load-misses": 1041895.0,
+    "wall_ns": -39875503.0
+  },
+  "sd948k_perm/v14": {
+    "cycles": 2317838583.0,
+    "instructions": 9056747551.0,
+    "dTLB-load-misses": 1003733.0,
+    "wall_ns": -25852323.0
+  },
+  "sd948k_perm/part": {
+    "cycles": 2204518891.0,
+    "instructions": 9009071938.0,
+    "dTLB-load-misses": 456766.0,
+    "wall_ns": -33389791.0
+  },
+  "wg800k_perm/stock": {
+    "cycles": 586325406.0,
+    "instructions": 1303551286.0,
+    "dTLB-load-misses": 980265.0,
+    "wall_ns": -27244209.0
+  },
+  "wg800k_perm/v14": {
+    "cycles": 495843998.0,
+    "instructions": 1468339823.0,
+    "dTLB-load-misses": 1118224.0,
+    "wall_ns": -28693179.0
+  },
+  "wg800k_perm/part": {
+    "cycles": 474938257.0,
+    "instructions": 1473390532.0,
+    "dTLB-load-misses": 172271.0,
+    "wall_ns": -33528098.0
+  },
+  "job22d/stock": {
+    "cycles": 2392503794.0,
+    "instructions": 4853578358.0,
+    "dTLB-load-misses": 1507300.0,
+    "wall_ns": -238916665.0
+  },
+  "job22d/v14": {
+    "cycles": 3103035091.0,
+    "instructions": 5882058408.0,
+    "dTLB-load-misses": 2930671.0,
+    "wall_ns": -17405997.0
+  },
+  "job22d/part": {
+    "cycles": 3203150701.0,
+    "instructions": 6461731991.0,
+    "dTLB-load-misses": 2657190.0,
+    "wall_ns": -153460970.0
+  },
+  "job4a/stock": {
+    "cycles": 652428210.0,
+    "instructions": 1380260634.0,
+    "dTLB-load-misses": 460730.0,
+    "wall_ns": -75998248.0
+  },
+  "job4a/v14": {
+    "cycles": 780482688.0,
+    "instructions": 1702609089.0,
+    "dTLB-load-misses": 1107078.0,
+    "wall_ns": -92190347.0
+  },
+  "job4a/part": {
+    "cycles": 914486678.0,
+    "instructions": 1943058740.0,
+    "dTLB-load-misses": 528240.0,
+    "wall_ns": -79607742.0
+  },
+  "ldbc_bi3/stock": {
+    "cycles": 4024357242.0,
+    "instructions": 6072391908.0,
+    "dTLB-load-misses": 12975981.0,
+    "wall_ns": -362502096.0
+  },
+  "ldbc_bi3/v14": {
+    "cycles": 5050359901.0,
+    "instructions": 7598324436.0,
+    "dTLB-load-misses": 21513022.0,
+    "wall_ns": -381511345.0
+  },
+  "ldbc_bi3/part": {
+    "cycles": 4273240301.0,
+    "instructions": 7813739847.0,
+    "dTLB-load-misses": 9887300.0,
+    "wall_ns": -443537620.0
+  }
+}

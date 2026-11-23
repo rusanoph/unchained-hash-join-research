@@ -47,42 +47,25 @@ and [analytical threshold audit](evidence/natural-threshold.json).
 
 ## Run the Enron two-hop query
 
-Run from the repository root after building the worker. This example uses
-the DuckDB 1.5.6 CLI to export the SNAP edge list to Parquet. It keeps one
-record per undirected edge, as in the original holdout.
-[SNAP Enron dataset](https://snap.stanford.edu/data/email-Enron.html)
+Build the worker in its default location. From the root of the combined
+repository, run the example with the DuckDB 1.5.6 CLI (`duckdb`) on your
+`PATH`, Bash, curl, GNU coreutils, diff and Python 3.
+[Worker build instructions](../README.md#build-and-verify)
 
 ```sh
-mkdir -p build/enron
-curl -fLsS https://snap.stanford.edu/data/email-Enron.txt.gz -o build/enron/email-Enron.txt.gz
-printf '%s  %s\n' 55cfead79b1f0161786179a48796c2a119bd7026a246238b257b6be9d8b69b68 \
-    build/enron/email-Enron.txt.gz | sha256sum -c
-
-duckdb -bail <<'SQL'
-SET threads = 1;
-COPY (
-    SELECT * FROM read_csv('build/enron/email-Enron.txt.gz', delim='\t',
-        header=false, skip=4, auto_detect=false, columns={'src':'INTEGER','dst':'INTEGER'})
-    WHERE src <= dst
-) TO 'build/enron/enron_file.parquet' (FORMAT PARQUET, COMPRESSION ZSTD);
-SQL
-
-for threshold in 200000 50000; do
-    build/target/release/hashman-df-worker \
-        --data build/enron --parquet-direct true --target-partitions 1 --warmups 0 \
-        --set datafusion.execution.hashman_join=auto \
-        --set "datafusion.execution.hashman_join_min_build_rows=$threshold" \
-        --sql 'SELECT count(*), sum(a.src::BIGINT + b.dst)
-               FROM enron_file a JOIN enron_file b ON a.dst = b.src' \
-        --result-file "build/enron/result-$threshold.tsv" > "build/enron/metrics-$threshold.json"
-    printf '5982269\t58340459753\n' | diff - "build/enron/result-$threshold.tsv"
-done
+bash datafusion/scripts/check-enron.sh
 ```
 
-The 200K arm uses a native index. The 50K arm reports `csr_exact` for
-the 183,831-row build in `samples[0].hashman.builds`. This example
-checks one query and the runtime selection. The published intervals use
-the full randomized-block campaign.
+For an offline run, place the original `email-Enron.txt.gz` in
+`datafusion/build/enron/` first. The script verifies the SHA-256 of either
+the cached or downloaded input, keeps one record per undirected edge
+and writes the Parquet file, SQL results and worker reports to
+`datafusion/build/enron/`. At both thresholds it checks the two-hop join
+against the independent result (count 5,982,269 and sum 58,340,459,753).
+It also checks `samples[0].hashman.builds` for one 183,831-row build:
+`native_array` at 200K and `csr_exact` at 50K. The published intervals
+use the full randomized-block campaign.
+[Script and SQL](../scripts/check-enron.sh) · [SNAP Enron dataset](https://snap.stanford.edu/data/email-Enron.html)
 
 ## Package verification
 

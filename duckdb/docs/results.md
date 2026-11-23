@@ -1,18 +1,18 @@
-# DuckDB v17 results
+# Native and contiguous hash joins in DuckDB 1.5.6
 
 Each comparison uses the native hash join from stock DuckDB 1.5.6 on
-the same SQL workload. The Unchained arm uses v17 in prefer mode, with
+the same SQL workload. The contiguous-row policy runs in prefer mode, with
 automatic radix alignment and native fallback below 8 MiB of build
 staging. It preserves the native perfect-hash path when available.
 
-| Workload | Queries | Stock / v17, geometric mean [95% CI] | Per-query data |
+| Workload | Queries | Stock / contiguous-row policy, geometric mean [95% CI] | Per-query data |
 |---|---:|---:|---|
 | SNAP graph self-joins | 35 | **1.068 [1.059, 1.077]** | [SNAP](evidence/snap.json) |
 | Join Order Benchmark (JOB) | 113 | 0.948 [0.945, 0.951] | [JOB](evidence/job.json) |
 | LDBC BI SF10, local SQL port and initial snapshot | 56 | 0.986 [0.980, 0.992] | [LDBC BI](evidence/ldbc-bi-sf10.json) |
 | TPC-DS SF10, held out from tuning | 99 | 0.988 [0.986, 0.990] | [TPC-DS](evidence/tpcds-sf10.json) |
 
-Ratios above one favor v17. Each query contributes the median of its
+Ratios above one favor the contiguous-row policy. Each query contributes the median of its
 paired within-block ratios. Cohort intervals resample blocks. A fresh
 process, one query thread and one pinned logical CPU were used for each
 observation on a WSL2 host. Blocks randomized the order of observations.
@@ -31,13 +31,14 @@ scattering rows and 25 ms grouping exact keys. A separate timed
 ablation turned off exact ranges, changing both key grouping and probe
 lookup. The 95% interval for each of the four selected JOB queries
 included one. The two selected WebGoogle queries slowed down, with
-v17 / range-off ratios of 0.926 [0.919, 0.962] and 0.914 [0.889, 0.943].
+range-on / range-off time ratios of 0.926 [0.919, 0.962] and 0.914 [0.889, 0.943].
 All 192 observations completed with matching plans and query results.
 [Ablation data](evidence/exact-ranges.json)
 
 ## Configuration and provenance
 
-The following options select the measured v17 path. Omit `--result`
+The research archive identifies the measured DuckDB patch as `v17`.
+The following options select the contiguous-row policy. Omit `--result`
 to use the timed worker's value-hash drain. Select the appropriate
 database, query file and affinity for the workload.
 
@@ -58,7 +59,7 @@ repository contains the aggregate evidence and synthetic verification
 fixtures. The original SQL workload files and raw observations remain
 in the research archive.
 
-The archived v17 inputs were verified against the package.
+The archived patch and worker were verified against the package.
 
 | File | SHA-256 |
 |---|---|
@@ -76,6 +77,6 @@ tests passed under AddressSanitizer and UndefinedBehaviorSanitizer.
 
 On all six ablation queries, the rebuilt worker returned the same
 row multiset as stock DuckDB with exact ranges enabled and disabled.
-The two v17 arms matched on the physical plan and the set of converted
+The range-on and range-off runs matched on the physical plan and the set of converted
 builds. The runtime records confirmed the two probe paths. These
 release checks did not contribute timings to the tables above.

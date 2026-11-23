@@ -21,9 +21,11 @@ queries whose CSR builds changed. The default `auto` threshold remains
 ## Build and verify
 
 Use Linux or WSL with Git, Python 3, a C toolchain, and rustup. The engine
-build uses Rust 1.97.0 and the checked-in worker lockfile.
+build uses Rust 1.97.0 and the checked-in worker lockfile. Start in the
+root of the combined repository.
 
 ```sh
+cd datafusion
 rustup toolchain install 1.97.0
 cargo +1.97.0 test --manifest-path core/Cargo.toml
 bash scripts/build-worker.sh
@@ -42,7 +44,7 @@ It also checks that `csr_exact` and `csr_hash` actually execute and that
 
 The [Enron example](docs/results.md#run-the-enron-two-hop-query) runs a
 query from the graph holdout at both thresholds using the original SNAP
-input and checks the exact result.
+input and checks the exact result and the index built at each threshold.
 
 ## Source layout
 

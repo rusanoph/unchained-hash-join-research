@@ -32,7 +32,8 @@ workload.
 - **[DataFusion](datafusion/README.md)** contains the Rust CSR core,
   the v10b engine patch, and a SQL worker. The smoke test checks both
   CSR layouts and the small-build fallback. The Enron example runs
-  one holdout query at both thresholds and checks the exact result.
+  one holdout query at both thresholds and checks the exact result and
+  the index each run actually built.
   [Measurements and Enron example](datafusion/docs/results.md)
 - **[Article](paper/README.md)** traces both layouts from construction through
   SQL execution and derives a break-even condition for probe savings. Its
