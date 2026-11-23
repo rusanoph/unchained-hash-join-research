@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "duckdb": {
+    "repository": "https://github.com/duckdb/duckdb",
+    "commit": "069cc9f9b5be802405797faecc284961b07c70ef",
+    "tag": "v1.5.6",
+    "archive_url": "https://codeload.github.com/duckdb/duckdb/tar.gz/069cc9f9b5be802405797faecc284961b07c70ef",
+    "archive_sha256": "77cfc249ad652104b770fa7a8bb1d0119c3232e5dd03aadaaa1c9c7554fe7c05"
+  }
+}

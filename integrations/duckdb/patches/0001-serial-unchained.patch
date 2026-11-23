@@ -1,0 +1,1816 @@
+--- a/src/include/duckdb/execution/join_hashtable.hpp
++++ b/src/include/duckdb/execution/join_hashtable.hpp
+@@ -56,6 +56,9 @@
+    [POINTER]
+    The pointers are either NULL
+ */
++struct HashmanTable;
++struct HashmanRecord;
++
+ class JoinHashTable {
+ public:
+ 	using ValidityBytes = TemplatedValidityMask<uint8_t>;
+@@ -77,6 +80,8 @@
+ 		TupleDataChunkState &key_state;
+ 		//! Directly point to the entry in the hash table
+ 		Vector pointers;
++		Vector hashman_ends;
++        idx_t hashman_cursor = 0;
+ 		idx_t count;
+ 		SelectionVector sel_vector;
+ 		SelectionVector chain_match_sel_vector;
+@@ -177,6 +182,21 @@
+ 	JoinHashTable(ClientContext &context, const PhysicalOperator &op, const vector<JoinCondition> &conditions,
+ 	              vector<LogicalType> build_types, JoinType type, const vector<idx_t> &output_columns);
+ 	~JoinHashTable();
++    string HashmanSupportReason() const;
++    bool HashmanVariableWidth() const { return !layout_ptr->AllConstant(); }
++    void HashmanCensus();
++    void BuildUnchained();
++    void HashmanKeyOrder();
++    void BuildHashmanRuntimeBloom();
++    void ReleaseHashmanStaging();
++    idx_t hashman_logical_count=0;
++    unique_ptr<HashmanTable> hashman_table;
++    shared_ptr<HashmanRecord> hashman_record;
++    // Radix partitions of the sink, recorded before Unpartition() (setting hashman_partitioned_build=aligned).
++    vector<idx_t> hashman_part_chunks,hashman_part_rows;
++    idx_t hashman_part_bits=0;
++    void HashmanCapturePartitions();
++
+ 
+ 	//! Add the given data to the HT
+ 	void Build(PartitionedTupleDataAppendState &append_state, DataChunk &keys, DataChunk &input);
+@@ -202,7 +222,7 @@
+ 	static idx_t FillWithHTOffsets(JoinHTScanState &state, Vector &addresses);
+ 
+ 	idx_t Count() const {
+-		return data_collection->Count();
++		return hashman_logical_count ? hashman_logical_count : data_collection->Count();
+ 	}
+ 	idx_t SizeInBytes() const {
+ 		return data_collection->SizeInBytes();
+--- a/src/execution/join_hashtable.cpp
++++ b/src/execution/join_hashtable.cpp
+@@ -1,4 +1,8 @@
+ #include "duckdb/execution/join_hashtable.hpp"
++#include "duckdb/execution/hashman_state.hpp"
++#include "duckdb/execution/hashman_probe.hpp"
++#include <chrono>
++#include <algorithm>
+ 
+ #include "duckdb/common/enums/join_type.hpp"
+ #include "duckdb/common/exception.hpp"
+@@ -39,7 +43,7 @@
+     : context(context_p), op(op_p), buffer_manager(BufferManager::GetBufferManager(context)), conditions(conditions_p),
+       build_types(std::move(btypes)), output_columns(output_columns_p), entry_size(0), tuple_size(0),
+       vfound(Value::BOOLEAN(false)), join_type(type_p), finalized(false), has_null(false),
+-      radix_bits(INITIAL_RADIX_BITS) {
++      radix_bits(HashmanRadixBits(context_p, INITIAL_RADIX_BITS, HashmanEstimateBuildBytes(build_types, op_p.children.size() > 1 ? op_p.children[1].get().estimated_cardinality : 0))) {
+ 	for (idx_t i = 0; i < conditions.size(); ++i) {
+ 		auto &condition = conditions[i];
+ 		D_ASSERT(condition.left->return_type == condition.right->return_type);
+@@ -122,7 +126,285 @@
+ }
+ 
+ JoinHashTable::~JoinHashTable() {
+-}
++    if (hashman_record) hashman_record->matches = total_probe_matches.load();
++}
++
++string JoinHashTable::HashmanSupportReason() const {
++    if (join_type != JoinType::INNER) return "join_type_unsupported";
++    if (conditions.size() != 1 || equality_predicates.size() != 1 ||
++        equality_predicates[0] != ExpressionType::COMPARE_EQUAL) return "predicate_unsupported";
++    auto key = equality_types[0].InternalType();
++    if (key != PhysicalType::INT32 && key != PhysicalType::INT64) return "key_type_unsupported";
++    for (auto &type : layout_ptr->GetTypes()) {
++        auto physical = type.InternalType();
++        // VARCHAR/BLOB are string_t: short strings live in the row, long ones point into the engine's heap blocks. The row
++        // copy keeps the same pointers, so they stay valid exactly as long as the staging collection (and its heap) is retained.
++        if (!TypeIsIntegral(physical) && physical != PhysicalType::FLOAT &&
++            physical != PhysicalType::DOUBLE && physical != PhysicalType::BOOL && physical != PhysicalType::VARCHAR)
++            return "payload_type_unsupported";
++    }
++    return "eligible";
++}
++
++struct HashmanBuildSource {
++    JoinHashTable &ht;
++    ClientContext &context;
++    HashmanHashMode test_hash;
++    mutable unsigned pass;
++    template<class F> void each(F f) const {
++        HashmanSpan span(ht.hashman_record.get(), pass++==0 ? &HashmanRecord::count_ns : &HashmanRecord::scatter_ns);
++        if (!ht.Count()) return;
++        TupleDataChunkIterator it(ht.GetDataCollection(), TupleDataPinProperties::KEEP_EVERYTHING_PINNED,
++                                 0, ht.GetDataCollection().ChunkCount(), false);
++        do {
++            auto locations = it.GetRowLocations();
++            for (idx_t i = 0; i < it.GetCurrentChunkCount(); ++i) {
++                if ((i & 255) == 0 && context.IsInterrupted()) throw InterruptException();
++                f(HashmanTestHash(test_hash, Load<hash_t>(locations[i] + ht.pointer_offset)), locations[i]);
++            }
++        } while (it.Next());
++    }
++};
++
++// Partition-by-partition view of the build side after Unpartition(): the collection is the sink's partitions concatenated in order, so partition p is the chunk range
++// [from[p], from[p+1]) (recorded in HashmanCapturePartitions before the merge). Rows of a partition are read twice (count, scatter) while they are cache resident.
++struct HashmanPartitionSource {
++    JoinHashTable &ht;
++    ClientContext &context;
++    HashmanHashMode test_hash;
++    const vector<idx_t> &from;
++    const vector<idx_t> &rows;
++    mutable vector<uint8_t> pass;
++    uint64_t rows_in(size_t p) const { return rows[p]; }
++    template<class F> void each(size_t p, F f) const {
++        HashmanSpan span(ht.hashman_record.get(), pass[p]++==0 ? &HashmanRecord::count_ns : &HashmanRecord::scatter_ns);
++        if (from[p]==from[p+1]) return;
++        TupleDataChunkIterator it(ht.GetDataCollection(), TupleDataPinProperties::KEEP_EVERYTHING_PINNED, from[p], from[p+1], false);
++        do {
++            auto locations = it.GetRowLocations();
++            for (idx_t i = 0; i < it.GetCurrentChunkCount(); ++i) {
++                if ((i & 255) == 0 && context.IsInterrupted()) throw InterruptException();
++                f(HashmanTestHash(test_hash, Load<hash_t>(locations[i] + ht.pointer_offset)), locations[i]);
++            }
++        } while (it.Next());
++    }
++};
++
++// Measurement only: key order of the first 16 chunks of the staging collection (about 32k rows, well under a millisecond).
++void JoinHashTable::HashmanKeyOrder() {
++    if(!hashman_record || !Count() || equality_types.empty()) return;
++    const auto type=equality_types[0].InternalType();
++    if(type!=PhysicalType::INT32 && type!=PhysicalType::INT64) return;
++    const auto at=layout_ptr->GetOffsets()[0];
++    TupleDataChunkIterator it(GetDataCollection(), TupleDataPinProperties::KEEP_EVERYTHING_PINNED, 0, MinValue<idx_t>(16, GetDataCollection().ChunkCount()), false);
++    bool have=false;
++    int64_t previous=0;
++    uint64_t pairs=0, ascending=0;
++    do {
++        auto locations = it.GetRowLocations();
++        for (idx_t i = 0; i < it.GetCurrentChunkCount(); ++i) {
++            const int64_t key = type==PhysicalType::INT32 ? int64_t(Load<int32_t>(locations[i] + at)) : Load<int64_t>(locations[i] + at);
++            if(have) { ++pairs; ascending += key >= previous; }
++            previous = key; have = true;
++        }
++    } while (it.Next());
++    hashman_record->key_order_pairs = pairs;
++    hashman_record->key_order_ascending = ascending;
++}
++
++void JoinHashTable::HashmanCapturePartitions() {
++    hashman_part_chunks.clear();
++    hashman_part_rows.clear();
++    hashman_part_bits = 0;
++    if (!HashmanPartitionedBuildSetting(context) || !sink_collection) return;
++    auto &parts = sink_collection->GetPartitions();
++    hashman_part_bits = radix_bits;
++    for (auto &part : parts) {
++        hashman_part_chunks.push_back(part->ChunkCount());
++        hashman_part_rows.push_back(part->Count());
++    }
++}
++
++// Measurement only: shape of the finished build side. Hashes are the engine's own (all key columns combined), so
++// distinct hashes approximate distinct key tuples for any key type; collisions at 64 bits are negligible.
++void JoinHashTable::HashmanCensus() {
++    auto &record=*hashman_record;
++    const auto started=std::chrono::steady_clock::now();
++    vector<hash_t> hashes;
++    hashes.reserve(Count());
++    if(Count()) {
++        TupleDataChunkIterator it(GetDataCollection(),TupleDataPinProperties::KEEP_EVERYTHING_PINNED,
++                                  0,GetDataCollection().ChunkCount(),false);
++        do {
++            if(context.IsInterrupted()) throw InterruptException();
++            auto locations=it.GetRowLocations();
++            for(idx_t i=0;i<it.GetCurrentChunkCount();++i) hashes.push_back(Load<hash_t>(locations[i]+pointer_offset));
++        } while(it.Next());
++    }
++    std::sort(hashes.begin(),hashes.end());
++    uint64_t distinct=0,max_run=0,ge8=0,ge16=0;
++    for(size_t i=0;i<hashes.size();) {
++        size_t j=i+1;
++        while(j<hashes.size() && hashes[j]==hashes[i]) ++j;
++        const uint64_t run=j-i;
++        ++distinct;max_run=MaxValue<uint64_t>(max_run,run);
++        if(run>=8) ge8+=run;
++        if(run>=16) ge16+=run;
++        i=j;
++    }
++    record.census=true;record.census_rows=hashes.size();record.census_distinct=distinct;record.census_max_dup=max_run;
++    record.census_rows_ge8=ge8;record.census_rows_ge16=ge16;record.census_entry_size=entry_size;
++    record.census_conditions=conditions.size();record.census_equality=equality_predicates.size();
++    record.census_support=HashmanSupportReason();record.census_join_type=JoinTypeToString(join_type);
++    string keys,payload;
++    for(auto &t:equality_types) keys+=(keys.empty()?"":",")+t.ToString();
++    for(auto &t:layout_ptr->GetTypes()) payload+=(payload.empty()?"":",")+t.ToString();
++    record.census_key_types=keys;record.census_payload_types=payload;
++    record.census_ns=std::chrono::duration_cast<std::chrono::nanoseconds>(std::chrono::steady_clock::now()-started).count();
++}
++
++void JoinHashTable::BuildUnchained() {
++    const auto started = std::chrono::steady_clock::now();
++    const auto partition_mode=HashmanPartitionMode(context);
++    const bool partitioned_build=partition_mode==1 || (partition_mode==2 && uint64_t(Count())*entry_size>=HASHMAN_PARTITION_MIN_BYTES);
++    auto layout=HashmanLayout(context,Count(),entry_size,partitioned_build ? 16 : 0);
++    auto &allocator = buffer_manager.GetBufferAllocator();
++    AllocatedData cursors;
++    if(HashmanScratchBytes(layout)) cursors=allocator.Allocate(HashmanScratchBytes(layout));
++    auto next = make_uniq<HashmanTable>(allocator, layout,
++                                      HashmanBool(context, "hashman_bloom", true));
++    next->test_hash = HashmanTestHashMode(context);
++    next->probe_kernel = HashmanProbeSetting(context);
++    next->lookup_kernel = HashmanLookupSetting(context);
++    next->exact_ranges=HashmanBool(context,"hashman_exact_ranges",false);
++    const auto exact_lookup=HashmanExactLookupSetting(context);
++    next->exact_fused=exact_lookup.fused;next->refine_nodiv=exact_lookup.nodiv;next->refine_inline=exact_lookup.inlined;
++    if(exact_lookup.name!="separate" && !next->exact_ranges)
++        throw InvalidInputException("hashman_exact_lookup=%s requires exact ranges",exact_lookup.name);
++    if(next->exact_fused && next->lookup_kernel==HashmanLookupKernel::LEGACY)
++        throw InvalidInputException("hashman_exact_lookup=fused requires cached/tags lookup");
++    {   // Exact division is only valid for multiples of the stride; verify before use.
++        hashman_join::ExactDivisor divisor(layout.stride);
++        next->stride_shift=divisor.shift;next->stride_inverse=divisor.inverse;
++        for(uint64_t n:{uint64_t(0),uint64_t(1),uint64_t(7),uint64_t(65537),(uint64_t(1)<<40)+3})
++            if(divisor.divide(n*layout.stride)!=n) throw InternalException("Hashman exact stride division failed");
++    }
++    const auto refine_prefetch=HashmanRefinePrefetchSetting(context);
++    next->refine_pf_lookup=refine_prefetch.lookup;next->refine_pf_ahead=refine_prefetch.ahead;
++    if(refine_prefetch.name!="none" && (!next->exact_ranges || next->exact_fused))
++        throw InvalidInputException("hashman_refine_prefetch=%s requires exact ranges and a separate refine pass",refine_prefetch.name);
++    if(refine_prefetch.lookup && next->lookup_kernel==HashmanLookupKernel::LEGACY)
++        throw InvalidInputException("hashman_refine_prefetch=%s requires cached/tags lookup",refine_prefetch.name);
++    AllocatedData range_scratch;
++    if(next->exact_ranges)range_scratch=allocator.Allocate(layout.stride);
++    // Fault after both host allocations: RAII must release scratch and final storage.
++    if (HashmanTestSetting(context, "hashman_test_fault") == "allocation")
++        throw OutOfMemoryException("Hashman injected allocation failure before publication");
++    hashman_record->scratch_bytes=HashmanBuildScratch(context,layout);
++    hashman_record->SampleMemory(buffer_manager);
++    {
++        HashmanSpan span(hashman_record.get(),&HashmanRecord::core_ns);
++        if (partitioned_build) {
++            // The sink's partitions are usable when they are the top radix bits of the slot window: radix bits within the directory bits, no test hash, counts consistent.
++            vector<idx_t> from{0}, rows;
++            idx_t bits = 0;
++            const idx_t dir_bits = 64 - layout.shift;
++            if (hashman_part_bits >= 1 && hashman_part_bits <= dir_bits && next->test_hash == HashmanHashMode::NONE &&
++                hashman_part_chunks.size() == (idx_t(1) << hashman_part_bits)) {
++                idx_t row_sum = 0;
++                for (size_t p = 0; p < hashman_part_chunks.size(); ++p) {
++                    from.push_back(from.back() + hashman_part_chunks[p]);
++                    rows.push_back(hashman_part_rows[p]);
++                    row_sum += hashman_part_rows[p];
++                }
++                if (from.back() == GetDataCollection().ChunkCount() && row_sum == Count()) bits = hashman_part_bits;
++            }
++            if (!bits) {
++                from.assign(1, 0);
++                rows.clear();
++                from.push_back(GetDataCollection().ChunkCount());
++                rows.push_back(Count());
++            }
++            hashman_record->partition_bits = bits;
++            hashman_join::build_by_partitions(next->table, HashmanPartitionSource{*this, context, next->test_hash, from, rows, vector<uint8_t>(rows.size(), 0)}, unsigned(bits));
++        } else {
++            hashman_join::build(next->table, HashmanBuildSource{*this, context, next->test_hash,0},
++                               reinterpret_cast<uint64_t *>(cursors.get()));
++        }
++    }
++    if(next->exact_ranges) {
++        HashmanSpan span(hashman_record.get(),&HashmanRecord::key_clustering_ns);
++        HashmanKeyPoll poll(context,hashman_record->clustering_key_checks,hashman_record->profiled);
++        const auto at=layout_ptr->GetOffsets()[0];
++        if(equality_types[0].InternalType()==PhysicalType::INT32)
++            next->range_duplicate_keys=hashman_join::KeyCluster<int32_t,HashmanKeyPoll>(next->table,at,range_scratch.get(),poll).run();
++        else next->range_duplicate_keys=hashman_join::KeyCluster<int64_t,HashmanKeyPoll>(next->table,at,range_scratch.get(),poll).run();
++    }
++    data_collection->VerifyEverythingPinned();
++    // Build matching always emits a no-match selection. Probe may omit it.
++    auto probe_matcher = make_uniq<RowMatcher>();
++    probe_matcher->Initialize(false, *layout_ptr, equality_predicates);
++    auto no_match_probe_matcher = make_uniq<RowMatcher>();
++    no_match_probe_matcher->Initialize(true, *layout_ptr, equality_predicates);
++    // Publish only after every fallible allocation/initialization has succeeded.
++    row_matcher_probe = std::move(probe_matcher);
++    row_matcher_probe_no_match_sel = std::move(no_match_probe_matcher);
++    hashman_record->allocation_bytes = layout.bytes;
++    hashman_record->slots = layout.slots;
++    hashman_record->stride = layout.stride;
++    hashman_record->bloom = next->table.bloom;
++    hashman_table = std::move(next);
++    hashman_record->actual = "unchained_offsets_p1";
++    hashman_record->probe_kernel = HashmanProbeName(hashman_table->probe_kernel);
++    hashman_record->lookup_kernel = HashmanLookupName(hashman_table->lookup_kernel);
++    hashman_record->directory_format=layout.packed ? "packed48" : "offsets64";
++    hashman_record->variable_width=HashmanVariableWidth();
++    hashman_record->exact_ranges=hashman_table->exact_ranges;
++    hashman_record->exact_lookup=exact_lookup.name;
++    hashman_record->refine_prefetch=refine_prefetch.name;
++    hashman_record->partitioned_build=partitioned_build ? "aligned" : "off";
++    hashman_record->range_duplicate_keys=hashman_table->range_duplicate_keys;
++    hashman_record->reason = "executed";
++    chains_longer_than_one = !hashman_table->exact_ranges || hashman_table->range_duplicate_keys;
++    needs_chain_matcher = !hashman_table->exact_ranges;
++    finalized = true;
++    hashman_record->finalize_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(
++        std::chrono::steady_clock::now() - started).count();
++    GetHashmanState(context)->unchained_ready = true;
++}
++
++void JoinHashTable::BuildHashmanRuntimeBloom() {
++    bloom_filter.Initialize(context,Count());
++    Vector hashes(LogicalType::HASH);
++    auto data=FlatVector::GetData<hash_t>(hashes);
++    TupleDataChunkIterator iterator(GetDataCollection(),TupleDataPinProperties::KEEP_EVERYTHING_PINNED,
++                                   0,GetDataCollection().ChunkCount(),false);
++    do {
++        if(context.IsInterrupted()) throw InterruptException();
++        auto locations=iterator.GetRowLocations();
++        const auto count=iterator.GetCurrentChunkCount();
++        for(idx_t i=0;i<count;++i) data[i]=Load<hash_t>(locations[i]+pointer_offset);
++        bloom_filter.InsertHashes(hashes,count);
++    } while(iterator.Next());
++    hashman_record->host_bloom=true;
++}
++
++void JoinHashTable::ReleaseHashmanStaging() {
++    if(!hashman_table || hashman_logical_count) throw InternalException("Invalid staging release state");
++    // Copied string_t values point into the staging heap: releasing it would leave dangling pointers.
++    if(HashmanVariableWidth()) throw InternalException("Staging release is invalid for variable-width rows");
++    // Only admitted fixed-width INNER rows: every payload/validity byte is copied.
++    // Reset preserves layout/gather functions; those read explicit B row pointers.
++    // Native runtime IN/Bloom materialization must already have finished.
++    const auto count=Count();
++    hashman_record->staging_before_release_bytes=SizeInBytes();
++    data_collection->Reset();
++    hashman_logical_count=count;
++    hashman_record->staging_released=true;
++    hashman_record->staging_bytes=0;
++    hashman_record->SampleMemory(buffer_manager);
++}
++
+ 
+ void JoinHashTable::Merge(JoinHashTable &other) {
+ 	{
+@@ -290,6 +572,8 @@
+ 
+ 		// Perform row comparisons, after Match function call salt_match_sel will point to the keys that match
+ 		keys_no_match_count = 0;
++        if(ht.hashman_record && ht.hashman_record->profiled)
++            ht.hashman_record->native_key_checks+=keys_to_compare_count;
+ 		const idx_t keys_match_count =
+ 		    ht.row_matcher_build.Match(keys, key_state.vector_data, state.keys_to_compare_sel, keys_to_compare_count,
+ 		                               pointers_result_v, &state.keys_no_match_sel, keys_no_match_count);
+@@ -730,6 +1014,7 @@
+ }
+ 
+ void JoinHashTable::AllocatePointerTable() {
++    HashmanSpan hashman_span(hashman_record.get(),&HashmanRecord::pointer_alloc_ns,&buffer_manager);
+ 	capacity = PointerTableCapacity(Count());
+ 	D_ASSERT(IsPowerOfTwo(capacity));
+ 
+@@ -768,11 +1053,13 @@
+ }
+ 
+ void JoinHashTable::InitializePointerTable(idx_t entry_idx_from, idx_t entry_idx_to) {
++    HashmanSpan hashman_span(hashman_record.get(),&HashmanRecord::native_init_ns,&buffer_manager);
+ 	// initialize HT with all-zero entries
+ 	std::fill_n(entries + entry_idx_from, entry_idx_to - entry_idx_from, ht_entry_t());
+ }
+ 
+ void JoinHashTable::Finalize(idx_t chunk_idx_from, idx_t chunk_idx_to, bool parallel) {
++    HashmanSpan hashman_span(hashman_record.get(),&HashmanRecord::native_finalize_ns,&buffer_manager);
+ 	// Pointer table should be allocated
+ 	D_ASSERT(hash_map.get());
+ 
+@@ -807,10 +1094,15 @@
+ 		memset(scan_structure.found_match.get(), 0, sizeof(bool) * STANDARD_VECTOR_SIZE);
+ 	}
+ 
++    if (hashman_record && hashman_record->profiled) {
++        hashman_record->native_directory_bytes=hash_map.GetSize();
++    }
+ 	// first prepare the keys for probing
+ 	TupleDataCollection::ToUnifiedFormat(key_state, keys);
+ 	scan_structure.count = PrepareKeys(keys, key_state.vector_data, current_sel, scan_structure.sel_vector, false);
+ 
++    if (hashman_record && hashman_record->profiled)
++        hashman_record->probe_nonnull_rows += scan_structure.count;
+ 	if (scan_structure.count < keys.size()) {
+ 		scan_structure.has_null_value_filter = true;
+ 	} else {
+@@ -820,11 +1112,80 @@
+ 
+ void JoinHashTable::Probe(ScanStructure &scan_structure, DataChunk &keys, TupleDataChunkState &key_state,
+                           ProbeState &probe_state, optional_ptr<Vector> precomputed_hashes) {
++    HashmanSpan span(hashman_record.get(),&HashmanRecord::lookup_ns);
++    if(hashman_record && hashman_record->profiled) hashman_record->native_duplicate_chains=chains_longer_than_one;
++
+ 	const SelectionVector *current_sel;
+ 	InitializeScanStructure(scan_structure, keys, key_state, current_sel);
+ 	if (scan_structure.count == 0) {
+ 		return;
+ 	}
++    if (hashman_table) {
++        scan_structure.hashman_cursor=0;
++        Vector hashes(LogicalType::HASH);
++        if (precomputed_hashes) hashes.Reference(*precomputed_hashes);
++        else Hash(keys, *current_sel, scan_structure.count, hashes);
++        UnifiedVectorFormat hash_format;
++        hashes.ToUnifiedFormat(keys.size(), hash_format);
++        if(hashman_table->lookup_kernel!=HashmanLookupKernel::LEGACY) {
++            auto &owner=*hashman_table;
++            auto &record=*hashman_record;
++            if(owner.exact_fused) {
++                // Range refinement happens inside the lookup loop; no second pass.
++                const bool wide=equality_types[0].InternalType()!=PhysicalType::INT32;
++                const bool packed=owner.table.layout.packed;
++                if(owner.lookup_kernel==HashmanLookupKernel::TAGS) {
++                    if(wide) {
++                        if(packed) HashmanCachedLookup<true,true,true,int64_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                        else HashmanCachedLookup<true,false,true,int64_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                    } else if(packed) HashmanCachedLookup<true,true,true,int32_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                    else HashmanCachedLookup<true,false,true,int32_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                } else if(wide) {
++                    if(packed) HashmanCachedLookup<false,true,true,int64_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                    else HashmanCachedLookup<false,false,true,int64_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                } else if(packed) HashmanCachedLookup<false,true,true,int32_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                else HashmanCachedLookup<false,false,true,int32_t>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                return;
++            }
++            if(owner.refine_pf_lookup) {
++                const bool pf_packed=owner.table.layout.packed;
++                if(owner.lookup_kernel==HashmanLookupKernel::TAGS) {
++                    if(pf_packed) HashmanCachedLookup<true,true,false,int32_t,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                    else HashmanCachedLookup<true,false,false,int32_t,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                } else if(pf_packed) HashmanCachedLookup<false,true,false,int32_t,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                else HashmanCachedLookup<false,false,false,int32_t,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++            } else if(owner.lookup_kernel==HashmanLookupKernel::TAGS) {
++                if(owner.table.layout.packed) HashmanCachedLookup<true,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++                else HashmanCachedLookup<true,false>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++            } else if(owner.table.layout.packed) HashmanCachedLookup<false,true>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++            else HashmanCachedLookup<false,false>(owner,record,scan_structure,hash_format,*current_sel,entry_size);
++            {HashmanSpan refine_span(hashman_record.get(),&HashmanRecord::refine_ns);HashmanRefineRanges(scan_structure);}
++            return;
++        }
++        auto hash_data = UnifiedVectorFormat::GetData<hash_t>(hash_format);
++        auto pointers = FlatVector::GetData<data_ptr_t>(scan_structure.pointers);
++        auto ends = FlatVector::GetData<data_ptr_t>(scan_structure.hashman_ends);
++        idx_t active = 0;
++        for (idx_t i = 0; i < scan_structure.count; ++i) {
++            auto row = current_sel->get_index(i);
++            auto hash=HashmanTestHash(hashman_table->test_hash,hash_data[hash_format.sel->get_index(row)]);
++            if (hashman_record->profiled) {
++                auto &table=hashman_table->table;
++                auto slot=table.layout.bucket(hash);
++                if (table.offset(slot)==table.offset(slot+1)) ++hashman_record->empty_bucket_rows;
++                else if (table.bloom && (table.bucket_tag(slot)&hashman_join::tag(hash))!=hashman_join::tag(hash))
++                    ++hashman_record->bloom_reject_rows;
++            }
++            auto range = hashman_table->table.candidates(hash);
++            if (range.begin == range.end) continue;
++            pointers[row] = hashman_table->table.rows + range.begin * entry_size;
++            ends[row] = hashman_table->table.rows + range.end * entry_size;
++            scan_structure.sel_vector.set_index(active++, row);
++        }
++        scan_structure.count = active;
++        {HashmanSpan refine_span(hashman_record.get(),&HashmanRecord::refine_ns);HashmanRefineRanges(scan_structure);}
++        return;
++    }
+ 	if (precomputed_hashes) {
+ 		GetRowPointers(keys, key_state, probe_state, *precomputed_hashes, current_sel, scan_structure.count,
+ 		               scan_structure.pointers, scan_structure.sel_vector, scan_structure.has_null_value_filter);
+@@ -840,7 +1201,7 @@
+ }
+ 
+ ScanStructure::ScanStructure(JoinHashTable &ht_p, TupleDataChunkState &key_state_p)
+-    : key_state(key_state_p), pointers(LogicalType::POINTER), count(0), sel_vector(STANDARD_VECTOR_SIZE),
++    : key_state(key_state_p), pointers(LogicalType::POINTER), hashman_ends(LogicalType::POINTER), count(0), sel_vector(STANDARD_VECTOR_SIZE),
+       chain_match_sel_vector(STANDARD_VECTOR_SIZE), chain_no_match_sel_vector(STANDARD_VECTOR_SIZE),
+       found_match(make_unsafe_uniq_array_uninitialized<bool>(STANDARD_VECTOR_SIZE)), ht(ht_p), finished(false),
+       is_null(true), rhs_pointers(LogicalType::POINTER), lhs_sel_vector(STANDARD_VECTOR_SIZE), last_match_count(0),
+@@ -890,6 +1251,7 @@
+ }
+ 
+ idx_t ScanStructure::ResolvePredicates(DataChunk &keys, SelectionVector &match_sel, SelectionVector *no_match_sel) {
++    if(ht.hashman_record && ht.hashman_record->profiled) ++ht.hashman_record->resolve_rounds;
+ 	// Initialize the found_match array to the current sel_vector
+ 	for (idx_t i = 0; i < this->count; ++i) {
+ 		match_sel.set_index(i, this->sel_vector.get_index(i));
+@@ -897,7 +1259,21 @@
+ 
+ 	// If there is a matcher for the probing side because of non-equality predicates, use it
+ 	idx_t result_count;
+-	if (ht.needs_chain_matcher) {
++    if(ht.hashman_table && ht.hashman_table->exact_ranges) {
++        result_count=this->count;
++    } else if (ht.hashman_table) {
++        if (ht.hashman_record->profiled) ht.hashman_record->candidate_checks += this->count;
++        idx_t no_match_count = 0;
++        if(ht.hashman_table->probe_kernel==HashmanProbeKernel::TYPED) {
++            result_count=ht.equality_types[0].InternalType()==PhysicalType::INT32
++                ? HashmanTypedMatch<int32_t>(*this,match_sel,no_match_sel)
++                : HashmanTypedMatch<int64_t>(*this,match_sel,no_match_sel);
++        } else {
++            auto &matcher = no_match_sel ? ht.row_matcher_probe_no_match_sel : ht.row_matcher_probe;
++            result_count = matcher->Match(keys, key_state.vector_data, match_sel, this->count,
++                                         pointers, no_match_sel, no_match_count);
++        }
++    } else if (ht.needs_chain_matcher) {
+ 		idx_t no_match_count = 0;
+ 		auto &matcher = no_match_sel ? ht.row_matcher_probe_no_match_sel : ht.row_matcher_probe;
+ 		D_ASSERT(matcher);
+@@ -941,6 +1317,19 @@
+ }
+ 
+ void ScanStructure::AdvancePointers(const SelectionVector &sel, const idx_t sel_count) {
++    if(ht.hashman_record && ht.hashman_record->profiled) ++ht.hashman_record->advance_rounds;
++    if (ht.hashman_table) {
++        idx_t active = 0;
++        auto pointers = FlatVector::GetData<data_ptr_t>(this->pointers);
++        auto ends = FlatVector::GetData<data_ptr_t>(hashman_ends);
++        for (idx_t i = 0; i < sel_count; ++i) {
++            auto row = sel.get_index(i);
++            pointers[row] += ht.entry_size;
++            if (pointers[row] < ends[row]) sel_vector.set_index(active++, row);
++        }
++        count = active;
++        return;
++    }
+ 	if (!ht.chains_longer_than_one) {
+ 		this->count = 0;
+ 		return;
+@@ -965,6 +1354,7 @@
+ 
+ void ScanStructure::GatherResult(Vector &result, const SelectionVector &result_vector,
+                                  const SelectionVector &sel_vector, const idx_t count, const idx_t col_no) {
++    if(ht.hashman_record && ht.hashman_record->profiled) ++ht.hashman_record->gather_calls;
+ 	ht.data_collection->Gather(pointers, sel_vector, count, col_no, result, result_vector, nullptr);
+ }
+ 
+@@ -974,11 +1364,13 @@
+ }
+ 
+ void ScanStructure::GatherResult(Vector &result, const idx_t count, const idx_t col_idx) {
++    if(ht.hashman_record && ht.hashman_record->profiled) ++ht.hashman_record->gather_calls;
+ 	ht.data_collection->Gather(rhs_pointers, *FlatVector::IncrementalSelectionVector(), count, col_idx, result,
+ 	                           *FlatVector::IncrementalSelectionVector(), nullptr);
+ }
+ 
+ void ScanStructure::UpdateCompactionBuffer(idx_t base_count, SelectionVector &result_vector, idx_t result_count) {
++    if(ht.hashman_record && ht.hashman_record->profiled) ht.hashman_record->compaction_rows+=result_count;
+ 	// matches were found
+ 	// record the result
+ 	// on the LHS, we store result vector
+@@ -991,6 +1383,19 @@
+ }
+ 
+ void ScanStructure::NextInnerJoin(DataChunk &keys, DataChunk &left, DataChunk &result) {
++    HashmanSpan span(ht.hashman_record.get(),&HashmanRecord::emit_ns);
++    if(ht.hashman_table && (ht.hashman_table->probe_kernel==HashmanProbeKernel::FUSED ||
++                            ht.hashman_table->probe_kernel==HashmanProbeKernel::INTERLEAVED)) {
++        const bool interleaved=ht.hashman_table->probe_kernel==HashmanProbeKernel::INTERLEAVED;
++        if(ht.equality_types[0].InternalType()==PhysicalType::INT32) {
++            if(interleaved) HashmanFusedNext<int32_t,true>(*this,left,result);
++            else HashmanFusedNext<int32_t,false>(*this,left,result);
++        } else {
++            if(interleaved) HashmanFusedNext<int64_t,true>(*this,left,result);
++            else HashmanFusedNext<int64_t,false>(*this,left,result);
++        }
++        return;
++    }
+ 	if (ht.join_type != JoinType::RIGHT_SEMI && ht.join_type != JoinType::RIGHT_ANTI) {
+ 		D_ASSERT(result.ColumnCount() == left.ColumnCount() + ht.output_columns.size());
+ 	}
+--- a/src/execution/operator/join/physical_hash_join.cpp
++++ b/src/execution/operator/join/physical_hash_join.cpp
+@@ -1,4 +1,5 @@
+ #include "duckdb/execution/operator/join/physical_hash_join.hpp"
++#include "duckdb/execution/hashman_state.hpp"
+ 
+ #include "duckdb/common/radix_partitioning.hpp"
+ #include "duckdb/common/types/value_map.hpp"
+@@ -309,11 +310,30 @@
+ }
+ 
+ unique_ptr<GlobalSinkState> PhysicalHashJoin::GetGlobalSinkState(ClientContext &context) const {
+-	return make_uniq<HashJoinGlobalSinkState>(*this, context);
++    auto hashman_started=std::chrono::steady_clock::now();
++    auto result = make_uniq<HashJoinGlobalSinkState>(*this, context);
++    result->hash_table->hashman_record = GetHashmanState(context)->Record(*this);
++    result->hash_table->hashman_record->profiled = HashmanBool(context, "hashman_profile", false) && result->num_threads==1;
++    if (HashmanMode(context) == "unchained_required") {
++        auto reason = result->hash_table->HashmanSupportReason();
++        if (result->num_threads != 1) reason = "parallel_unsupported";
++        if (filter_pushdown && !HashmanBool(context,"hashman_host_filters",false)) reason = "runtime_filter_pushdown_unsupported";
++        if (reason != "eligible") {
++            auto &record = *result->hash_table->hashman_record;
++            record.actual = "not_executed";
++            record.reason = reason;
++            throw InvalidInputException("Hashman required: %s", reason);
++        }
++    }
++    if (result->hash_table->hashman_record->profiled)
++        result->hash_table->hashman_record->global_init_ns=std::chrono::duration_cast<std::chrono::nanoseconds>(
++            std::chrono::steady_clock::now()-hashman_started).count();
++    return std::move(result);
+ }
+ 
+ unique_ptr<LocalSinkState> PhysicalHashJoin::GetLocalSinkState(ExecutionContext &context) const {
+ 	auto &gstate = sink_state->Cast<HashJoinGlobalSinkState>();
++    HashmanSpan span(gstate.hash_table->hashman_record.get(),&HashmanRecord::local_init_ns);
+ 	return make_uniq<HashJoinLocalSinkState>(*this, context.client, gstate);
+ }
+ 
+@@ -332,6 +352,8 @@
+ 	auto &gstate = input.global_state.Cast<HashJoinGlobalSinkState>();
+ 	auto &lstate = input.local_state.Cast<HashJoinLocalSinkState>();
+ 
++    HashmanSpan hashman_span(gstate.hash_table->hashman_record.get(),&HashmanRecord::sink_ns,
++        &BufferManager::GetBufferManager(context.client));
+ 	// resolve the join keys for the right chunk
+ 	lstate.join_keys.Reset();
+ 	lstate.join_key_executor.Execute(chunk, lstate.join_keys);
+@@ -360,6 +382,8 @@
+ 	auto &gstate = input.global_state.Cast<HashJoinGlobalSinkState>();
+ 	auto &lstate = input.local_state.Cast<HashJoinLocalSinkState>();
+ 
++    HashmanSpan hashman_span(gstate.hash_table->hashman_record.get(),&HashmanRecord::combine_ns,
++        &BufferManager::GetBufferManager(context.client));
+ 	lstate.hash_table->GetSinkCollection().FlushAppendState(lstate.append_state);
+ 	auto guard = gstate.Lock();
+ 	gstate.local_hash_tables.push_back(std::move(lstate.hash_table));
+@@ -450,9 +474,19 @@
+ void PhysicalHashJoin::PrepareFinalize(ClientContext &context, GlobalSinkState &global_state) const {
+ 	auto &gstate = global_state.Cast<HashJoinGlobalSinkState>();
+ 	const auto &ht = *gstate.hash_table;
++    HashmanSpan hashman_span(ht.hashman_record.get(),&HashmanRecord::prepare_ns);
+ 
+ 	gstate.total_size =
+ 	    ht.GetTotalSize(gstate.local_hash_tables, gstate.max_partition_size, gstate.max_partition_count);
++    if (HashmanMode(context) != "native" && ht.HashmanSupportReason() == "eligible") {
++        idx_t count = 0;
++        for (auto &local : gstate.local_hash_tables) count += local->GetSinkCollection().Count();
++        auto layout=HashmanLayout(context,count,ht.entry_size);
++        gstate.total_size = hashman_join::checked_add(gstate.total_size,
++            hashman_join::checked_add(layout.bytes, HashmanBuildScratch(context,layout)));
++        if(filter_pushdown && HashmanBool(context,"hashman_host_filters",false))
++            gstate.total_size=hashman_join::checked_add(gstate.total_size,HashmanBloomBudget(count));
++    }
+ 	gstate.probe_side_requirement =
+ 	    GetPartitioningSpaceRequirement(context, children[0].get().GetTypes(), ht.GetRadixBits(), gstate.num_threads);
+ 	const auto max_partition_ht_size =
+@@ -922,8 +956,24 @@
+ 	auto &sink = input.global_state.Cast<HashJoinGlobalSinkState>();
+ 	auto &ht = *sink.hash_table;
+ 
++    HashmanSpan hashman_span(ht.hashman_record.get(),&HashmanRecord::physical_finalize_ns,
++        &BufferManager::GetBufferManager(context));
++    ht.hashman_record->actual = "native";
++    ht.hashman_record->reason = "native_requested";
+ 	sink.temporary_memory_state->UpdateReservation(context);
+ 	sink.external = sink.temporary_memory_state->GetReservation() < sink.total_size;
++    const auto hashman_mode = HashmanMode(context);
++    if (hashman_mode != "native") {
++        auto reason = ht.HashmanSupportReason();
++        if (sink.num_threads != 1) reason = "parallel_unsupported";
++        if (filter_pushdown && !HashmanBool(context,"hashman_host_filters",false)) reason = "runtime_filter_pushdown_unsupported";
++        if (sink.external) reason = "external_or_budget_unsupported";
++        ht.hashman_record->reason = reason;
++        if (reason != "eligible" && hashman_mode == "unchained_required") {
++            ht.hashman_record->actual = "not_executed";
++            throw InvalidInputException("Hashman required: %s", reason);
++        }
++    }
+ 	if (sink.external) {
+ 		// For external join we reduce the load factor, this may even prevent the external join altogether
+ 		ht.load_factor = JoinHashTable::EXTERNAL_LOAD_FACTOR;
+@@ -985,7 +1035,79 @@
+ 		ht.Merge(*local_ht);
+ 	}
+ 	sink.local_hash_tables.clear();
++	ht.HashmanCapturePartitions();
+ 	ht.Unpartition();
++    ht.hashman_record->build_rows = ht.Count();
++    if(hashman_mode != "native") ht.HashmanKeyOrder();
++    ht.hashman_record->staging_bytes = ht.SizeInBytes();
++    if(HashmanBool(context,"hashman_census",false)) ht.HashmanCensus();
++    const bool hashman_native_first=hashman_mode=="unchained_prefer" &&
++        HashmanBool(context,"hashman_native_first",false) && ht.hashman_record->reason=="eligible";
++    ht.hashman_record->native_first_attempted=hashman_native_first;
++    auto build_hashman=[&](bool native_filters_finalized) {
++    if (hashman_mode != "native" && ht.hashman_record->reason == "eligible") {
++        if (ht.Count() == 0) {
++            ht.hashman_record->actual = "not_executed";
++            ht.hashman_record->reason = "empty_build";
++        } else if (HashmanMinBuildBytes(context) && uint64_t(ht.Count()) * ht.entry_size < HashmanMinBuildBytes(context)) {
++            ht.hashman_record->reason = "below_min_build_bytes";
++            if (hashman_mode == "unchained_required") {
++                ht.hashman_record->actual = "not_executed";
++                throw InvalidInputException("Hashman required: below_min_build_bytes");
++            }
++        } else {
++            auto layout=HashmanLayout(context,ht.Count(),ht.entry_size);
++            const auto bloom_budget=filter_pushdown && HashmanBool(context,"hashman_host_filters",false)
++                ? HashmanBloomBudget(ht.Count()) : 0;
++            const auto required = hashman_join::checked_add(bloom_budget,hashman_join::checked_add(ht.SizeInBytes(),
++                hashman_join::checked_add(layout.bytes, HashmanBuildScratch(context,layout))));
++            if (required > sink.temporary_memory_state->GetReservation() ||
++                HashmanTestSetting(context, "hashman_test_fault") == "budget") {
++                ht.hashman_record->reason = "peak_reservation_insufficient";
++                if (hashman_mode == "unchained_required") {
++                    ht.hashman_record->actual = "not_executed";
++                    throw OutOfMemoryException("Hashman required peak exceeds host reservation");
++                }
++            } else {
++                bool built=false;
++                try {
++                    ht.BuildUnchained();
++                    built=true;
++                } catch (const OutOfMemoryException &) {
++                    // Staging hashes are intact and no probe/output has been published.
++                    ht.hashman_record->reason = "allocation_failed_before_output";
++                    if (hashman_mode == "unchained_required") {
++                        ht.hashman_record->actual = "not_executed";
++                        throw;
++                    }
++                }
++                if(built) {
++                    // Failure here propagates. Do not fall back after consuming
++                    // host filter state or publishing experimental table ownership.
++                    if(filter_pushdown && !sink.skip_filter_pushdown) {
++                        if(!native_filters_finalized) {
++                            auto min_max=filter_pushdown->FinalizeMinMax(*sink.global_filter_state);
++                            filter_pushdown->FinalizeFilters(context,&ht,*this,std::move(min_max),false,
++                                                            &sink.deferred_bloom_filters);
++                        }
++                        if(!sink.deferred_bloom_filters.empty()) {
++                            ht.BuildHashmanRuntimeBloom();
++                            for(auto &entry:sink.deferred_bloom_filters)
++                                filter_pushdown->PushBloomFilter(entry.first,ht,*this,entry.second);
++                        }
++                        ht.hashman_record->host_filters=true;
++                    }
++                    if(HashmanBool(context,"hashman_release_staging",false) && !ht.HashmanVariableWidth()) ht.ReleaseHashmanStaging();
++                    sink.perfect_join_executor.reset();
++                    sink.finalized = true;
++                    return true;
++                }
++            }
++        }
++    }
++    return false;
++    };
++    if(!hashman_native_first && build_hashman(false)) return SinkFinalizeType::READY;
+ 
+ 	Value min;
+ 	Value max;
+@@ -1002,6 +1124,7 @@
+ 
+ 	// check for possible perfect hash table
+ 	auto use_perfect_hash = sink.perfect_join_executor->CanDoPerfectHashJoin(*this, min, max);
++	if (HashmanBool(context, "hashman_controlled", false)) use_perfect_hash = false;
+ 	if (use_perfect_hash) {
+ 		D_ASSERT(ht.equality_types.size() == 1);
+ 		auto key_type = ht.equality_types[0];
+@@ -1013,9 +1136,15 @@
+ 		                                 &sink.deferred_bloom_filters);
+ 	}
+ 
++    if(hashman_native_first && use_perfect_hash)
++        ht.hashman_record->reason="native_perfect_hash_preserved";
++    ht.hashman_record->native_perfect_hash=use_perfect_hash;
++    ht.hashman_record->host_filters=bool(filter_pushdown && !sink.skip_filter_pushdown && ht.Count()>0);
++    ht.hashman_record->host_bloom=!sink.deferred_bloom_filters.empty();
+ 	// In case of a large build side or duplicates, use regular hash join
+ 	if (!use_perfect_hash) {
+ 		sink.perfect_join_executor.reset();
++        if(hashman_native_first && build_hashman(true)) return SinkFinalizeType::READY;
+ 		sink.ScheduleFinalize(pipeline, event);
+ 	}
+ 	sink.finalized = true;
+@@ -1056,6 +1185,7 @@
+ unique_ptr<OperatorState> PhysicalHashJoin::GetOperatorState(ExecutionContext &context) const {
+ 	auto &allocator = BufferAllocator::Get(context.client);
+ 	auto &sink = sink_state->Cast<HashJoinGlobalSinkState>();
++    HashmanSpan hashman_span(sink.hash_table->hashman_record.get(),&HashmanRecord::operator_init_ns);
+ 	auto state = make_uniq<HashJoinOperatorState>(context.client, sink);
+ 	state->lhs_join_keys.Initialize(allocator, condition_types);
+ 	if (!lhs_output_columns.col_types.empty()) {
+@@ -1081,6 +1211,13 @@
+                                                      GlobalOperatorState &gstate, OperatorState &state_p) const {
+ 	auto &state = state_p.Cast<HashJoinOperatorState>();
+ 	auto &sink = sink_state->Cast<HashJoinGlobalSinkState>();
++    auto &record=*sink.hash_table->hashman_record;
++    HashmanSpan hashman_span(&record,&HashmanRecord::probe_ns,
++        &BufferManager::GetBufferManager(context.client),&chunk);
++    if (record.profiled) {
++        ++record.probe_calls;
++        if (state.scan_structure.is_null) record.probe_input_rows += input.size();
++    }
+ 	D_ASSERT(sink.finalized);
+ 	D_ASSERT(!sink.scanned_data);
+ 
+--- a/src/parallel/executor.cpp
++++ b/src/parallel/executor.cpp
+@@ -1,4 +1,5 @@
+ #include "duckdb/execution/executor.hpp"
++#include "duckdb/execution/hashman_state.hpp"
+ 
+ #include "duckdb/execution/execution_context.hpp"
+ #include "duckdb/execution/operator/helper/physical_result_collector.hpp"
+@@ -380,6 +381,7 @@
+ 	{
+ 		lock_guard<mutex> elock(executor_lock);
+ 		physical_plan = &plan;
++        GetHashmanState(context)->Capture(plan, "root");
+ 
+ 		this->profiler = ClientData::Get(context).profiler;
+ 		profiler->Initialize(plan);
+--- /dev/null
++++ b/src/include/duckdb/execution/hashman_kernel.hpp
+@@ -0,0 +1,138 @@
++#pragma once
++// Fixed-row Unchained layout. The host owns memory, hashing, SQL equality and tasks.
++// This implementation follows the published count/prefix/scatter algorithm.
++#include <algorithm>
++#include <array>
++#include <cstdint>
++#include <cstring>
++#include <limits>
++#include <stdexcept>
++
++namespace hashman_join {
++inline uint64_t checked_add(uint64_t a, uint64_t b) {
++    if (b > std::numeric_limits<uint64_t>::max() - a) throw std::overflow_error("size addition overflow");
++    return a + b;
++}
++inline uint64_t checked_mul(uint64_t a, uint64_t b) {
++    if (a && b > std::numeric_limits<uint64_t>::max() / a) throw std::overflow_error("size multiplication overflow");
++    return a * b;
++}
++inline uint64_t next_power_two(uint64_t n) {
++    if (!n) return 1;
++    if (n > (uint64_t(1) << 63)) throw std::overflow_error("directory exceeds 2^63");
++    --n;
++    for (unsigned shift = 1; shift < 64; shift *= 2) n |= n >> shift;
++    return n + 1;
++}
++inline uint64_t slots_for(uint64_t n) {
++    return next_power_two(checked_add(n, checked_add(n, 7) / 8));
++}
++inline uint64_t align64(uint64_t n) { return checked_add(n, 63) & ~uint64_t(63); }
++inline uint16_t tag(uint64_t hash) {
++    static const std::array<uint16_t, 2048> tags = [] {
++        std::array<uint16_t, 2048> result = {};
++        size_t n = 0;
++        for (unsigned a = 0; a < 13; ++a)
++            for (unsigned b = a + 1; b < 14; ++b)
++                for (unsigned c = b + 1; c < 15; ++c)
++                    for (unsigned d = c + 1; d < 16; ++d)
++                        result[n++] = uint16_t((1u << a) | (1u << b) | (1u << c) | (1u << d));
++        for (size_t i = n; i < result.size(); ++i) result[i] = result[i - n];
++        return result;
++    }();
++    return tags[hash & 2047];
++}
++struct Layout {
++    uint64_t count, slots, stride, tags_at, rows_at, bytes;
++    unsigned shift;
++    bool packed;
++    // The directory slot is taken from the hash bits just below the top `skip` bits (default 0: the top bits, as in the paper). DuckDB reserves the top 16 bits of its hash as a
++    // salt and radix-partitions the build side on the next bits (44..47); with skip = 16 those partitions are contiguous ranges of directory slots.
++    unsigned skip;
++    Layout(uint64_t n, uint64_t width, uint64_t requested_slots = 0, bool compact = false, unsigned salt_skip = 0)
++        : count(n), slots(requested_slots ? requested_slots : slots_for(n)), stride(width), shift(64), packed(compact), skip(salt_skip) {
++        if (!width || !slots || (slots & (slots - 1))) throw std::invalid_argument("invalid row stride/directory");
++        if (packed && n >= (uint64_t(1)<<48)) throw std::overflow_error("packed directory exceeds 48-bit count");
++        for (uint64_t s = slots; s > 1; s >>= 1) --shift;
++        if (skip > 32 || (64 - shift) + skip > 64) throw std::invalid_argument("directory plus skipped bits exceed the hash width");
++        tags_at = checked_mul(checked_add(slots, 1), 8);
++        rows_at = align64(packed ? tags_at : checked_add(tags_at, checked_mul(slots, 2)));
++        bytes = checked_add(rows_at, checked_mul(n, width));
++        if (bytes > std::numeric_limits<size_t>::max()) throw std::overflow_error("layout exceeds address space");
++    }
++    uint64_t bucket(uint64_t hash) const { return shift == 64 ? 0 : (hash << skip) >> shift; }
++};
++struct Table {
++    Layout layout;
++    uint64_t *offsets;
++    uint16_t *tags;
++    uint8_t *rows;
++    bool bloom;
++    Table(const Layout &l, void *memory, bool filter)
++        : layout(l), offsets(static_cast<uint64_t *>(memory)),
++          tags(l.packed ? nullptr : reinterpret_cast<uint16_t *>(static_cast<uint8_t *>(memory) + l.tags_at)),
++          rows(static_cast<uint8_t *>(memory) + l.rows_at), bloom(filter) {}
++    struct Range { uint64_t begin, end; };
++    static constexpr uint64_t OFFSET_MASK = (uint64_t(1)<<48)-1;
++    uint64_t offset(uint64_t slot) const { return layout.packed ? offsets[slot]&OFFSET_MASK : offsets[slot]; }
++    uint16_t bucket_tag(uint64_t slot) const { return layout.packed ? uint16_t(offsets[slot]>>48) : tags[slot]; }
++    Range candidates(uint64_t hash) const {
++        const auto s = layout.bucket(hash);
++        if (bloom && (bucket_tag(s) & tag(hash)) != tag(hash)) return {0, 0};
++        return {offset(s), offset(s + 1)};
++    }
++};
++template<class Source>
++void build(Table &table, const Source &source, uint64_t *write_cursors) {
++    std::fill(table.offsets, table.offsets + table.layout.slots + 1, uint64_t(0));
++    if (table.layout.packed) {
++        // Immutable source on both passes. Ends become starts by reverse scatter;
++        // each bucket's 16 high tag bits survive low48 decrements unchanged.
++        uint64_t seen=0;
++        source.each([&](uint64_t hash,const uint8_t *) {
++            if (++seen>table.layout.count) throw std::runtime_error("build source cardinality changed");
++            auto &entry=table.offsets[table.layout.bucket(hash)];
++            ++entry;
++            if(table.bloom) entry|=uint64_t(tag(hash))<<48;
++        });
++        if(seen!=table.layout.count) throw std::runtime_error("build source cardinality changed");
++        uint64_t total=0;
++        for(uint64_t s=0;s<table.layout.slots;++s) {
++            auto &entry=table.offsets[s];total=checked_add(total,entry&Table::OFFSET_MASK);
++            entry=(entry&~Table::OFFSET_MASK)|total;
++        }
++        table.offsets[table.layout.slots]=total;seen=0;
++        source.each([&](uint64_t hash,const uint8_t *row) {
++            if(++seen>table.layout.count) throw std::runtime_error("scatter source cardinality changed");
++            auto &entry=table.offsets[table.layout.bucket(hash)];
++            const auto end=entry&Table::OFFSET_MASK;
++            if(!end || end>table.layout.count) throw std::runtime_error("packed scatter out of bounds");
++            --entry;
++            std::memcpy(table.rows+(end-1)*table.layout.stride,row,table.layout.stride);
++        });
++        if(seen!=table.layout.count) throw std::runtime_error("scatter source cardinality changed");
++        return;
++    }
++    std::fill(table.tags, table.tags + table.layout.slots, uint16_t(0));
++    uint64_t seen = 0;
++    source.each([&](uint64_t hash, const uint8_t *) {
++        const auto s = table.layout.bucket(hash);
++        ++table.offsets[s + 1];
++        if (table.bloom) table.tags[s] |= tag(hash);
++        ++seen;
++    });
++    if (seen != table.layout.count) throw std::runtime_error("build source cardinality changed");
++    for (uint64_t s = 0; s < table.layout.slots; ++s) {
++        table.offsets[s + 1] = checked_add(table.offsets[s + 1], table.offsets[s]);
++        write_cursors[s] = table.offsets[s];
++    }
++    source.each([&](uint64_t hash, const uint8_t *row) {
++        const auto s = table.layout.bucket(hash);
++        const auto pos = write_cursors[s]++;
++        if (pos >= table.offsets[s + 1]) throw std::runtime_error("scatter exceeds bucket");
++        std::memcpy(table.rows + pos * table.layout.stride, row, table.layout.stride);
++    });
++    for (uint64_t s = 0; s < table.layout.slots; ++s)
++        if (write_cursors[s] != table.offsets[s + 1]) throw std::runtime_error("incomplete scatter");
++}
++}
+--- /dev/null
++++ b/src/include/duckdb/execution/hashman_state.hpp
+@@ -0,0 +1,328 @@
++#pragma once
++#include "duckdb/main/client_context_state.hpp"
++#include "duckdb/storage/buffer_manager.hpp"
++#include "duckdb/common/allocator.hpp"
++#include "duckdb/execution/hashman_kernel.hpp"
++#include "duckdb/execution/hashman_partitioned.hpp"
++#include "duckdb/execution/physical_operator.hpp"
++#include <atomic>
++#include <mutex>
++#include <chrono>
++
++namespace duckdb {
++struct HashmanRecord {
++    string node_id;
++    string probe_kernel = "native";
++    string lookup_kernel = "native";
++    bool host_filters=false, host_bloom=false;
++    bool staging_released=false;
++    bool native_first_attempted=false;
++    bool exact_ranges=false,range_duplicate_keys=true;
++    string exact_lookup="separate",refine_prefetch="none";
++    string partitioned_build="off";   // off | aligned (slot window under the salt, build by the sink's radix partitions)
++    uint64_t partition_bits=0;
++    // Key-order statistic (schema 17, measurement only): over the first rows of the staging collection (a subsequence of the input in arrival order), the number of adjacent
++    // pairs and how many of them are non-decreasing in the first equality key (INT32/INT64 only; pairs = 0 otherwise). A sorted build gives ~all, a permuted one ~half.
++    uint64_t key_order_pairs=0,key_order_ascending=0;
++    uint64_t refine_ns=0;
++    // Census (measurement only, setting hashman_census): build-side shape of every hash join, whatever its type.
++    bool variable_width=false;   // layout contains string_t payload: staging (and its heap) must stay alive
++    bool census=false;
++    uint64_t census_rows=0,census_distinct=0,census_max_dup=0,census_rows_ge8=0,census_rows_ge16=0,census_ns=0;
++    uint64_t census_entry_size=0,census_conditions=0,census_equality=0;
++    string census_support,census_join_type,census_key_types,census_payload_types;
++    uint64_t key_clustering_ns=0,clustering_key_checks=0,exact_range_key_checks=0,prefix_candidate_rows_potential=0;
++    string directory_format="native";
++    uint64_t staging_before_release_bytes=0;
++    string actual = "not_executed", reason = "not_finalized";
++    idx_t build_rows = 0, slots = 0, stride = 0, allocation_bytes = 0, matches = 0;
++    uint64_t finalize_ns = 0;
++    bool bloom = false;
++    bool profiled = false;
++    uint64_t global_init_ns=0, local_init_ns=0, sink_ns=0, combine_ns=0, prepare_ns=0;
++    uint64_t physical_finalize_ns=0, native_init_ns=0, native_finalize_ns=0, pointer_alloc_ns=0;
++    uint64_t operator_init_ns=0, probe_ns=0, core_ns=0, count_ns=0, scatter_ns=0;
++    uint64_t probe_input_rows=0, probe_nonnull_rows=0, output_rows=0, probe_calls=0;
++    uint64_t candidate_checks=0, bloom_reject_rows=0, empty_bucket_rows=0;
++    uint64_t staging_bytes=0, scratch_bytes=0, native_directory_bytes=0, observed_engine_memory_max=0;
++    uint64_t lookup_ns=0, emit_ns=0, native_key_checks=0, resolve_rounds=0, advance_rounds=0;
++    uint64_t compaction_rows=0, gather_calls=0;
++    bool native_duplicate_chains=false;
++    bool native_perfect_hash=false;
++    void SampleMemory(BufferManager &manager) {
++        if (profiled) observed_engine_memory_max=MaxValue<uint64_t>(observed_engine_memory_max,manager.GetUsedMemory());
++    }
++};
++struct HashmanSpan {
++    HashmanRecord *record;
++    uint64_t HashmanRecord::*counter;
++    BufferManager *manager;
++    DataChunk *output;
++    std::chrono::steady_clock::time_point started;
++    HashmanSpan(HashmanRecord *r, uint64_t HashmanRecord::*c, BufferManager *m=nullptr, DataChunk *o=nullptr)
++        : record(r && r->profiled ? r : nullptr), counter(c), manager(m), output(o) {
++        if (record) started=std::chrono::steady_clock::now();
++    }
++    ~HashmanSpan() {
++        if (!record) return;
++        record->*counter += std::chrono::duration_cast<std::chrono::nanoseconds>(
++            std::chrono::steady_clock::now()-started).count();
++        if (output) record->output_rows += output->size();
++        if (manager) record->SampleMemory(*manager);
++    }
++};
++struct HashmanPlanNode {
++    string id, type;
++    vector<string> children, types;
++    vector<pair<string, string>> parameters;
++    vector<pair<string, string>> runtime_parameters;
++};
++struct HashmanQueryState : ClientContextState {
++    // DuckDB initializes the sinks of independent pipelines concurrently, so Record() runs on several threads even for native joins: records is guarded (a missing lock here
++    // corrupted the heap in multi-threaded runs of many-join queries, found 2026-10-21; all studies so far ran with 1 thread and were not affected).
++    std::mutex records_lock;
++    vector<shared_ptr<HashmanRecord>> records;
++    vector<HashmanPlanNode> plan;
++    unordered_map<const PhysicalOperator *, string> node_ids;
++    std::atomic<bool> unchained_ready{false};
++    void QueryBegin(ClientContext &) override {
++        records.clear(); plan.clear(); node_ids.clear(); unchained_ready = false;
++    }
++    string Capture(const PhysicalOperator &op, const string &path) {
++        auto found = node_ids.find(&op);
++        if (found != node_ids.end()) return found->second;
++        node_ids[&op] = path;
++        const auto index = plan.size();
++        HashmanPlanNode node;
++        node.id = path; node.type = op.GetName();
++        for (auto &type : op.types) node.types.push_back(type.ToString());
++        for (auto &entry : op.ParamsToString()) {
++            // Native scan objects retain dynamic-filter diagnostics between
++            // prepared executions. Preserve them separately from plan identity.
++            if(entry.first=="Dynamic Filters") node.runtime_parameters.push_back({entry.first,entry.second});
++            else node.parameters.push_back({entry.first, entry.second});
++        }
++        plan.push_back(std::move(node));
++        idx_t child_index = 0;
++        // GetChildren includes collector, CTE and delim-owned physical subplans.
++        for (auto &child : op.GetChildren()) {
++            auto id = Capture(child.get(), path + "/" + std::to_string(child_index++));
++            plan[index].children.push_back(id);
++        }
++        return path;
++    }
++    shared_ptr<HashmanRecord> Record(const PhysicalOperator &op) {
++        auto found = node_ids.find(&op);
++        if (found == node_ids.end()) throw InternalException("Hashman physical node absent from captured plan");
++        auto record = make_shared_ptr<HashmanRecord>();
++        record->node_id = found->second;
++        {
++            std::lock_guard<std::mutex> guard(records_lock);
++            records.push_back(record);
++        }
++        return record;
++    }
++};
++inline shared_ptr<HashmanQueryState> GetHashmanState(ClientContext &context) {
++    return context.registered_state->GetOrCreate<HashmanQueryState>("hashman_sql_lab");
++}
++inline string HashmanMode(ClientContext &context) {
++    Value value;
++    if (!context.TryGetCurrentSetting("hashman_join_mode", value)) return "native";
++    auto mode = value.GetValue<string>();
++    if (mode != "native" && mode != "unchained_required" && mode != "unchained_prefer")
++        throw InvalidInputException("Invalid hashman_join_mode: %s", mode);
++    return mode;
++}
++inline bool HashmanBool(ClientContext &context, const char *key, bool fallback) {
++    Value value;
++    return context.TryGetCurrentSetting(key, value) ? value.GetValue<bool>() : fallback;
++}
++inline string HashmanTestSetting(ClientContext &context, const char *key) {
++    Value value;
++    return context.TryGetCurrentSetting(key, value) ? value.GetValue<string>() : "none";
++}
++inline hashman_join::Layout HashmanLayout(ClientContext &context, idx_t count, idx_t stride, unsigned skip=0) {
++    Value value;
++    const auto adjust=context.TryGetCurrentSetting("hashman_directory_adjust",value) ? value.GetValue<int64_t>() : 0;
++    auto slots=hashman_join::slots_for(count);
++    if (adjust==-1) slots=MaxValue<uint64_t>(1,slots/2);
++    else if (adjust==1) slots=hashman_join::checked_mul(slots,2);
++    else if (adjust!=0) throw InvalidInputException("hashman_directory_adjust must be -1, 0 or 1");
++    const auto format=HashmanTestSetting(context,"hashman_directory_format");
++    if(format!="none" && format!="offsets64" && format!="packed48")
++        throw InvalidInputException("Invalid hashman_directory_format: %s",format);
++    if(skip && format!="packed48") throw InvalidInputException("hashman_partitioned_build requires hashman_directory_format=packed48");
++    return hashman_join::Layout(count,stride,slots,format=="packed48",skip);
++}
++inline uint64_t HashmanScratchBytes(const hashman_join::Layout &layout) {
++    return layout.packed ? 0 : hashman_join::checked_mul(layout.slots,8);
++}
++inline uint64_t HashmanBuildScratch(ClientContext &context,const hashman_join::Layout &layout) {
++    return hashman_join::checked_add(HashmanScratchBytes(layout),
++        HashmanBool(context,"hashman_exact_ranges",false) ? layout.stride : 0);
++}
++inline uint64_t HashmanBloomBudget(idx_t count) {
++    // Conservative bound for pinned native BloomFilter (12 bits/key rounded to
++    // a power of two, 512 minimum bits, 64 alignment bytes). Scratch and Bloom
++    // do not overlap, but reserving their sum is safe at the cost of admission.
++    return hashman_join::checked_add(128,hashman_join::checked_mul(count,4));
++}
++enum class HashmanHashMode : uint8_t { NONE, CONSTANT, BUCKET, TAG };
++enum class HashmanProbeKernel : uint8_t { LEGACY, TYPED, FUSED, INTERLEAVED };
++enum class HashmanLookupKernel : uint8_t { LEGACY, CACHED, TAGS };
++inline HashmanLookupKernel HashmanLookupSetting(ClientContext &context) {
++    Value value;
++    const auto name=context.TryGetCurrentSetting("hashman_lookup_kernel",value) ? value.GetValue<string>() : "legacy";
++    if(name=="legacy") return HashmanLookupKernel::LEGACY;
++    if(name=="cached") return HashmanLookupKernel::CACHED;
++    if(name=="tags") return HashmanLookupKernel::TAGS;
++    throw InvalidInputException("Invalid hashman_lookup_kernel: %s",name);
++}
++inline const char *HashmanLookupName(HashmanLookupKernel kernel) {
++    switch(kernel) {
++    case HashmanLookupKernel::LEGACY:return "legacy";
++    case HashmanLookupKernel::CACHED:return "cached";
++    case HashmanLookupKernel::TAGS:return "tags";
++    }
++    throw InternalException("Unknown Hashman lookup kernel");
++}
++// separate: lookup pass, then HashmanRefineRanges (v9 behaviour). fused: the
++// exact-key range is computed inside the cached/tags lookup loop. The separate_*
++// variants keep the two-pass structure and change one implementation detail of
++// the refine pass: nodiv replaces the two pointer-difference divisions with an
++// exact shift+multiply, inline forces exact_key_range into the loop instead of a
++// call. All modes perform the same full-key comparisons.
++struct HashmanExactLookupMode {
++    string name="separate";
++    bool fused=false,nodiv=false,inlined=false;
++};
++inline HashmanExactLookupMode HashmanExactLookupSetting(ClientContext &context) {
++    Value value;
++    HashmanExactLookupMode mode;
++    mode.name=context.TryGetCurrentSetting("hashman_exact_lookup",value) ? value.GetValue<string>() : "separate";
++    if(mode.name=="separate") return mode;
++    if(mode.name=="fused") {mode.fused=true;return mode;}
++    if(mode.name=="separate_nodiv") {mode.nodiv=true;return mode;}
++    if(mode.name=="separate_inline") {mode.inlined=true;return mode;}
++    if(mode.name=="separate_nodiv_inline") {mode.nodiv=mode.inlined=true;return mode;}
++    throw InvalidInputException("Invalid hashman_exact_lookup: %s",mode.name);
++}
++// Software prefetch for the exact-refine pass (H1c). none: v9. lookup: when the prefix
++// range is known in the lookup pass, prefetch the first/last key lines (to L2). ahead:
++// inside the refine loop prefetch the lines of the row HASHMAN_PREFETCH_DISTANCE ahead
++// (to L1). both: the two. Prefetch never changes which rows are compared or output.
++struct HashmanRefinePrefetchMode {
++    string name="none";
++    bool lookup=false,ahead=false;
++};
++inline HashmanRefinePrefetchMode HashmanRefinePrefetchSetting(ClientContext &context) {
++    Value value;
++    HashmanRefinePrefetchMode mode;
++    mode.name=context.TryGetCurrentSetting("hashman_refine_prefetch",value) ? value.GetValue<string>() : "none";
++    if(mode.name=="none") return mode;
++    if(mode.name=="lookup") {mode.lookup=true;return mode;}
++    if(mode.name=="ahead") {mode.ahead=true;return mode;}
++    if(mode.name=="both") {mode.lookup=mode.ahead=true;return mode;}
++    throw InvalidInputException("Invalid hashman_refine_prefetch: %s",mode.name);
++}
++// Build-side partitioning aligned with DuckDB's radix sink (ledger row 26). off: the slot is the top hash bits and the build reads the unpartitioned staging (v9-v14 behaviour).
++// aligned: the slot is the hash window just below DuckDB's 16-bit salt, so every radix partition of the sink is a contiguous range of directory slots, and the build runs
++// partition by partition over the sink's own partitions (no extra copy). Probe and results are unchanged.
++// auto (H1, schema 16): the aligned build is used only for builds of at least HASHMAN_PARTITION_MIN_BYTES (the effect starts at ~L3/3 = 8-13 MiB, ledger row 25; below it the
++// extra sink partitions cost more than they save, LDBC part vs v14 0.992). The sink's radix bits are chosen from the planner's estimate (6 bits for a large estimate, DuckDB's 4
++// otherwise); the exact build size decides at build time.
++static constexpr uint64_t HASHMAN_PARTITION_MIN_BYTES=uint64_t(8)<<20;
++inline int HashmanPartitionMode(ClientContext &context) {
++    Value value;
++    const auto name=context.TryGetCurrentSetting("hashman_partitioned_build",value) ? value.GetValue<string>() : "off";
++    if(name=="off") return 0;
++    if(name=="aligned") return 1;
++    if(name=="auto") return 2;
++    throw InvalidInputException("Invalid hashman_partitioned_build: %s",name);
++}
++inline bool HashmanPartitionedBuildSetting(ClientContext &context) { return HashmanPartitionMode(context)!=0; }
++// Approximate row bytes of the build side: 8 B hash + the column widths (string_t = 16 B) + 8 B for the pointer slot share.
++inline uint64_t HashmanEstimateBuildBytes(const vector<LogicalType> &types, idx_t rows) {
++    uint64_t width=16;
++    for(auto &type:types) width+=GetTypeIdSize(type.InternalType());
++    return width*uint64_t(rows);
++}
++// Radix bits of the sink (number of build partitions = 2^bits). DuckDB's default is 4 (16 partitions); with hashman_partitioned_build=aligned the setting
++// hashman_radix_bits (1..12, 0 = DuckDB's default) raises it so that a partition fits a cache level. Read in the JoinHashTable constructor.
++inline idx_t HashmanRadixBits(ClientContext &context, idx_t fallback, uint64_t estimated_bytes=0) {
++    // Only the Unchained path uses the aligned partitioning; the native join keeps DuckDB's own sink (each partition pins a 256 KiB block per thread: 2^bits x 256 KiB).
++    const auto mode=HashmanPartitionMode(context);
++    if(mode==0 || HashmanMode(context)=="native") return fallback;
++    if(mode==2 && estimated_bytes<HASHMAN_PARTITION_MIN_BYTES) return fallback;
++    Value value;
++    const auto bits=context.TryGetCurrentSetting("hashman_radix_bits",value) ? value.GetValue<int64_t>() : (mode==2 ? 6 : 0);
++    if(bits==0) return mode==2 ? idx_t(6) : fallback;
++    if(bits<1 || bits>12) throw InvalidInputException("hashman_radix_bits must be 0 or within 1..12");
++    return idx_t(bits);
++}
++// A5a (schema 17): builds smaller than hashman_min_build_bytes (staging bytes = Count() x entry_size) stay on DuckDB's own join: the treatment costs a copy of the
++// build rows and an extra pass, which a small cache-resident build never earns back (JOB < 250k rows 0.986, LDBC < 250k 0.969). 0 = off (default).
++inline uint64_t HashmanMinBuildBytes(ClientContext &context) {
++    Value value;
++    const auto bytes=context.TryGetCurrentSetting("hashman_min_build_bytes",value) ? value.GetValue<int64_t>() : 0;
++    if(bytes<0) throw InvalidInputException("hashman_min_build_bytes must not be negative");
++    return uint64_t(bytes);
++}
++inline const uint16_t *HashmanLookupTags() {
++    // Exact same tags as the independent core. Initialization is outside probe.
++    static const std::array<uint16_t,2048> tags=[] {
++        std::array<uint16_t,2048> result={};
++        for(size_t i=0;i<result.size();++i) result[i]=hashman_join::tag(i);
++        return result;
++    }();
++    return tags.data();
++}
++inline HashmanProbeKernel HashmanProbeSetting(ClientContext &context) {
++    Value value;
++    const auto name=context.TryGetCurrentSetting("hashman_probe_kernel",value) ? value.GetValue<string>() : "legacy";
++    if (name=="legacy") return HashmanProbeKernel::LEGACY;
++    if (name=="typed") return HashmanProbeKernel::TYPED;
++    if (name=="fused") return HashmanProbeKernel::FUSED;
++    if (name=="interleaved") return HashmanProbeKernel::INTERLEAVED;
++    throw InvalidInputException("Invalid hashman_probe_kernel: %s",name);
++}
++inline const char *HashmanProbeName(HashmanProbeKernel kernel) {
++    switch(kernel) {
++    case HashmanProbeKernel::LEGACY:return "legacy";
++    case HashmanProbeKernel::TYPED:return "typed";
++    case HashmanProbeKernel::FUSED:return "fused";
++    case HashmanProbeKernel::INTERLEAVED:return "interleaved";
++    }
++    throw InternalException("Unknown Hashman probe kernel");
++}
++inline HashmanHashMode HashmanTestHashMode(ClientContext &context) {
++    auto mode = HashmanTestSetting(context, "hashman_test_hash");
++    if (mode == "none") return HashmanHashMode::NONE;
++    if (mode == "constant") return HashmanHashMode::CONSTANT;
++    if (mode == "bucket") return HashmanHashMode::BUCKET;
++    if (mode == "tag") return HashmanHashMode::TAG;
++    throw InvalidInputException("Invalid hashman_test_hash: %s", mode);
++}
++inline hash_t HashmanTestHash(HashmanHashMode mode, hash_t hash) {
++    switch (mode) {
++    case HashmanHashMode::CONSTANT: return 0;
++    case HashmanHashMode::BUCKET: return hash & ((hash_t(1) << 48) - 1);
++    case HashmanHashMode::TAG: return hash & ~hash_t(2047);
++    default: return hash;
++    }
++}
++struct HashmanTable {
++    AllocatedData allocation;
++    hashman_join::Table table;
++    HashmanHashMode test_hash = HashmanHashMode::NONE;
++    HashmanProbeKernel probe_kernel = HashmanProbeKernel::LEGACY;
++    HashmanLookupKernel lookup_kernel = HashmanLookupKernel::LEGACY;
++    const uint16_t *lookup_tags = HashmanLookupTags();
++    bool exact_ranges=false,range_duplicate_keys=true,exact_fused=false,refine_nodiv=false,refine_inline=false;
++    bool refine_pf_lookup=false,refine_pf_ahead=false;
++    uint64_t stride_shift=0,stride_inverse=1;
++    HashmanTable(Allocator &allocator, const hashman_join::Layout &layout, bool bloom)
++        : allocation(allocator.Allocate(layout.bytes)), table(layout, allocation.get(), bloom) {}
++};
++}
+--- /dev/null
++++ b/src/include/duckdb/execution/hashman_probe.hpp
+@@ -0,0 +1,200 @@
++#pragma once
++#include "duckdb/execution/hashman_state.hpp"
++#include "duckdb/common/operator/comparison_operators.hpp"
++#include "duckdb/execution/hashman_key_ranges.hpp"
++
++namespace duckdb {
++struct HashmanKeyPoll {
++    ClientContext &context;uint64_t &comparisons;bool profiled;uint64_t steps=0;
++    HashmanKeyPoll(ClientContext &c,uint64_t &count,bool p):context(c),comparisons(count),profiled(p) {}
++    void operator()(bool comparison) {
++        if(profiled && comparison)++comparisons;
++        if((++steps&255)==0 && context.IsInterrupted())throw InterruptException();
++    }
++};
++#if defined(__GNUC__)
++#define HASHMAN_PREFETCH(address,hint) __builtin_prefetch((address),0,(hint))
++#else
++#define HASHMAN_PREFETCH(address,hint) ((void)(address))
++#endif
++// Fixed a priori (about memory latency / per-row refine work); not tuned on any cohort.
++static constexpr idx_t HASHMAN_PREFETCH_DISTANCE=16;
++// The cached variant hoists checked smart-pointer dereferences out of the row
++// loop. TAGS additionally removes calls/static guards in tag() from that loop.
++// Layout, tag patterns, hash bits and full candidate equality are unchanged.
++// FUSED (exact ranges only): the full-key range is resolved per row right after
++// the prefix range, instead of by a later HashmanRefineTypedRanges pass. The
++// same rows, bounds, comparisons, poll heartbeat and counters result; defaults
++// keep every non-fused instantiation identical to the v9 one.
++template<bool FAST_TAGS, bool PACKED=false, bool FUSED=false, class Key=int32_t, bool PF=false>
++void HashmanCachedLookup(HashmanTable &owner, HashmanRecord &record,
++                         JoinHashTable::ScanStructure &scan, const UnifiedVectorFormat &hash_format,
++                         const SelectionVector &selection, idx_t stride) {
++    const auto data=UnifiedVectorFormat::GetData<hash_t>(hash_format);
++    auto pointers=FlatVector::GetData<data_ptr_t>(scan.pointers);
++    auto ends=FlatVector::GetData<data_ptr_t>(scan.hashman_ends);
++    const auto &table=owner.table;
++    const auto profiled=record.profiled;
++    const auto test_hash=owner.test_hash;
++    const UnifiedVectorFormat *key_format=FUSED ? &scan.key_state.vector_data[0].unified : nullptr;
++    const Key *key_data=FUSED ? UnifiedVectorFormat::GetData<Key>(*key_format) : nullptr;
++    const auto key_at=(FUSED || PF) ? scan.ht.layout_ptr->GetOffsets()[0] : idx_t(0);
++    HashmanKeyPoll poll(scan.ht.context,record.exact_range_key_checks,profiled);
++    idx_t active=0;
++    for(idx_t i=0;i<scan.count;++i) {
++        const auto row=selection.get_index(i);
++        const auto hash=HashmanTestHash(test_hash,data[hash_format.sel->get_index(row)]);
++        const auto slot=table.layout.bucket(hash);
++        const auto tag=FAST_TAGS ? owner.lookup_tags[hash&2047] : uint16_t(0);
++        const auto entry=PACKED ? table.offsets[slot] : uint64_t(0);
++        const auto bits=PACKED ? uint16_t(entry>>48) : table.tags[slot];
++        if(profiled) {
++            if(table.offset(slot)==table.offset(slot+1)) ++record.empty_bucket_rows;
++            else if(table.bloom && (bits&(FAST_TAGS ? tag : hashman_join::tag(hash)))
++                                   !=(FAST_TAGS ? tag : hashman_join::tag(hash))) ++record.bloom_reject_rows;
++        }
++        hashman_join::Table::Range range;
++        if(FAST_TAGS) {
++            if(table.bloom && (bits&tag)!=tag) continue;
++            range=PACKED ? hashman_join::Table::Range{entry&hashman_join::Table::OFFSET_MASK,
++                table.offsets[slot+1]&hashman_join::Table::OFFSET_MASK} :
++                hashman_join::Table::Range{table.offsets[slot],table.offsets[slot+1]};
++        } else range=table.candidates(hash);
++        if(range.begin==range.end) continue;
++        if(FUSED) {
++            if(profiled) record.prefix_candidate_rows_potential+=range.end-range.begin;
++            range=hashman_join::exact_key_range<Key>(table,range,key_at,key_data[key_format->sel->get_index(row)],poll);
++            if(range.begin==range.end) continue;
++        }
++        if(PF) {
++            // Key lines the refine pass will read first (first row, and last row for ranges > 1).
++            HASHMAN_PREFETCH(table.rows+range.begin*stride+key_at,2);
++            if(range.end-range.begin>1) HASHMAN_PREFETCH(table.rows+(range.end-1)*stride+key_at,2);
++        }
++        pointers[row]=table.rows+range.begin*stride;
++        ends[row]=table.rows+range.end*stride;
++        scan.sel_vector.set_index(active++,row);
++    }
++    scan.count=active;
++}
++
++// Only reachable for ordinary single INT32/INT64 INNER equality. PrepareKeys
++// removes NULLs on both sides before collection/probing. Payload NULLs still use
++// the unchanged host layout/Gather. No hash/tag match substitutes key equality.
++template<class T>
++inline bool HashmanKeyEquals(const UnifiedVectorFormat &keys, const T *data,
++                             idx_t row, data_ptr_t tuple, idx_t offset) {
++    const auto index=keys.sel->get_index(row);
++    D_ASSERT(keys.validity.RowIsValid(index));
++    return Equals::Operation(data[index],Load<T>(tuple+offset));
++}
++
++template<class T>
++idx_t HashmanTypedMatch(JoinHashTable::ScanStructure &scan, SelectionVector &matches,
++                       SelectionVector *misses) {
++    const auto &keys=scan.key_state.vector_data[0].unified;
++    const auto data=UnifiedVectorFormat::GetData<T>(keys);
++    auto pointers=FlatVector::GetData<data_ptr_t>(scan.pointers);
++    const auto offset=scan.ht.layout_ptr->GetOffsets()[0];
++    idx_t matched=0,missed=0;
++    for(idx_t i=0;i<scan.count;++i) {
++        const auto row=scan.sel_vector.get_index(i);
++        if(HashmanKeyEquals(keys,data,row,pointers[row],offset)) matches.set_index(matched++,row);
++        else if(misses) misses->set_index(missed++,row);
++    }
++    return matched;
++}
++
++// Produce a normal DuckDB DataChunk directly from a bounded range scan. FUSED
++// finishes one probe row's contiguous range; INTERLEAVED rotates live probes to
++// expose independent loads. Input/output vector size and executor are unchanged.
++template<class T, bool INTERLEAVED>
++void HashmanFusedNext(JoinHashTable::ScanStructure &scan, DataChunk &left, DataChunk &result) {
++    auto &ht=scan.ht;
++    const auto &keys=scan.key_state.vector_data[0].unified;
++    const auto data=UnifiedVectorFormat::GetData<T>(keys);
++    auto pointers=FlatVector::GetData<data_ptr_t>(scan.pointers);
++    auto ends=FlatVector::GetData<data_ptr_t>(scan.hashman_ends);
++    auto output=FlatVector::GetData<data_ptr_t>(scan.rhs_pointers);
++    const auto offset=ht.layout_ptr->GetOffsets()[0];
++    idx_t produced=0;
++    uint64_t checked=0;
++    while(scan.count && produced<STANDARD_VECTOR_SIZE) {
++        if((checked&255)==0 && ht.context.IsInterrupted()) throw InterruptException();
++        auto &cursor=scan.hashman_cursor;
++        const auto row=scan.sel_vector.get_index(cursor);
++        const auto tuple=pointers[row];
++        ++checked;
++        if(ht.hashman_table->exact_ranges || HashmanKeyEquals(keys,data,row,tuple,offset)) {
++            scan.lhs_sel_vector.set_index(produced,row);
++            output[produced++]=tuple;
++        }
++        pointers[row]+=ht.entry_size;
++        if(pointers[row]==ends[row]) {
++            --scan.count;
++            scan.sel_vector.set_index(cursor,scan.sel_vector.get_index(scan.count));
++            if(cursor>=scan.count) cursor=0;
++        } else if(INTERLEAVED) {
++            if(++cursor>=scan.count) cursor=0;
++        }
++    }
++    if(ht.hashman_record->profiled && !ht.hashman_table->exact_ranges) ht.hashman_record->candidate_checks+=checked;
++    ht.total_probe_matches.fetch_add(produced,std::memory_order_relaxed);
++    if(!produced) {result.SetCardinality(0);return;}
++    result.Slice(left,scan.lhs_sel_vector,produced);
++    for(idx_t i=0;i<ht.output_columns.size();++i) {
++        scan.GatherResult(result.data[left.ColumnCount()+i],produced,ht.output_columns[i]);
++    }
++}
++// NODIV/INLINE select the H1b ablation variants; <T,false,false> is the v9 pass.
++template<class T,bool NODIV=false,bool INLINE=false,bool AHEAD=false>void HashmanRefineTypedRanges(JoinHashTable::ScanStructure &scan) {
++    auto &ht=scan.ht;auto &table=ht.hashman_table->table;auto &record=*ht.hashman_record;
++    const auto &keys=scan.key_state.vector_data[0].unified;
++    const auto data=UnifiedVectorFormat::GetData<T>(keys);
++    auto pointers=FlatVector::GetData<data_ptr_t>(scan.pointers);
++    auto ends=FlatVector::GetData<data_ptr_t>(scan.hashman_ends);
++    const auto at=ht.layout_ptr->GetOffsets()[0];idx_t active=0;
++    const auto shift=ht.hashman_table->stride_shift;const auto inverse=ht.hashman_table->stride_inverse;
++    HashmanKeyPoll poll(ht.context,record.exact_range_key_checks,record.profiled);
++    for(idx_t i=0;i<scan.count;++i) {
++        const auto row=scan.sel_vector.get_index(i);
++        if(AHEAD && i+HASHMAN_PREFETCH_DISTANCE<scan.count) {
++            // Entries after i are untouched: active <= i, so sel_vector/pointers/ends there are still lookup results.
++            const auto next=scan.sel_vector.get_index(i+HASHMAN_PREFETCH_DISTANCE);
++            HASHMAN_PREFETCH(pointers[next]+at,3);
++            if(ends[next]-pointers[next]>ptrdiff_t(ht.entry_size)) HASHMAN_PREFETCH(ends[next]-ht.entry_size+at,3);
++        }
++        const hashman_join::Table::Range prefix=NODIV
++            ? hashman_join::Table::Range{(uint64_t(pointers[row]-table.rows)>>shift)*inverse,
++                                          (uint64_t(ends[row]-table.rows)>>shift)*inverse}
++            : hashman_join::Table::Range{uint64_t((pointers[row]-table.rows)/ht.entry_size),
++                                          uint64_t((ends[row]-table.rows)/ht.entry_size)};
++        if(record.profiled)record.prefix_candidate_rows_potential+=prefix.end-prefix.begin;
++        const auto range=INLINE
++            ? hashman_join::exact_key_range_inline<T>(table,prefix,at,data[keys.sel->get_index(row)],poll)
++            : hashman_join::exact_key_range<T>(table,prefix,at,data[keys.sel->get_index(row)],poll);
++        if(range.begin==range.end)continue;
++        pointers[row]=table.rows+range.begin*ht.entry_size;ends[row]=table.rows+range.end*ht.entry_size;
++        scan.sel_vector.set_index(active++,row);
++    }
++    scan.count=active;
++}
++template<class T>void HashmanRefineVariant(JoinHashTable::ScanStructure &scan) {
++    const auto &table=*scan.ht.hashman_table;
++    switch((table.refine_nodiv ? 1 : 0)|(table.refine_inline ? 2 : 0)|(table.refine_pf_ahead ? 4 : 0)) {
++    case 0:HashmanRefineTypedRanges<T>(scan);break;
++    case 1:HashmanRefineTypedRanges<T,true,false,false>(scan);break;
++    case 2:HashmanRefineTypedRanges<T,false,true,false>(scan);break;
++    case 3:HashmanRefineTypedRanges<T,true,true,false>(scan);break;
++    case 4:HashmanRefineTypedRanges<T,false,false,true>(scan);break;
++    case 5:HashmanRefineTypedRanges<T,true,false,true>(scan);break;
++    case 6:HashmanRefineTypedRanges<T,false,true,true>(scan);break;
++    default:HashmanRefineTypedRanges<T,true,true,true>(scan);break;
++    }
++}
++inline void HashmanRefineRanges(JoinHashTable::ScanStructure &scan) {
++    if(!scan.ht.hashman_table->exact_ranges)return;
++    if(scan.ht.equality_types[0].InternalType()==PhysicalType::INT32)HashmanRefineVariant<int32_t>(scan);
++    else HashmanRefineVariant<int64_t>(scan);
++}
++}
+--- /dev/null
++++ b/src/include/duckdb/execution/hashman_key_ranges.hpp
+@@ -0,0 +1,123 @@
++#pragma once
++#include "hashman_kernel.hpp"
++#include <type_traits>
++
++namespace hashman_join {
++// Requires admitted signed scalar keys and immutable prefix bounds. Poll(true)
++// counts a full-key comparison; Poll(false) is only a cancellation heartbeat.
++template<class Key> inline Key range_key(const Table &t,uint64_t row,uint64_t key_at) {
++    Key result;std::memcpy(&result,t.rows+row*t.layout.stride+key_at,sizeof(result));return result;
++}
++template<class Key,class Poll> class KeyCluster {
++    Table &t;uint64_t at;uint8_t *tmp;Poll &poll;
++    bool less(Key a,Key b) {poll(true);return a<b;}
++    bool equal(Key a,Key b) {poll(true);return a==b;}
++    Key key(uint64_t i) const {return range_key<Key>(t,i,at);}
++    void swap(uint64_t a,uint64_t b) {
++        if(a==b)return;
++        auto p=t.rows+a*t.layout.stride,q=t.rows+b*t.layout.stride;
++        std::memcpy(tmp,p,t.layout.stride);std::memcpy(p,q,t.layout.stride);std::memcpy(q,tmp,t.layout.stride);
++    }
++    void sift(uint64_t base,uint64_t root,uint64_t count) {
++        while(root<count/2) {
++            auto child=root*2+1;
++            if(child+1<count && less(key(base+child),key(base+child+1)))++child;
++            if(!less(key(base+root),key(base+child)))return;
++            swap(base+root,base+child);root=child;
++        }
++    }
++    void heap(uint64_t begin,uint64_t end) {
++        auto count=end-begin;
++        for(auto i=count/2;i>0;)sift(begin,--i,count);
++        while(count>1) {swap(begin,begin+count-1);sift(begin,0,--count);}
++    }
++    void sort(uint64_t begin,uint64_t end,unsigned depth) {
++        while(end-begin>1) {
++            if(!depth) {heap(begin,end);return;}
++            --depth;auto a=key(begin),b=key(begin+(end-begin)/2),c=key(end-1);
++            if(less(b,a))std::swap(a,b);
++            if(less(c,b))std::swap(b,c);
++            if(less(b,a))std::swap(a,b);
++            const auto pivot=b;auto lower=begin,current=begin,upper=end;
++            while(current<upper) {
++                const auto value=key(current);
++                if(less(value,pivot)) {swap(current++,lower++);}
++                else if(less(pivot,value))swap(current,--upper);
++                else ++current;
++            }
++            // Recurse into only the smaller partition: bounded O(log n) stack.
++            if(lower-begin<end-upper) {sort(begin,lower,depth);begin=upper;}
++            else {sort(upper,end,depth);end=lower;}
++        }
++    }
++public:
++    KeyCluster(Table &table,uint64_t offset,uint8_t *scratch,Poll &p):t(table),at(offset),tmp(scratch),poll(p) {
++        static_assert(std::is_signed<Key>::value && std::is_integral<Key>::value && (sizeof(Key)==4 || sizeof(Key)==8),"signed SQL key required");
++        if(offset>t.layout.stride || sizeof(Key)>t.layout.stride-offset || !scratch)
++            throw std::invalid_argument("invalid key clustering layout/scratch");
++    }
++    bool run(unsigned forced_depth=std::numeric_limits<unsigned>::max()) {
++        bool duplicates=false;
++        for(uint64_t slot=0;slot<t.layout.slots;++slot) {
++            poll(false);const auto begin=t.offset(slot),end=t.offset(slot+1);
++            if(end-begin<2)continue;
++            const auto first=key(begin);bool uniform=true;
++            for(auto i=begin+1;i<end;++i)if(!equal(first,key(i))) {uniform=false;break;}
++            if(uniform) {duplicates=true;continue;}
++            unsigned depth=0;for(auto n=end-begin;n>1;n>>=1)depth+=2;
++            sort(begin,end,forced_depth==std::numeric_limits<unsigned>::max() ? depth : forced_depth);
++            if(!duplicates)for(auto i=begin+1;i<end;++i)if(equal(key(i-1),key(i))) {duplicates=true;break;}
++        }
++        return duplicates;
++    }
++};
++#if defined(__GNUC__)
++#define HASHMAN_ALWAYS_INLINE inline __attribute__((always_inline))
++#define HASHMAN_NOINLINE __attribute__((noinline))
++#else
++#define HASHMAN_ALWAYS_INLINE inline
++#define HASHMAN_NOINLINE
++#endif
++// Same algorithm twice: the always-inline body for a caller that wants it in its
++// loop, and the out-of-line entry (v9 behaviour: a real call) that delegates to it.
++template<class Key,class Poll>
++HASHMAN_ALWAYS_INLINE Table::Range exact_key_range_inline(const Table &t,Table::Range prefix,uint64_t at,Key needle,Poll &poll) {
++    if(prefix.begin==prefix.end)return prefix;
++    const auto first=range_key<Key>(t,prefix.begin,at);
++    if(prefix.end-prefix.begin==1) {poll(true);return first==needle ? prefix : Table::Range{0,0};}
++    const auto last=range_key<Key>(t,prefix.end-1,at);poll(true);
++    if(first==last) {poll(true);return first==needle ? prefix : Table::Range{0,0};}
++    auto lower=prefix.begin,upper=prefix.end;
++    while(lower<upper) {
++        const auto middle=lower+(upper-lower)/2;poll(true);
++        if(range_key<Key>(t,middle,at)<needle)lower=middle+1;else upper=middle;
++    }
++    const auto begin=lower;
++    if(begin==prefix.end)return {0,0};
++    poll(true);if(range_key<Key>(t,begin,at)!=needle)return {0,0};
++    upper=prefix.end;
++    while(lower<upper) {
++        const auto middle=lower+(upper-lower)/2;poll(true);
++        if(needle<range_key<Key>(t,middle,at))upper=middle;else lower=middle+1;
++    }
++    return {begin,lower};
++}
++template<class Key,class Poll>
++HASHMAN_NOINLINE Table::Range exact_key_range(const Table &t,Table::Range prefix,uint64_t at,Key needle,Poll &poll) {
++    return exact_key_range_inline<Key>(t,prefix,at,needle,poll);
++}
++// Exact division by a fixed stride for values known to be multiples of it:
++// stride=odd*2^shift, so n*stride >> shift == n*odd and odd*inverse==1 (mod 2^64).
++// Only valid for exact multiples; callers guarantee that by construction.
++struct ExactDivisor {
++    uint64_t shift,inverse;
++    explicit ExactDivisor(uint64_t stride):shift(0),inverse(1) {
++        if(!stride)throw std::invalid_argument("zero stride");
++        uint64_t odd=stride;while(!(odd&1)){odd>>=1;++shift;}
++        for(int i=0;i<6;++i)inverse*=2-odd*inverse;
++        if(odd*inverse!=1)throw std::logic_error("stride inverse failed");
++    }
++    uint64_t divide(uint64_t exact_multiple) const {return (exact_multiple>>shift)*inverse;}
++};
++}
++
+--- /dev/null
++++ b/src/include/duckdb/execution/hashman_partitioned.hpp
+@@ -0,0 +1,178 @@
++#pragma once
++// Build-side partitioned count/prefix/scatter for the packed48 layout (spike for the "build partitioning" difference to the paper, ledger limitation L15).
++// The result is BYTE-IDENTICAL to hashman_join::build() on the same source: partitioning is by the top `bits` bits of the hash, i.e. by a contiguous range of directory
++// buckets, it is stable (source order is kept inside a partition) and the in-bucket order of the reverse scatter is the same. Only the memory access pattern changes:
++// the random increments of the directory and the random row writes of the scatter stay inside one partition (a slice of the directory and one contiguous range of
++// the row area), which fits a cache level when `bits` is large enough.
++#include "hashman_kernel.hpp"
++#include <vector>
++
++namespace hashman_join {
++struct PartitionedInput {
++    unsigned bits = 0;
++    std::vector<uint64_t> begin;      // 2^bits + 1 row positions
++    std::vector<uint64_t> hashes;     // partition-ordered copy of the hashes
++    std::vector<uint8_t> rows;        // partition-ordered copy of the rows
++};
++// Paper Sec. 3.4: small tuples are copied with a few fixed-size loads/stores; a runtime stride turns every row copy into a library call.
++template<size_t FIXED> struct RowCopy {
++    static void copy(uint8_t *dst, const uint8_t *src, size_t) { std::memcpy(dst, src, FIXED); }
++};
++template<> struct RowCopy<0> {
++    static void copy(uint8_t *dst, const uint8_t *src, size_t stride) { std::memcpy(dst, src, stride); }
++};
++template<size_t FIXED>
++inline void copy_row(uint8_t *dst, const uint8_t *src, size_t stride) { RowCopy<FIXED>::copy(dst, src, stride); }
++inline uint64_t partition_of(uint64_t hash, unsigned bits, unsigned skip = 0) { return bits ? (hash << skip) >> (64 - bits) : 0; }
++inline unsigned log2_slots(const Layout &l) { return 64 - l.shift; }
++
++// Pass 1 + 2: histogram on the hash prefix, then stable scatter of (hash,row) into partition order. This is the work that a partitioned sink (the paper, or DuckDB's
++// radix-partitioned sink collection) would already have done while collecting tuples.
++template<size_t FIXED = 0, class Source>
++void partition_source(const Layout &layout, const Source &source, unsigned bits, PartitionedInput &out) {
++    if (bits > log2_slots(layout)) throw std::invalid_argument("more partition bits than directory bits");
++    if (bits > 20) throw std::invalid_argument("too many partitions");
++    out.bits = bits;
++    const size_t parts = size_t(1) << bits;
++    out.begin.assign(parts + 1, 0);
++    uint64_t seen = 0;
++    source.each([&](uint64_t hash, const uint8_t *) { ++out.begin[partition_of(hash, bits, layout.skip) + 1]; ++seen; });
++    if (seen != layout.count) throw std::runtime_error("build source cardinality changed");
++    for (size_t p = 0; p < parts; ++p) out.begin[p + 1] += out.begin[p];
++    out.hashes.resize(layout.count);
++    out.rows.resize(checked_mul(layout.count, layout.stride));
++    std::vector<uint64_t> cursor(out.begin.begin(), out.begin.end() - 1);
++    seen = 0;
++    source.each([&](uint64_t hash, const uint8_t *row) {
++        if (++seen > layout.count) throw std::runtime_error("partition source cardinality changed");
++        const auto pos = cursor[partition_of(hash, bits, layout.skip)]++;
++        out.hashes[pos] = hash;
++        copy_row<FIXED>(out.rows.data() + pos * layout.stride, row, layout.stride);
++    });
++    if (seen != layout.count) throw std::runtime_error("partition source cardinality changed");
++}
++
++// Pass 3: per partition, count -> prefix -> reverse scatter, exactly the packed48 code of build() restricted to the buckets of the partition.
++template<size_t FIXED = 0>
++inline void build_from_partitions(Table &table, const PartitionedInput &in) {
++    const auto &l = table.layout;
++    if (!l.packed) throw std::invalid_argument("partitioned build implements the packed48 layout only");
++    const unsigned dir_bits = log2_slots(l), bits = in.bits, per_part_bits = dir_bits - bits;
++    std::fill(table.offsets, table.offsets + l.slots + 1, uint64_t(0));
++    const size_t parts = size_t(1) << bits;
++    for (size_t p = 0; p < parts; ++p) {
++        const uint64_t first = in.begin[p], last = in.begin[p + 1];
++        for (uint64_t i = first; i < last; ++i) {
++            const auto hash = in.hashes[i];
++            auto &entry = table.offsets[l.bucket(hash)];
++            ++entry;
++            if (table.bloom) entry |= uint64_t(tag(hash)) << 48;
++        }
++        uint64_t total = first;
++        const uint64_t b0 = uint64_t(p) << per_part_bits, b1 = uint64_t(p + 1) << per_part_bits;
++        for (uint64_t s = b0; s < b1; ++s) {
++            auto &entry = table.offsets[s];
++            total = checked_add(total, entry & Table::OFFSET_MASK);
++            entry = (entry & ~Table::OFFSET_MASK) | total;
++        }
++        if (total != last) throw std::runtime_error("partition count mismatch");
++        for (uint64_t i = first; i < last; ++i) {
++            auto &entry = table.offsets[l.bucket(in.hashes[i])];
++            const auto end = entry & Table::OFFSET_MASK;
++            if (!end || end > l.count) throw std::runtime_error("partitioned scatter out of bounds");
++            --entry;
++            copy_row<FIXED>(table.rows + (end - 1) * l.stride, in.rows.data() + i * l.stride, l.stride);
++        }
++    }
++    table.offsets[l.slots] = l.count;
++}
++
++template<size_t FIXED = 0, class Source>
++void build_partitioned(Table &table, const Source &source, unsigned bits, PartitionedInput &scratch) {
++    partition_source<FIXED>(table.layout, source, bits, scratch);
++    build_from_partitions<FIXED>(table, scratch);
++}
++
++// The packed48 branch of build() with an optional fixed-size row copy (identical bytes; only the copy instruction sequence differs). Used by the benchmark.
++template<size_t FIXED = 0, class Source>
++void build_packed(Table &table, const Source &source) {
++    const auto &l = table.layout;
++    if (!l.packed) throw std::invalid_argument("build_packed implements the packed48 layout only");
++    std::fill(table.offsets, table.offsets + l.slots + 1, uint64_t(0));
++    uint64_t seen = 0;
++    source.each([&](uint64_t hash, const uint8_t *) {
++        if (++seen > l.count) throw std::runtime_error("build source cardinality changed");
++        auto &entry = table.offsets[l.bucket(hash)];
++        ++entry;
++        if (table.bloom) entry |= uint64_t(tag(hash)) << 48;
++    });
++    if (seen != l.count) throw std::runtime_error("build source cardinality changed");
++    uint64_t total = 0;
++    for (uint64_t s = 0; s < l.slots; ++s) {
++        auto &entry = table.offsets[s];
++        total = checked_add(total, entry & Table::OFFSET_MASK);
++        entry = (entry & ~Table::OFFSET_MASK) | total;
++    }
++    table.offsets[l.slots] = total;
++    seen = 0;
++    source.each([&](uint64_t hash, const uint8_t *row) {
++        if (++seen > l.count) throw std::runtime_error("scatter source cardinality changed");
++        auto &entry = table.offsets[l.bucket(hash)];
++        const auto end = entry & Table::OFFSET_MASK;
++        if (!end || end > l.count) throw std::runtime_error("packed scatter out of bounds");
++        --entry;
++        copy_row<FIXED>(table.rows + (end - 1) * l.stride, row, l.stride);
++    });
++}
++
++// Build when the SOURCE ALREADY is grouped by partition (the host's radix-partitioned sink): no copy, no extra memory. `src` provides
++//   uint64_t rows_in(size_t p) const;                         number of rows of partition p
++//   template<class F> void each(size_t p, F f) const;         f(hash, row_pointer) for every row of partition p, in storage order
++// and partition p must be exactly the rows whose slot lies in [p << (k - bits), (p + 1) << (k - bits)) (guaranteed when the host partitions on the top `bits` of the
++// slot window, i.e. layout.skip = 16 for DuckDB's radix bits 44..47). Rows are read twice from the (partition-local) source, as in the unpartitioned packed build.
++template<size_t FIXED = 0, class PartSource>
++void build_by_partitions(Table &table, const PartSource &src, unsigned bits) {
++    const auto &l = table.layout;
++    if (!l.packed) throw std::invalid_argument("partitioned build implements the packed48 layout only");
++    const unsigned dir_bits = log2_slots(l);
++    if (bits > dir_bits) throw std::invalid_argument("more partition bits than directory bits");
++    const unsigned per_part_bits = dir_bits - bits;
++    std::fill(table.offsets, table.offsets + l.slots + 1, uint64_t(0));
++    const size_t parts = size_t(1) << bits;
++    uint64_t first = 0;
++    for (size_t p = 0; p < parts; ++p) {
++        const uint64_t rows = src.rows_in(p), b0 = uint64_t(p) << per_part_bits, b1 = uint64_t(p + 1) << per_part_bits;
++        if (rows > l.count - first) throw std::runtime_error("partition counts exceed the build cardinality");
++        uint64_t seen = 0;
++        src.each(p, [&](uint64_t hash, const uint8_t *) {
++            if (++seen > rows) throw std::runtime_error("partition source cardinality changed");
++            const auto s = l.bucket(hash);
++            if (s < b0 || s >= b1) throw std::runtime_error("row outside its partition's slot range");
++            auto &entry = table.offsets[s];
++            ++entry;
++            if (table.bloom) entry |= uint64_t(tag(hash)) << 48;
++        });
++        if (seen != rows) throw std::runtime_error("partition source cardinality changed");
++        uint64_t total = first;
++        for (uint64_t s = b0; s < b1; ++s) {
++            auto &entry = table.offsets[s];
++            total = checked_add(total, entry & Table::OFFSET_MASK);
++            entry = (entry & ~Table::OFFSET_MASK) | total;
++        }
++        if (total != first + rows) throw std::runtime_error("partition count mismatch");
++        seen = 0;
++        src.each(p, [&](uint64_t hash, const uint8_t *row) {
++            if (++seen > rows) throw std::runtime_error("partition scatter cardinality changed");
++            auto &entry = table.offsets[l.bucket(hash)];
++            const auto end = entry & Table::OFFSET_MASK;
++            if (!end || end > l.count) throw std::runtime_error("partitioned scatter out of bounds");
++            --entry;
++            copy_row<FIXED>(table.rows + (end - 1) * l.stride, row, l.stride);
++        });
++        if (seen != rows) throw std::runtime_error("partition scatter cardinality changed");
++        first += rows;
++    }
++    if (first != l.count) throw std::runtime_error("build source cardinality changed");
++    table.offsets[l.slots] = l.count;
++}
++}

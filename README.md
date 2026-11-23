@@ -1,61 +1,69 @@
-# unchained-join
+# Unchained joins for DuckDB
 
-An independent, header-only C++17 core for the *Unchained* hash join.
-It implements the table layout, partitioned build, and exact key ranges.
-The design draws on the paper by Birler, Schmidt, Fent, and Neumann.
-[Simple, Efficient, and Robust Hash Tables for Join Processing](https://doi.org/10.1145/3662010.3663442)
+A C++ implementation of the Unchained hash table and a serial hash-join
+prototype for DuckDB 1.5.6. Build rows with the same hash prefix occupy a
+contiguous range. The DuckDB integration can build those ranges one radix
+partition at a time and use an exact-key index to narrow each probe.
+[Original Unchained paper](https://doi.org/10.1145/3662010.3663442)
 
-This repository contains the core, its tests, and a build-kernel microbenchmark.
-The DuckDB integration and SQL campaigns are part of the separate research repository
-`hashman-sql-lab`.
+On one thread, the final prototype achieved a **1.068×** geometric-mean
+speed ratio on 35 SNAP graph queries. It was slower than stock DuckDB
+on JOB, LDBC BI and TPC-DS. In JOB 22d, the join laid out 5.54 million build
+rows for three probe rows. [Measurements and per-query data](docs/results.md)
 
-## DuckDB research results
+## Build and verify
 
-The separate DuckDB 1.5.6 integration was measured against the native join.
-It sped up graph self-joins and took longer on the tested analytical suites.
-
-| Workload (single thread, same machine, A/A-controlled) | stock / treatment time, geometric mean [95% CI] |
-|---|---|
-| Graph self-joins (35 queries, SNAP graphs) | **1.068** [1.059, 1.077] |
-| LDBC BI SF10 (56 queries, own port, initial snapshot) | 0.986 [0.980, 0.992] |
-| JOB (113 queries) | 0.948 [0.945, 0.951] |
-| TPC-DS SF10 (99 queries; held out from tuning) | 0.988 [0.986, 0.990] |
-
-Values above 1 mean the experimental join was faster. In the tested graph workloads,
-large shuffled builds benefited most from the new layout. In JOB, some large builds
-were probed by only a few rows and spent most of their time on construction. The
-ratios compare variants within each measurement session.
-
-## Layout
-
-```
-core/include/unchained/   header-only library, no DuckDB dependency
-  table.hpp               layout, directory with tags, count/prefix/scatter build
-  partitioned_build.hpp   build per radix partition (cache-sized pieces), byte-identical result
-  key_ranges.hpp          per-bucket key sorting and exact key ranges
-core/tests/               unit and differential tests, build-kernel microbenchmark
-```
-
-## Build and test the core
-
-Use CMake, Ninja, and GCC or Clang on Linux or WSL.
+Use Linux or WSL with a current Python 3.10+ security release, Bash, GNU
+patch, CMake, Ninja and GCC or Clang.
 
 ```sh
-cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug     # AddressSanitizer + UBSan are on by default
-cmake --build build
-ctest --test-dir build --output-on-failure
+cmake -S . -B build/core -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build/core
+ctest --test-dir build/core --output-on-failure
+
+bash scripts/build-duckdb.sh
+python3 -B scripts/smoke.py build/hashman-duckdb
 ```
 
-The micro-benchmark (`bench_build_partitioning`) reproduces the build-cost curve: about 6-7 ns per row while the
-table fits the cache, about 45 ns per row at 4-8 million rows, and about half of that with partitioning.
+The core tests run with AddressSanitizer and UndefinedBehaviorSanitizer.
+The engine build verifies the DuckDB source archive and the worker's JSON
+header against the SHA-256 pins in [deps/](deps/). Pass a build directory to
+the script to keep the build on a Linux filesystem under WSL. Set
+`UNCHAINED_CACHE` to reuse downloaded dependencies or `UNCHAINED_BUILD_JOBS`
+to control compilation parallelism.
 
-## Provenance
+The SQL smoke compares result multisets with SQLite. It checks execution
+of the Unchained join, native fallback for a left join, and rejection of
+that same join in forced mode.
 
-The core was ported from `hashman-sql-lab`. Its original port was checked
-token by token after removing comments and whitespace and normalizing the namespace.
-The SQL results above are from that research repository's v17 campaigns.
-The research repository contains the registrations, analysis, and reproduction instructions.
+## Run a SQL query
 
-## License
+```sh
+build/hashman-duckdb --setup setup.sql --query query.sql \
+    --threads 1 --mode unchained_prefer --warmups 1
+```
 
-The independent core is available under the MIT license. [LICENSE](LICENSE)
+`--setup` initializes an in-memory database. Use `--database` for an
+existing DuckDB file. The worker emits JSON with timing, output row count,
+physical plan and per-join execution decisions. A positive
+`executed_unchained_joins` count confirms that the treatment ran. Use
+`native` for comparison or `unchained_required` to require an eligible
+experimental join. The prototype supports single-key INT32 and INT64
+inner equijoins with supported payload types.
+
+## Source
+
+| Path | Contents |
+|---|---|
+| [core/](core/) | Standalone C++17 headers, tests and a build microbenchmark |
+| [integrations/duckdb/](integrations/duckdb/) | Frozen v17 patch, including the engine adapter and kernel |
+| [worker/](worker/) | SQL runner and runtime telemetry |
+| [docs/results.md](docs/results.md) | Benchmark configuration, results and evidence |
+
+The v17 patch and worker source match the files used in the measurement
+campaigns. The standalone core is a namespace-cleaned port of the
+corresponding research headers.
+
+The independent source is available under the [MIT license](LICENSE).
+Upstream DuckDB code in the patch retains its
+[DuckDB license](licenses/duckdb-LICENSE.txt).
