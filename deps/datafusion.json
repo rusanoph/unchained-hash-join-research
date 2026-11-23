@@ -1,0 +1,14 @@
+{
+ "repo": "apache/datafusion",
+ "ref": "55.2.0",
+ "commit": "500744d5c25499055e3b2ca46b022bc425989203",
+ "files": {
+  "datafusion/common/src/config.rs": "4344d19942ce7e4f1054d631eca4cfd6648cd8b2e03fc3e59076fbebac15158f",
+  "datafusion/physical-plan/Cargo.toml": "a43f8333b94422d612b0821f870c1e37149a5435b59e38da4a7a54be52021f57",
+  "datafusion/physical-plan/src/joins/mod.rs": "64400ff4fe2b1cd55c8c657a1c6b4a38a631e2c856503d45c4b04ea943aadcdd",
+  "datafusion/physical-plan/src/joins/array_map.rs": "ced7ba5ff7c44834def155a19c08700f721734f34c6167b3877469ffb5793966",
+  "datafusion/physical-plan/src/joins/join_hash_map.rs": "022856d7bfbc1bc5510308e02fbc0cf75dbb80eb1dc205252002d6af652571ea",
+  "datafusion/physical-plan/src/joins/hash_join/exec.rs": "27b1f0d3b29fc3b90d44cc1f730939baf94368ef07c7de6761a24990b900e35c",
+  "datafusion/physical-plan/src/joins/hash_join/stream.rs": "df118bb8760231711eb190a2a946945f335fd942a042eb90f682437009a23e2f"
+ }
+}

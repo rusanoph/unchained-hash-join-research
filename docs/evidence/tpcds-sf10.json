@@ -1,0 +1,395 @@
+{
+ "queries": 94,
+ "suites": {
+  "all": {
+   "queries": 94,
+   "converted_queries": 24,
+   "geomean_all": 1.0036335274861676,
+   "geomean_converted": 1.0138444705553353,
+   "native_total_s": 121.96881909,
+   "auto_total_s": 121.874479521,
+   "time_saved_pct": 0.07734728408773618,
+   "wins_ci_above_1": 6,
+   "losses_ci_below_1": 7,
+   "losses_ci_below_095": 0,
+   "wins_converted": 3,
+   "losses_converted": 1
+  }
+ },
+ "aa": {
+  "geomean": 0.9990933080040624,
+  "min": 0.9293752868519887,
+  "max": 1.0488154932375302
+ },
+ "top": [
+  {
+   "query": "tpcds_q38",
+   "speedup": 1.2179306911382115,
+   "ci95": [
+    1.0769536406136786,
+    1.2818660129807773
+   ],
+   "native_ms": 652.395055,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q81",
+   "speedup": 1.1219626118004382,
+   "ci95": [
+    0.8850235030102783,
+    1.1965899335539187
+   ],
+   "native_ms": 109.364401,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q87",
+   "speedup": 1.119046787461498,
+   "ci95": [
+    1.0351923806455219,
+    1.1367622436474862
+   ],
+   "native_ms": 618.460497,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q01",
+   "speedup": 1.0702456094182438,
+   "ci95": [
+    0.9066432853773889,
+    1.2219772512119065
+   ],
+   "native_ms": 149.860885,
+   "kinds": [
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q86",
+   "speedup": 1.0677382698841045,
+   "ci95": [
+    0.9711162452318857,
+    1.1011852018771757
+   ],
+   "native_ms": 138.260935,
+   "kinds": [
+    "csr_exact",
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q95",
+   "speedup": 1.0573561073225917,
+   "ci95": [
+    1.0472203997082068,
+    1.0753202514506226
+   ],
+   "native_ms": 1657.482884,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q06",
+   "speedup": 1.0445149814658508,
+   "ci95": [
+    0.8730092057731701,
+    1.094786929344399
+   ],
+   "native_ms": 454.660772,
+   "kinds": [
+    "csr_hash",
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q31",
+   "speedup": 1.0417205612151457,
+   "ci95": [
+    0.9721788564061712,
+    1.072391934879193
+   ],
+   "native_ms": 542.133893,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q67",
+   "speedup": 1.0397230724923319,
+   "ci95": [
+    1.0136098986272815,
+    1.0508800091384063
+   ],
+   "native_ms": 8634.081706,
+   "kinds": [
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q15",
+   "speedup": 1.0353888137763902,
+   "ci95": [
+    0.947981694920172,
+    1.1171726989149233
+   ],
+   "native_ms": 605.985316,
+   "kinds": [
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q56",
+   "speedup": 1.0329972108102567,
+   "ci95": [
+    0.9895322855502324,
+    1.0751024160154763
+   ],
+   "native_ms": 120.245065,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q65",
+   "speedup": 1.0320861408279844,
+   "ci95": [
+    0.9736806125344448,
+    1.0422109632605234
+   ],
+   "native_ms": 1461.784728,
+   "kinds": [
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q40",
+   "speedup": 1.030208852300085,
+   "ci95": [
+    0.904709158549889,
+    1.083173291985695
+   ],
+   "native_ms": 1145.343301,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpcds_q36",
+   "speedup": 1.0293300452917151,
+   "ci95": [
+    0.9689817974648781,
+    1.06997468874503
+   ],
+   "native_ms": 2785.825155,
+   "kinds": [
+    "native_array"
+   ]
+  },
+  {
+   "query": "tpcds_q54",
+   "speedup": 1.0287653969081894,
+   "ci95": [
+    0.8894312963425003,
+    1.086532402807111
+   ],
+   "native_ms": 256.148357,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ]
+  }
+ ],
+ "bottom": [
+  {
+   "query": "tpcds_q20",
+   "speedup": 0.893979792798328,
+   "ci95": [
+    0.8329568718669893,
+    0.9545183586888788
+   ],
+   "native_ms": 597.816043,
+   "kinds": [
+    "native_array"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q60",
+   "speedup": 0.9443214079610707,
+   "ci95": [
+    0.8981409112612849,
+    1.0069189553864328
+   ],
+   "native_ms": 141.703426,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpcds_q83",
+   "speedup": 0.9462200661627317,
+   "ci95": [
+    0.8748131959869934,
+    1.268178790428996
+   ],
+   "native_ms": 114.708551,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpcds_q73",
+   "speedup": 0.9497989991127066,
+   "ci95": [
+    0.8709383027388664,
+    1.0060088556246967
+   ],
+   "native_ms": 133.431555,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q66",
+   "speedup": 0.9508305179430662,
+   "ci95": [
+    0.8770899940597593,
+    0.9939438441167806
+   ],
+   "native_ms": 11080.670926,
+   "kinds": [
+    "csr_exact",
+    "native_array"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpcds_q19",
+   "speedup": 0.9539448020272667,
+   "ci95": [
+    0.9145826080268552,
+    1.0125556998125296
+   ],
+   "native_ms": 115.331669,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpcds_q05",
+   "speedup": 0.955169153704489,
+   "ci95": [
+    0.9299319940936754,
+    1.0464867280686498
+   ],
+   "native_ms": 294.33694,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q08",
+   "speedup": 0.9680666576896257,
+   "ci95": [
+    0.8635166345746408,
+    1.0943543512215193
+   ],
+   "native_ms": 97.340593,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q92",
+   "speedup": 0.9703838378539448,
+   "ci95": [
+    0.9370289794288488,
+    1.095630457524365
+   ],
+   "native_ms": 46.191298,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q45",
+   "speedup": 0.9729931767438426,
+   "ci95": [
+    0.9311194681121774,
+    1.1596164368495816
+   ],
+   "native_ms": 202.74674,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpcds_q47",
+   "speedup": 0.9762876330991243,
+   "ci95": [
+    0.9670901369809881,
+    1.0372837204052536
+   ],
+   "native_ms": 3549.281838,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "tpcds_q68",
+   "speedup": 0.97786756818922,
+   "ci95": [
+    0.9036021620542073,
+    1.0336933914444675
+   ],
+   "native_ms": 189.566224,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  }
+ ]
+}

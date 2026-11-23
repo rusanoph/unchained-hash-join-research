@@ -1,0 +1,453 @@
+{
+ "queries": 145,
+ "suites": {
+  "job": {
+   "queries": 100,
+   "converted_queries": 56,
+   "geomean_all": 1.0376266283244102,
+   "geomean_converted": 1.0700576935709083,
+   "native_total_s": 351.627600088,
+   "auto_total_s": 310.563962722,
+   "time_saved_pct": 11.678161030511605,
+   "wins_ci_above_1": 19,
+   "losses_ci_below_1": 5,
+   "losses_ci_below_095": 0,
+   "wins_converted": 19,
+   "losses_converted": 3
+  },
+  "tpch": {
+   "queries": 20,
+   "converted_queries": 3,
+   "geomean_all": 1.017256468229338,
+   "geomean_converted": 1.086969648254027,
+   "native_total_s": 27.117619315,
+   "auto_total_s": 26.421593953,
+   "time_saved_pct": 2.566690511858453,
+   "wins_ci_above_1": 2,
+   "losses_ci_below_1": 0,
+   "losses_ci_below_095": 0,
+   "wins_converted": 1,
+   "losses_converted": 0
+  },
+  "hj": {
+   "queries": 25,
+   "converted_queries": 0,
+   "geomean_all": 1.0044092690559703,
+   "geomean_converted": null,
+   "native_total_s": 25.796407184999996,
+   "auto_total_s": 25.854682571,
+   "time_saved_pct": -0.22590504786994373,
+   "wins_ci_above_1": 0,
+   "losses_ci_below_1": 0,
+   "losses_ci_below_095": 0,
+   "wins_converted": 0,
+   "losses_converted": 0
+  },
+  "all": {
+   "queries": 145,
+   "converted_queries": 59,
+   "geomean_all": 1.0290042239464776,
+   "geomean_converted": 1.0709112389995328,
+   "native_total_s": 404.541626588,
+   "auto_total_s": 362.840239246,
+   "time_saved_pct": 10.30830564797976,
+   "wins_ci_above_1": 21,
+   "losses_ci_below_1": 5,
+   "losses_ci_below_095": 0,
+   "wins_converted": 20,
+   "losses_converted": 3
+  }
+ },
+ "aa": {
+  "geomean": 1.0003061701480702,
+  "min": 0.8916329174448354,
+  "max": 1.104167562309593
+ },
+ "top": [
+  {
+   "query": "job_6c",
+   "speedup": 1.3912859719292312,
+   "ci95": [
+    1.3695851192751185,
+    1.4846514222814289
+   ],
+   "native_ms": 2552.539759,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_6e",
+   "speedup": 1.387226268040775,
+   "ci95": [
+    1.3304030604529966,
+    1.4386604014060038
+   ],
+   "native_ms": 2467.046907,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_6a",
+   "speedup": 1.3724547412562929,
+   "ci95": [
+    1.360538899650792,
+    1.4827837321108552
+   ],
+   "native_ms": 2498.564733,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_17a",
+   "speedup": 1.336867986082741,
+   "ci95": [
+    1.3269743820734756,
+    1.3408137673431781
+   ],
+   "native_ms": 12513.43679,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array"
+   ]
+  },
+  {
+   "query": "job_6d",
+   "speedup": 1.322907602597072,
+   "ci95": [
+    1.2376543554858077,
+    1.3563953860772817
+   ],
+   "native_ms": 3034.250654,
+   "kinds": [
+    "csr_exact",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_17e",
+   "speedup": 1.3204380283288106,
+   "ci95": [
+    1.3174207193672733,
+    1.3307004609802922
+   ],
+   "native_ms": 12728.956727,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array"
+   ]
+  },
+  {
+   "query": "job_6f",
+   "speedup": 1.3022913904600242,
+   "ci95": [
+    1.273325594462478,
+    1.3312372095332163
+   ],
+   "native_ms": 3057.854985,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_6b",
+   "speedup": 1.2988545444445851,
+   "ci95": [
+    1.2961463552357964,
+    1.3696812084872665
+   ],
+   "native_ms": 2922.319393,
+   "kinds": [
+    "csr_exact",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_17d",
+   "speedup": 1.284730427281307,
+   "ci95": [
+    1.2634205138980101,
+    1.2891041719259086
+   ],
+   "native_ms": 33772.598297,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_17f",
+   "speedup": 1.2834387119070096,
+   "ci95": [
+    1.26951245804924,
+    1.286700698480925
+   ],
+   "native_ms": 33663.068305,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array"
+   ]
+  },
+  {
+   "query": "job_17b",
+   "speedup": 1.276299409495194,
+   "ci95": [
+    1.273719655734145,
+    1.2828128111504016
+   ],
+   "native_ms": 33565.126353,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_17c",
+   "speedup": 1.2649860724879038,
+   "ci95": [
+    1.2574750431535355,
+    1.283297804826198
+   ],
+   "native_ms": 33338.3913,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "tpch_q07",
+   "speedup": 1.2558639136912613,
+   "ci95": [
+    0.831429728468337,
+    1.2964541667394738
+   ],
+   "native_ms": 3746.530102,
+   "kinds": [
+    "csr_exact",
+    "native_array"
+   ]
+  },
+  {
+   "query": "job_18a",
+   "speedup": 1.1636008675862552,
+   "ci95": [
+    1.099720354967834,
+    1.2125693869761398
+   ],
+   "native_ms": 660.823535,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ]
+  },
+  {
+   "query": "job_15d",
+   "speedup": 1.127635070497581,
+   "ci95": [
+    1.082333147005837,
+    1.590412897414685
+   ],
+   "native_ms": 199.168721,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ]
+  }
+ ],
+ "bottom": [
+  {
+   "query": "job_7a",
+   "speedup": 0.9495174287784833,
+   "ci95": [
+    0.9088801945243193,
+    0.9802800577232788
+   ],
+   "native_ms": 294.927315,
+   "kinds": [
+    "csr_hash",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "job_19d",
+   "speedup": 0.954655637447339,
+   "ci95": [
+    0.9167239551803877,
+    0.9905790558983317
+   ],
+   "native_ms": 1721.800991,
+   "kinds": [
+    "csr_exact",
+    "csr_hash",
+    "native_array"
+   ],
+   "converted": true
+  },
+  {
+   "query": "job_4b",
+   "speedup": 0.957645510601314,
+   "ci95": [
+    0.8047617129391745,
+    1.020009344053666
+   ],
+   "native_ms": 25.864686,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_10b",
+   "speedup": 0.9656341066955666,
+   "ci95": [
+    0.8055028408567563,
+    1.021399568410331
+   ],
+   "native_ms": 282.686432,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "tpch_q17",
+   "speedup": 0.966484148699284,
+   "ci95": [
+    0.9411732239391046,
+    1.012369179324165
+   ],
+   "native_ms": 3540.690284,
+   "kinds": [
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_14a",
+   "speedup": 0.9694079908488977,
+   "ci95": [
+    0.9501669852510982,
+    1.0353013489172538
+   ],
+   "native_ms": 511.449181,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_18b",
+   "speedup": 0.9717972948627251,
+   "ci95": [
+    0.965940447535185,
+    0.9945611268583602
+   ],
+   "native_ms": 247.956624,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "job_12a",
+   "speedup": 0.9737309863144287,
+   "ci95": [
+    0.8467063183969712,
+    1.0749716180160669
+   ],
+   "native_ms": 110.565613,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_23c",
+   "speedup": 0.9743437056626333,
+   "ci95": [
+    0.9260087821428086,
+    1.0128998451225315
+   ],
+   "native_ms": 548.12524,
+   "kinds": [
+    "csr_exact",
+    "native_array",
+    "native_hash"
+   ],
+   "converted": true
+  },
+  {
+   "query": "hj_q02",
+   "speedup": 0.9752742785171854,
+   "ci95": [
+    0.44565812621860695,
+    1.1788611668524063
+   ],
+   "native_ms": 40.881474,
+   "kinds": [
+    "native_array"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_32b",
+   "speedup": 0.9766113607705555,
+   "ci95": [
+    0.7124705846798632,
+    1.0190830281383907
+   ],
+   "native_ms": 25.553882,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  },
+  {
+   "query": "job_12c",
+   "speedup": 0.9769578934707394,
+   "ci95": [
+    0.9214424691598557,
+    1.0257444874772996
+   ],
+   "native_ms": 174.377964,
+   "kinds": [
+    "native_array",
+    "native_hash"
+   ],
+   "converted": false
+  }
+ ]
+}
