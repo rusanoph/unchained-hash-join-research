@@ -1,0 +1,563 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern,microtype}
+\usepackage[a4paper,left=28mm,right=28mm,top=24mm,bottom=25mm,footskip=12mm]{geometry}
+\usepackage{amsmath,booktabs,tabularx,graphicx,xcolor}
+\usepackage[font=small,labelfont=bf,justification=raggedright,singlelinecheck=false]{caption}
+\usepackage{hyperref}
+\definecolor{link}{HTML}{185D58}
+\hypersetup{colorlinks=true,linkcolor=link,citecolor=link,urlcolor=link,
+  pdftitle={When Contiguous Hash Joins Pay Off in DuckDB and DataFusion},
+  pdfauthor={Maxim Rusanov},pdflang={en},pdfsubject={Build cost and probe locality in single-thread SQL execution},
+  pdfkeywords={hash join, DuckDB, DataFusion, CSR, query execution, memory locality}}
+\input{glyphtounicode}
+\pdfgentounicode=1
+\pdftrailerid{}
+\newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
+\urlstyle{same}
+\setlength{\emergencystretch}{1em}
+\setlength{\parindent}{1.15em}
+\setlength{\textfloatsep}{13pt plus 3pt minus 2pt}
+\renewcommand{\arraystretch}{1.13}
+\clubpenalty=9000
+\widowpenalty=9000
+\raggedbottom
+\begin{document}
+\begin{center}
+{\LARGE\bfseries When Contiguous Hash Joins Pay Off\\[3pt] in DuckDB and DataFusion\par}
+\vspace{8pt}
+{\large Maxim Rusanov\par}
+\vspace{3pt}
+{\small November 2026\par}
+\end{center}
+
+\begin{abstract}
+A hash join can replace a sequence of dependent loads with a sequential scan by placing the
+candidates for each probe key next to one another. The build side pays for that arrangement before
+the operator knows how often each range will be visited. This study follows that exchange through
+two independent integrations of the Unchained design. DuckDB 1.5.6 scatters staged rows into
+contiguous buckets. Apache DataFusion 55.2.0 can instead build a contiguous index of Arrow row
+identifiers. In paired single-thread SQL runs, DuckDB gained a factor of 1.068 on graph queries by
+geometric mean and lost ground on all three analytical suites. One JOB join scattered 5.54 million
+rows for three probes. In DataFusion, admitting smaller builds more than halved aggregate time on
+twelve held-out graph queries, including Parquet reads. The same threshold change gave a ratio
+close to one across analytical queries where it changed the index. A cost decomposition relates
+these outcomes to probe frequency, candidate volume and the bytes moved during construction. It
+explains why the existing native index and the keys reached by the probe matter as much as build
+cardinality when selecting a layout.
+\end{abstract}
+
+\section{Introduction}
+A hash table that answers a lookup quickly can still make a join slow. Consider a join whose build
+input contains millions of rows. If an upstream filter on the other input leaves three probe rows,
+almost the entire statement may run before the join returns its first match. Conversely, a graph
+self-join may revisit one high-degree vertex thousands of times. The cost of following one more
+pointer then recurs for every matching pair of incident edges.
+
+Birler et al.\ introduced Unchained in Umbra, where a compact directory identifies contiguous
+ranges of build tuples and filters many unsuccessful probes~\cite{birler}. The design makes the
+address of the next candidate available without first loading the current one. But its value
+inside a second engine depends on what that engine already does with build rows, which native
+lookup it would have used and whether the rest of the query can exploit adjacent candidates.
+Earlier work on partitioning likewise found that the cost of reorganizing data can change the
+ranking of join implementations once they run inside an engine~\cite{bandle}.
+
+\emph{Under what conditions does the benefit of contiguous candidate traversal outweigh the cost
+of constructing the layout?} I investigate this question by integrating the layout into two
+existing physical operators. The first contribution is a comparison of scattering complete DuckDB
+row records with scattering DataFusion row identifiers. The second is a within-engine evaluation
+that connects SQL timing to the index each join actually built, including cases where the native
+path remained active. The third is a break-even condition that accommodates different numbers of
+candidates on the two paths. The contrast matters for index selection. An engine that can predict
+build size still has to decide whether the keys that reach the probe will justify moving those
+rows.
+
+\section{From chains to ranges}
+\begingroup\interlinepenalty=10000
+A build input supplies keys and the payload columns needed later. Once the join has materialized
+this input and indexed the matchable keys, each probe row consults the index. The lookup locates
+possible partners, the join tests the equality and any remaining predicates, and the engine
+materializes the requested output columns. Looking up a key and enumerating its matches are
+distinct operations. Even direct addressing only eliminates the search for the \emph{first}
+row.\par\endgroup
+
+Figure~\ref{fig:layout} traces one repeated key. In the linked layout a directory entry points to
+a head. A reader must fetch each link to learn the next row's address. Independent probes can
+overlap some of that latency. For a long chain, however, multiple rows from the same probe can
+still depend on successive cache misses. In the range layout the directory supplies two offsets.
+The processor can compute several addresses in advance and, when entries are small enough, serve
+several visits from one cache line.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=.95\linewidth]{figures/layout.pdf}
+\caption{One probe for key A in two layouts of the same six build entries. The arrows follow the
+duplicate chain. The bracket marks a half-open interval containing all three matches. Cells denote
+entries in address order. In a row-ID index an additional gather retrieves the
+payload.}\label{fig:layout}
+\end{figure}
+
+Construction accounts for this difference in access order. Counting entries per bucket gives a
+histogram. An exclusive prefix sum turns each count into a start offset, and the next bucket's
+start gives the end. A scatter pass places each entry at its bucket cursor and advances the
+cursor. A directory indexed by a dense integer key gives an \emph{exact} range directly. A
+directory indexed by high hash bits gives a \emph{candidate} range. Several different keys can map
+to the same bucket, so that range needs further discrimination. A tag built from other hash bits
+can reject an absent key cheaply. A positive tag test still admits false positives.
+
+The original Unchained design groups build tuples by hash prefix. The DuckDB adaptation can group
+equal keys again within a bucket. The DataFusion adaptation also has a direct-address variant, and
+separates adjacent \emph{index entries} from adjacent \emph{payloads}. These distinctions affect
+both sides of the comparison. Counting, reserving ranges and writing them costs time proportional
+to the entries and directory touched. The return comes later and depends on the subset of those
+ranges that the probes reach.
+
+\section{Experimental methodology}
+\paragraph{Execution environment.}
+WSL2 on a Windows 11 host with an AMD Ryzen 5 7500F exposed four logical CPUs and 20\,GiB of
+memory. Each fresh worker used one pinned logical CPU and one DuckDB thread (12\,GB limit) or one
+DataFusion partition. After warm-up it timed the statement through result consumption. Separate
+runs collected phase profiles. Section~\ref{sec:artifacts} gives the source pins.
+
+\paragraph{Workloads and timing boundaries.}
+Two-hop paths and stars over SNAP edge lists~\cite{snap} repeatedly join the endpoints of edges. A
+two-hop path pairs incoming and outgoing edges at a vertex. A star pairs edges sharing the chosen
+endpoint. Delivered and deterministically permuted rows give the same bags of edges with different
+physical locality. The Join Order Benchmark (JOB) uses multiway IMDb joins~\cite{leis}, where
+filters and preceding joins can make the inputs highly asymmetric. DuckDB also ran a local port of
+LDBC BI at scale factor 10 on the initial snapshot. TPC-H and TPC-DS supply analytical SQL with
+joins embedded in scans, filters and aggregations. DataFusion's own \texttt{hj} suite exercises
+hash joins directly. The original DataFusion suite totals use preloaded data. Its graph threshold
+holdout includes Parquet scan and decode, while the analytical threshold audit starts after
+loading.
+
+\paragraph{Pairing and aggregation.}
+Campaigns record the binary, settings, workload and decision criteria. Blocks randomize query and
+arm order. Each query has a baseline and treatment observation in the same block. A repeated
+baseline (A/A) measures how much this comparison can move with identical implementations. Let
+$t_{qba}$ be the time for query $q$, block $b$ and arm $a$. The DuckDB suite statistic weights
+each query equally,
+\begin{equation}
+ R_{\mathrm{D}}=\exp\!\left(\frac{1}{|Q|}\sum_{q\in Q}
+ \log\!\left[\operatorname{median}_b
+ (t_{qb,\mathrm{stock}}/t_{qb,\mathrm{v17}})\right]\right).
+ \label{eq:duckstat}
+\end{equation}
+DataFusion's original campaigns sum per-query median times within each arm and report the
+percentage change in that total. Its later threshold studies use a within-block ratio of sums,
+\begin{equation}
+ R_{\mathrm{F}}=\operatorname{median}_b
+ \frac{\sum_{q\in Q}t_{qb,200\mathrm{K}}}{\sum_{q\in Q}t_{qb,50\mathrm{K}}}.
+ \label{eq:dfstat}
+\end{equation}
+Both ratios favor the denominator above one. For the reported confidence intervals (CIs), the
+bootstrap resamples whole blocks and recomputes the relevant statistic, retaining the pairing. A
+slow query can dominate a sum even if many faster queries change little.
+
+\paragraph{Checking treatment and correctness.}
+A physical plan can show the same hash join for every arm. DuckDB therefore records the executed
+experimental joins and their fallback reasons. DataFusion records the index kind per build.
+Workers compare output cardinality and result digests with the baseline. In addition, an
+independent grouped calculation in DuckDB verified all 18 graph holdout answers. For the pair
+count it multiplied the two edge counts per key. For the joined sum it weighted each side's
+payload sum by the opposite edge count. The resulting integer pairs agree exactly. DataFusion's
+differential suite checks 43 cases in six modes, including null keys, outer and semi/anti joins,
+composite keys and output batches of one row. Floating-point digests round to six significant
+digits. The graph oracle uses integer arithmetic.
+
+\paragraph{Interpretation.}
+These are within-engine, single-thread comparisons on one machine. A suite estimate describes the
+measured workload and timing boundary, including fallback and other SQL operators. The TPC
+workloads are research configurations. The analytical threshold audit selects queries with a build
+in the affected row band. Equations~\eqref{eq:duckstat} and~\eqref{eq:dfstat} answer different
+questions and provide no basis for a speed ranking between engines.
+
+\clearpage
+\section{DuckDB 1.5.6}
+\label{sec:duck}
+\subsection{Native execution architecture}
+DuckDB accepts column vectors from its child operator and sinks build keys, payload and hashes
+into a partitioned tuple collection. In the ordinary in-memory join, finalization builds an
+open-addressed directory over these row records. Linear probing resolves directory collisions. A
+salt derived from the hash lets the operator reject many slots before dereferencing a row. Once it
+finds an equal key, it can link duplicate rows under that key. The cost of following links thus
+concentrates on enumeration of duplicates. A lookup on a unique key has little chain traversal to
+eliminate. DuckDB's memory-managed row storage and partitioning are part of the native execution
+design~\cite{kuiper}.
+
+Two native advantages also matter at statement level. Suitable small integer domains admit a
+perfect-hash join. Build-side information can also restrict a probe-side scan before rows reach
+the index. Displacing either optimization changes how much work arrives at the join. The stock
+comparison keeps these engine choices available.
+
+\subsection{Experimental integration}
+The v17 patch reuses the sink's row representation and the host's hashes. At finalization it
+counts hash prefixes, computes directory offsets and copies the staged records into their ranges.
+The packed directory combines a 48-bit offset with tag bits. For a bucket with multiple keys, a
+separate exact-key lookup can narrow the candidate interval before output. Probe state carries a
+current position and an end position for active rows. When an output chunk fills, the scan can
+resume a partially emitted run on the next call. The host continues to own null handling and
+output materialization.
+
+An unrestricted scatter over a large destination can touch many pages in quick succession even if
+each individual bucket is written sequentially. The automatic build path can align the destination
+ranges with the sink's radix partitions and scatter one partition at a time. This confines the
+active writes to a smaller region. It changes the access pattern during construction while
+preserving the ranges seen by a probe. Copying a row also copies the in-row representation of any
+supported string. Long strings refer to heap storage owned by the staging collection, whose
+lifetime must cover the probe.
+
+\subsection{Activation and execution conditions}
+The integration supports serial, in-memory inner joins with a single ordinary equality predicate
+on a 32- or 64-bit integer physical key. Eligible row fields include integral, floating-point,
+Boolean and string representations. The worker offers a native mode and a required mode for
+checking execution. Timings use prefer mode, which can fall back per join. Its native-first
+setting preserves eligible perfect-hash joins, and a build below 8\,MiB of staging data stays
+native. The measured configuration enables host filters, automatic radix alignment, tag lookup,
+exact ranges and prefetch during refinement. This is a comparison of that entire configuration
+with stock DuckDB.
+
+\subsection{Workloads and benchmark results}
+Figure~\ref{fig:duck} shows the full cohorts, including queries that offered little opportunity to
+use v17. On the 35 SNAP queries, stock took 1.068 times as long by geometric mean. All three
+analytical intervals fell below parity. JOB, where many statements contain several joins, had the
+largest deficit. TPC-DS was held out from tuning. A/A intervals included one on each of the four
+suites. The cohort result measures the consequence of enabling prefer mode across a workload,
+including its native fallbacks.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{figures/duckdb.pdf}
+\caption{Stock DuckDB time divided by v17 time. Each point is the geometric mean of per-query
+median paired ratios (Eq.~\ref{eq:duckstat}). Parentheses give query counts, whiskers give 95\%
+block-bootstrap intervals, and the dashed line marks parity. Only SNAP favors
+v17.}\label{fig:duck}
+\end{figure}
+
+The graph gain depends on the order in which build records arrive. For the five outgoing-star
+queries in delivered order the ratio was 0.932. The corresponding five with rows permuted by a
+hash of the edge endpoints gave 1.170. Shuffling preserves key multiplicities and the answer. It
+can nevertheless separate successive native duplicates in memory. When the original order already
+places those duplicates close together, the native path captures part of the locality that v17
+pays to construct.
+
+\subsection{Performance analysis}
+A separate WebGoogle diagnostic recorded data translation lookaside buffer (dTLB) load misses,
+which reflect the cost of translating scattered virtual addresses. On a roughly five-million-row
+input, stock recorded 1.7 million such misses in sorted order and 15.5 million after permutation.
+On the permuted input the radix-aligned build recorded 1.8 million. These whole-execution counters
+support the locality explanation for this case.
+
+The largest join in a diagnostic execution of JOB 22d staged 5,536,051 build rows and received
+three probe rows. Instrumentation attributed about 345\,ms to scattering and 25\,ms to exact-key
+grouping. At 73 bytes per staged record, one copy represents roughly 385\,MiB of row data. This is
+the volume of row records written, before directory and other traffic. The expense is incurred on
+every build row, including rows whose keys none of the three probes will request.
+
+A separate ablation disabled exact ranges in four selected JOB queries and two WebGoogle queries.
+This removed both grouping during construction and exact-range refinement during lookup. Across
+192 observations the plans and answers matched, as did the converted builds between the two v17
+arms. On 22d the medians were 958\,ms with ranges, 923\,ms without them and 552\,ms for stock. The
+paired ratio of v17 to range-off time was 1.027 with a 95\% interval of [0.988, 1.108]. All four
+JOB intervals included one. Both graph queries slowed down with ranges disabled. Removing the
+smaller grouping phase left most of the scatter cost in place, consistent with the modest change
+in whole-query time. Phase times and whole-query medians come from different executions.
+
+\subsection{Engineering conclusions}
+The continuation rule required a lower 95\% bound of at least 0.98 on both JOB and LDBC BI. JOB
+missed by a wide margin. LDBC BI's lower bound was 0.97959 before rounding. The analytical gate
+therefore closed, with exact ranges retained in the archived graph-capable configuration. A
+build-size floor avoids paying for small tables but still admits a large table with almost no
+probe traffic. The latter is precisely where the extra row copy proved most expensive.
+
+\clearpage
+\section{Apache DataFusion 55.2.0}
+\label{sec:df}
+\subsection{Native execution architecture}
+DataFusion's physical operators exchange Arrow record batches~\cite{lamb}. Its hash join keeps
+build values in Arrow arrays and uses an index to produce pairs of build and probe row
+identifiers. The general native map uses a hash directory for chain heads and a next-row array for
+traversal. Distinct keys with the same hash still require equality checking. For a suitable
+integer key range, a native array map locates a head directly from the key value. Following the
+remaining row indices can still incur a sequence of dependent loads even when the first lookup is
+direct.
+
+This division of responsibilities offers a natural integration point. The index supplies
+candidates. The surrounding operator evaluates keys and residual conditions as needed, handles
+unmatched rows according to join type, and gathers the output columns. A new index can change
+enumeration without encoding the join type or storing a second copy of every Arrow column.
+
+\subsection{Experimental integration}
+The v10b adapter replaces the selected native index at build time. The exact variant counts
+occurrences of each dense integer key and scatters 32-bit row IDs into a flat array. Consecutive
+directory offsets delimit all matches for that key. For general keys the hash variant uses a
+prefix directory with tag bits and packs a 32-bit hash fragment alongside the row ID. Tags can
+reject a whole range, and the fragment filters individual entries before the host checks actual
+keys. Both representations use the offset-and-entry organization of compressed sparse row (CSR)
+storage. The lookup supports prefetch and can resume within a run when the caller limits the
+number of output pairs.
+
+Adjacent row IDs in the index may still point to distant payload values. An optional permutation
+gathers the build batch once into index order and changes the indices accordingly. This makes
+later output gathers more sequential at the expense of a transient second batch. In auto mode the
+permutation requires at least $2^{20}$ rows, estimated multiplicity of at least four and a low
+fraction of repeated entries in local sample windows (below 0.25). It also requires a join that
+can omit the final build-side pass. That restriction preserves the host's ordering of rows emitted
+in that pass.
+
+\subsection{Activation and execution conditions}
+The package starts in native mode. Forced mode requests CSR on supported builds. The \texttt{auto}
+mode chooses a representation before constructing the index. The original gate first requires at
+least 200,000 build rows. When a probe estimate is available it must reach 5\% of build
+cardinality. With no estimate the other checks still run. The build sample estimates effective
+multiplicity from pairs of equal keys, or hashes on the general path. A few highly frequent keys
+can contribute many such pairs. Conversion requires estimated multiplicity of at least three.
+Locality is sampled in short windows. The gate uses it to restrict payload reordering while
+leaving the conversion cutoff above its attainable range. A rejected build proceeds with the
+native map. The recorded build kind identifies native hash, native array, hash CSR or exact CSR.
+
+\subsection{Workloads and benchmark results}
+Table~\ref{tab:auto} compares native execution with the original 200K auto policy. SNAP and JOB
+saved the most total time. TPC-DS includes the 94 of 99 queries that completed native coverage.
+All 25 \texttt{hj} queries kept their native indexes.
+
+\begin{table}[htbp]
+\caption{Native versus auto at the original 200K floor in DataFusion. The last column is
+$100(T_{\rm auto}/T_{\rm native}-1)$, with each total a sum of per-query median times. Negative
+values mean less time with auto. Coverage counts queries with at least one CSR
+build.}\label{tab:auto}
+\centering\small
+\begin{tabular*}{.95\linewidth}{@{\extracolsep{\fill}}lrrr@{}}
+\toprule Workload & Queries & Using CSR & Time change\\ \midrule
+SNAP graph self-joins & 35 & 24 & $-73\%$\\
+JOB & 100 & 56 & $-11.7\%$\\
+TPC-H SF10 & 20 & 3 & $-2.6\%$\\
+TPC-DS SF10 & 94 & 24 & $-0.1\%$\\
+DataFusion \texttt{hj} & 25 & 0 & $+0.2\%$\\ \bottomrule
+\end{tabular*}
+\end{table}
+
+The second question concerns two \emph{auto} policies. Lowering only the build floor from 200K to
+50K admitted all twelve Enron and HepPh queries on which the original gate had kept the native
+index. Each graph supplied a two-hop path and two star orientations in two row orders. Amazon0302
+supplied the same six controls with builds above both floors. Figure~\ref{fig:threshold} reports
+the paired ratios. All 576 holdout observations included Parquet reads. Enron and HepPh gave
+2.177, with an A/A ratio of 1.002 [0.989, 1.014]. The Amazon interval included one, as expected
+when both thresholds select CSR.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=\linewidth]{figures/threshold.pdf}
+\caption{Changing the DataFusion auto floor. Points are median paired ratios of block time sums
+(Eq.~\ref{eq:dfstat}) with 95\% intervals. The top two rows include Parquet reads. The bottom two
+time preloaded tables. The last row is one query within the changed-build
+cohort.}\label{fig:threshold}
+\end{figure}
+
+The analytical audit screened 97 queries with a previously observed build between the floors and a
+prior median end-to-end process time of at most five seconds. It timed the 31 queries with a
+different set of CSR builds and eight unchanged controls over eight randomized blocks and four
+arms. The changed cohort gave 1.004 [0.977, 1.016]. In \texttt{hj\_q22}, a 100,000-row native
+array index became exact CSR, yielding 1.464 [1.404, 1.515]. Three JOB queries had pointwise
+intervals below one. A single convincing win and a neutral aggregate thus describe the same
+experiment.
+
+\subsection{Performance analysis}
+In a two-hop query each incoming edge requests the outgoing edges at its endpoint. A high-degree
+vertex can account for many pairs while occupying little of the file. On Enron, a build of 183,831
+edges served 5,982,269 matching pairs. Exact CSR addressed each key's range directly. The build
+was below the permutation floor, so this gain occurred with the Arrow payload in its original
+order.
+
+On Amazon0302 both arms already incurred the index cost and enjoyed the traversal benefit, leaving
+little for the threshold change to affect.
+
+The important denominator for the SQL effect is the whole timed statement. For example, a separate
+comparison on six JOB queries (6a--6f) included Parquet reads and gave individual native/auto
+ratios of 1.01--1.26, with most near 1.03. Scan and decode use time even when enumeration
+improves. Changing the floor can also admit a hash-based index where an exact dense range is
+unavailable. JOB 22a and 22b each acquired two hash CSR builds in the analytical audit, but both
+query intervals spanned one. The two new builds establish that the policy intervened in both
+statements. The observed variation in their elapsed times obscures the size of the effect.
+
+\subsection{Engineering conclusions}
+The graph holdout supports 50K for the tested single-thread graph workload. Its largest per-query
+increase in median peak process RSS was 0.7\%. The analytical audit gave no reason to move the
+general auto default from 200K. Keeping both decisions follows from the probe work admitted by the
+lower floor. Index selection can be correct for a repeated graph shape even when the same size
+band includes analytical joins with little traversal to accelerate.
+
+\section{A break-even condition for contiguous traversal}
+\label{sec:model}
+Consider a fixed query and physical plan, with one join choosing between native ($n$) and
+contiguous ($c$) representations. Attribute elapsed time once to each phase in this serial
+execution. Use candidate time minus native time as the sign convention,
+\begin{align}
+ T_j &= T_{\mathrm{build},j}+T_{\mathrm{probe},j}+T_{\mathrm{other},j},
+       \qquad j\in\{n,c\}, \label{eq:total}\\
+ \Delta T &= T_c-T_n. \label{eq:delta}
+\end{align}
+A negative $\Delta T$ favors conversion. Write $B_j$ for build time, including organization, index
+allocation and any build-side permutation. Let $P$ be the common number of probe lookups reaching
+the index and $\ell_j$ their mean directory lookup cost. Let $V_j$ count candidate entries
+examined during range or chain traversal, including entries rejected by a hash-fragment or
+equality test, and $v_j$ denote the mean service time of such a visit. In both layouts charge
+finding the head or range to lookup and inspecting the entries to traversal. Write $G_j$ for
+output materialization, including payload gathers, and $O_j$ for the remaining time, including
+decision overhead if accounted for outside construction. Each mean cost absorbs the cache behavior
+of that execution.
+
+With $\Delta X=X_c-X_n$, substitution gives
+\begin{equation}
+ \Delta T=\Delta B-P(\ell_n-\ell_c)
+                -(V_n v_n-V_c v_c)+\Delta G+\Delta O .
+ \label{eq:general}
+\end{equation}
+If a host filter changes how many probes reach the index, replace $P(\ell_n-\ell_c)$ with
+$P_n\ell_n-P_c\ell_c$. A prefix bucket and an exact range can also examine different numbers of
+entries. Equation~\eqref{eq:general} accounts separately for eliminating visits and making each
+remaining visit cheaper. When both paths inspect the same $V$ entries, define
+$s_\ell=\ell_n-\ell_c$ and $s_v=v_n-v_c$. The condition for lower elapsed time reduces to
+\begin{equation}
+ \underbrace{P s_\ell+V s_v}_{\text{time saved probing}}
+       > \underbrace{\Delta B+\Delta G+\Delta O}_{\text{net cost elsewhere}} .
+ \label{eq:break}
+\end{equation}
+Each side has units of time. A negative $\Delta G$, for instance, credits the contiguous layout
+for cheaper output gathers. Moving payloads during construction then appears as a debit in $\Delta
+B$. Figure~\ref{fig:cost} illustrates the trade-off when the net cost is positive.
+
+\begin{figure}[htbp]
+\centering\includegraphics[width=.90\linewidth]{figures/break-even.pdf}
+\caption{Break-even boundary from Eq.~\ref{eq:break} for a fixed positive net cost $C=\Delta
+B+\Delta G+\Delta O$ and nonnegative probe savings. One unit on either axis recovers the entire
+cost. The boundary is analytical.}\label{fig:cost}
+\end{figure}
+
+\paragraph{Which duplicates are visited?}
+For a bag inner equijoin on ordinary SQL equality, let $f_B(k)$ and $f_P(k)$ be the frequencies of
+matchable key $k$ on the two inputs after input filters. Before any residual join predicate, the
+number of true equality pairs is
+\begin{equation}
+ M=\sum_k f_B(k)\,f_P(k). \label{eq:pairs}
+\end{equation}
+An exact index that enumerates all such pairs needs to emit $M$ row pairs. A hash-prefix index may
+examine additional entries for colliding keys. A residual predicate may discard some of the $M$
+pairs after equality succeeds. Early-exit joins can stop traversal sooner. The size-biased
+multiplicity available from a build sample is related to $\sum_k f_B(k)^2/\sum_k f_B(k)$. That
+statistic emphasizes popular build keys. Equation~\eqref{eq:pairs} also requires that those keys
+occur on the probe side. Two equally large builds with identical histograms can therefore see very
+different demand.
+
+\paragraph{What moves the crossing point?}
+With fixed mean fanout $m=V/P$ for $P>0$, equal candidate counts and positive $s_\ell+m s_v$,
+Eq.~\eqref{eq:break} takes the familiar form $P>(\Delta B+\Delta G+\Delta O)/(s_\ell+m s_v)$.
+Holding those costs fixed illustrates amortization. Changing the key mix or physical row order can
+change the cost per visit as well as $m$, moving the break-even point. Wider records raise scatter
+traffic. A native duplicate chain whose nodes already occupy adjacent cache lines reduces $s_v$. A
+compact index can improve that saving while leaving random payload gathers in $G_c$.
+
+In JOB 22d the large build and three lookups put substantial weight on $\Delta B$ and almost none
+on the lookup-count term. A single probe could in principle match many rows, so three probes alone
+cannot determine the sign. The scatter profile and the remaining gap to stock with exact ranges
+disabled provide the additional evidence. In the Enron two-hop case, by contrast, the measured
+pair count makes repeated enumeration tangible, and admission at 50K changed the actual index. The
+interval for the graph cohort includes the cost of scanning the files and building the new index.
+Neither experiment measures all the coefficients in Eq.~\eqref{eq:general}.
+
+The v10b gate acts on row count, an estimate of probe cardinality when available, and sampled
+build multiplicity. These are quantities an engine can obtain before the probe runs. They
+approximate different terms of the inequality while leaving the joint key frequencies and realized
+cache costs unknown. The gate is an empirical policy tested by the threshold intervention. The
+decomposition explains its successes and misses without fitting a universal selector.
+
+\section{Cross-engine discussion}
+The most consequential integration choice is what to move. DuckDB already has the row and its hash
+in a native tuple collection. A second representation must compete with a salted lookup and
+duplicate links in that collection. Copying records into a new region can improve both enumeration
+and access to in-row payload, but every copied record costs bandwidth even if none of its columns
+is read. DataFusion already separates payload storage from candidate generation. It can keep the
+Arrow batch where it is and change only the object that enumerates row IDs. Physical permutation
+is a further decision with a separate cost. Table~\ref{tab:architecture} summarizes where the two
+systems spend the extra work.
+
+\begin{table}[htbp]
+\caption{Where contiguity enters each physical join. The unit made adjacent determines which later
+memory accesses can benefit.}\label{tab:architecture}
+\centering\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule & DuckDB v17 & DataFusion v10b\\ \midrule
+Native lookup & Salted directory, duplicate links, optional perfect hash & Hash or integer array map to chain head\\
+Unit scattered & Staged row record, including in-row payload & Row ID, with a hash fragment on the general path\\
+Output reads & Gather fields from candidate rows & Gather Arrow values by row IDs, optionally in index order\\
+Admission & Join eligibility, native-first path and staging bytes & Per-build row floor, probe estimate and sampled multiplicity\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+There are two useful controls on the locality interpretation. Permuting a DuckDB graph input
+preserves its logical join cardinality while changing which rows tend to share a page. The
+reversal on outgoing stars shows that even the sign of a ratio can depend on physical order. In
+the DataFusion holdout, moving a threshold while leaving query text and data fixed changes which
+index is built. It does so on Enron and HepPh, but leaves Amazon0302 on CSR under either policy.
+Together these cases distinguish the opportunity to profit from adjacent candidates from the
+policy's ability to recognize that opportunity.
+
+For an engineer reviewing a new representation, three measurements answer different questions. The
+executed index identifies where the change took effect. Build and probe counts show whether the
+query could plausibly repay a second organization pass. End-to-end time reveals whether the saving
+survives payload gathering and other operators. JOB 22d would look promising from build
+cardinality alone. The DataFusion analytical screen would look promising from conversion coverage
+alone. Both interpretations change once the other measurements are included.
+
+\section{Reproducibility and research artifacts}\label{sec:artifacts}
+The companion repository, \texttt{unchained-hash-join-research}, includes the complete
+\href{../duckdb/README.md}{DuckDB package} under \texttt{duckdb/} and the
+\href{../datafusion/README.md}{DataFusion package} under \texttt{datafusion/}. Their source
+revisions are \texttt{22d589f} and \texttt{795bd73}, respectively. Each contains a standalone
+core, the engine integration, a SQL worker, a build script, small verification fixtures and
+aggregate JSON evidence. The engine pins are
+\href{https://github.com/duckdb/duckdb/tree/069cc9f9b5be802405797faecc284961b07c70ef}{DuckDB
+\texttt{069cc9f9}}
+and
+\href{https://github.com/apache/datafusion/tree/500744d5c25499055e3b2ca46b022bc425989203}{Apache
+DataFusion \texttt{500744d5}}. The DuckDB package verifies its source archive and records the v17
+patch digest. The DataFusion package checks the upstream files when applying v10b and supplies the
+Rust worker lockfile.
+
+For a compact functional reproduction, install the dependencies listed in each README and run the
+commands below from the corresponding package root on Linux or WSL.
+\begin{quote}\small\begin{minipage}{\linewidth}
+\textit{DuckDB}\\
+\texttt{bash scripts/build-duckdb.sh}\\
+\texttt{python3 -B scripts/smoke.py build/hashman-duckdb}\\[4pt]
+\textit{DataFusion}\\
+\texttt{bash scripts/build-worker.sh}\\
+\texttt{python3 -B scripts/smoke.py build/target/release/hashman-df-worker}
+\end{minipage}\end{quote}
+The first smoke test checks SQL output against SQLite, experimental execution, fallback and
+required-mode rejection. The second checks the two CSR paths and the native decision on small
+builds. For a real graph query, the DataFusion results guide gives the Enron input hash, Parquet
+conversion, two threshold settings, expected integer output and the worker field that records the
+chosen index.
+
+The \href{../duckdb/docs/results.md}{DuckDB results guide} and the
+\href{../datafusion/docs/results.md}{DataFusion results guide} map the comparisons to their
+aggregate files. The DuckDB suite files under \texttt{docs/evidence/} contain the \texttt{automin}
+contrast in Figure~\ref{fig:duck}. The exact-range file records the separate ablation. The
+DataFusion suite files supply Table~\ref{tab:auto}. Its two threshold files record the cohort
+membership, per-query results and block summaries behind Figure~\ref{fig:threshold}. Full campaign
+replay uses the corresponding research archives, registered input hashes, SQL, data files, workers
+and randomized-block drivers. The article package includes the unrounded figure data, drawing
+source and vector assets so that rebuilding the paper requires only the typesetting inputs.
+
+\section{Conclusion}
+A contiguous join layout purchases cheaper future visits with work paid up front. DuckDB's scatter
+bought enough locality on permuted graph rows and left a substantial deficit on a large JOB build
+that was barely probed. DataFusion could group row IDs while leaving the payload in place. A lower
+threshold paid off on two graphs whose repeated endpoints generated many pairs. The analytical
+audit shows how quickly that argument loses force when a different set of keys reaches the probe.
+The engineering question is how many costly visits a new layout removes over the lifetime of this
+build, and what the engine must move to remove them.
+
+\small
+\bibliographystyle{unsrt}
+\bibliography{references}
+\end{document}

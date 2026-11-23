@@ -5,7 +5,7 @@ evaluated on one thread in DuckDB 1.5.6 and Apache DataFusion 55.2.0.
 The experiments ask when the cost of arranging build rows into contiguous
 ranges pays off during probing. [Original Unchained paper](https://doi.org/10.1145/3662010.3663442)
 
-[Read the article](paper/article.md) · [PDF](paper/article.pdf) ·
+[Read the paper (PDF)](paper/article.pdf) · [Source and build instructions](paper/README.md) ·
 [Build DuckDB](duckdb/README.md#build-and-verify) ·
 [Build DataFusion](datafusion/README.md#build-and-verify)
 
@@ -34,9 +34,9 @@ workload.
   CSR layouts and the small-build fallback. The Enron example runs
   one holdout query at both thresholds and checks the exact result.
   [Measurements and Enron example](datafusion/docs/results.md)
-- **[Article](paper/README.md)** describes the designs, the single-thread
-  protocol, and the results. The figure can be regenerated directly
-  from the evidence in the engine directories.
+- **[Article](paper/README.md)** traces both layouts from construction through
+  SQL execution and derives a break-even condition for probe savings. Its
+  measured figures can be regenerated from the bundled engine evidence.
 
 The benchmark tables summarize recorded campaigns. The build and
 smoke commands verify the supplied code on small fixtures.

@@ -1,0 +1,21 @@
+# Editorial verification
+
+The four-page browser-printed article has been replaced by an eleven-page LaTeX paper. Sections 4 and 5 each cover the native operator, integration, activation, timings, diagnosis and engineering decision. Section 6 derives the condition for recovering build and materialization costs, allowing the native and contiguous indexes to examine different numbers of candidates. Figures 1 and 4 are schematic. Figures 2 and 3 use the archived estimates and confidence limits at full precision.
+
+## Evidence used
+
+| Paper material | Source and check |
+| --- | --- |
+| DuckDB v17 suite estimates | The `automin` contrasts for SNAP, JOB, LDBC BI and TPC-DS give the four points in Figure 2. Resampling is by block. The outgoing-star groups in the SNAP file give 0.932 in delivered order and 1.170 after permutation. LDBC BI's unrounded lower bound is 0.97958555. [Suite files](../duckdb/docs/evidence/) · [Configuration and decision rule](../duckdb/docs/results.md) |
+| DuckDB JOB 22d | The largest diagnostic build had 5,536,051 rows, three probes, 345 ms of scatter and 25 ms of grouping. The separate timed ablation has 192 observations. All four JOB intervals include parity and both WebGoogle intervals favor retaining ranges. [Profile summary](../duckdb/docs/results.md#why-build-cost-matters) · [Ablation medians and intervals](../duckdb/docs/evidence/exact-ranges.json) |
+| Row-order diagnostic | The research archive's `hashman-sql-lab/evidence/partition/perf-fresh-analysis.json` records 1,716,180 and 15,453,105 dTLB load misses for the sorted and permuted stock WebGoogle inputs, and 1,777,649 for the aligned build on permuted input. These separate counter runs support the interpretation in §4.5. |
+| DataFusion native versus auto, 200K | Table 1 uses the change in the sum of per-query median times. The older final-campaign prose reverses the sign for `hj`. Its recorded native and auto totals are 25.796407 and 25.854683 seconds, respectively, giving **+0.226%** elapsed time with zero conversions. [Analytical totals](../datafusion/docs/evidence/natural.json) · [SNAP query medians](../datafusion/docs/evidence/snap.json) · [TPC-DS coverage](../datafusion/docs/evidence/tpcds-sf10.json) |
+| DataFusion 200K versus 50K | Figure 3 uses the median of within-block ratios of summed times. The 12 changed graph queries and six Amazon controls include Parquet reads. The 31-query analytical group uses preloaded tables and includes the individual `hj_q22` result. [Graph holdout](../datafusion/docs/evidence/snap-threshold.json) · [Analytical audit](../datafusion/docs/evidence/natural-threshold.json) · [Independent answer checks](../datafusion/docs/evidence/threshold-correctness.json) |
+| Implementation and attribution | The frozen DuckDB patch and DataFusion adapter establish the eligibility, layout and fallback descriptions. In particular v10b's window-locality check restricts payload permutation with the measured settings. The bibliography records the original DaMoN work, the two architecture papers, the partitioning study, JOB and the dataset authors' SNAP citation. [DuckDB patch](../duckdb/integrations/duckdb/patches/0001-serial-unchained.patch) · [DataFusion adapter](../datafusion/integrations/datafusion/hashman.rs) · [CSR layouts](../datafusion/core/src/lib.rs) · [Bibliography](references.bib) |
+
+## Release checks
+
+- Recreated the eight measured rows from the bundled JSON and checked both plots against the unrounded estimates. Recomputed Table 1 from the recorded times.
+- Rendered all eleven A4 pages with MuPDF and inspected the title block, figures, tables, equation labels, page breaks and bibliography. Adjusted a clipped axis label, overflowing text and the engine section openings during proofing.
+- Checked searchable text and embedded font programs on every page, all internal destinations, the four package-relative document targets, the DOI links and the engine source pins. The package-relative links in the PDF resolve from the `paper/` directory in a checkout.
+- The implementation and evidence directories retain their original Git tree IDs. All performance measurements come from the recorded campaigns.

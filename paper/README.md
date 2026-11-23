@@ -1,22 +1,36 @@
 # When Contiguous Hash Joins Pay Off in DuckDB and DataFusion
 
-A systems engineering article by Maxim Rusanov.
-[Read the article](article.md) · [PDF](article.pdf) · [Standalone HTML](article.html)
+Maxim Rusanov · November 2026
 
-The engine directories contain the implementations, build and smoke
-commands, and the machine-readable results used in the article.
-[DuckDB](../duckdb/README.md) · [DataFusion](../datafusion/README.md)
+[Read the paper (PDF)](article.pdf) · [LaTeX source](article.tex) · [References](references.bib) · [Editorial verification](VERIFICATION.md)
 
-## Regenerate the figure and HTML
+## Rebuild the PDF
 
-Run from the repository root with Python 3, Markdown 3.7 and
-Matplotlib 3.10.1.
+From the repository root on Linux or WSL, run
+
+```sh
+make -C paper paper
+```
+
+From PowerShell at the same location, use `wsl -- make -C paper paper`.
+The build uses GNU Make, pdfLaTeX, BibTeX and Latin Modern. On Ubuntu the
+TeX packages are `texlive-latex-recommended` and `lmodern`.
+The checked-in vector figures are sufficient for an offline build.
+Intermediate files go to `paper/build/`. A successful final pass replaces
+`paper/article.pdf`.
+
+## Recreate the figures
+
+From the repository root, run the following with Python 3 and Matplotlib
+(the release figures used 3.10.1), then rerun the PDF build.
 
 ```sh
 python3 paper/build.py
 ```
 
-The script reads the JSON evidence in the two engine directories and writes
-the [figure data](results.csv), the [vector figure](results.pdf) and
-the HTML with its figure embedded. The HTML includes a print stylesheet
-for exporting the article to PDF.
+The script extracts full-precision contrasts from the two evidence directories
+into [results.csv](results.csv). The [drawing source](figures/draw.py) generates
+the layout illustration, two measured interval plots and the analytical
+break-even figure. The engine guides provide the runtime settings, SQL smoke
+checks and the provenance of the recorded campaigns.
+[DuckDB](../duckdb/docs/results.md) · [DataFusion](../datafusion/docs/results.md)
