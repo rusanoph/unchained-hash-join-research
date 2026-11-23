@@ -1,0 +1,105 @@
+{
+  "differential": {
+    "arms": [
+      "native",
+      "unchained",
+      "unchained_bs1",
+      "unchained_reorder_bs7",
+      "auto_all_opt",
+      "gate_default"
+    ],
+    "cases": 43,
+    "failures": [],
+    "passed": true
+  },
+  "differential_sha256": "25ae8e5cb819340c51d78815846a359789b39567225273e4616c1f799af2f1c4",
+  "graph_oracle": {
+    "datafusion_worker_sha256": "d6d23e65a81c604d7d8b6426976d7d2eb34e7c9d6cb17a508b7040f99a889633",
+    "duckdb_sha256": "974b51d60a41f935b8e88d8a01f5d0493d4ae964c6d1dff3d534c74c52c21b1a",
+    "results": {
+      "amazon_file_in_star": {
+        "count": 14357487,
+        "sum": 3439841807744
+      },
+      "amazon_file_out_star": {
+        "count": 6055167,
+        "sum": 1303479989940
+      },
+      "amazon_file_p2": {
+        "count": 6021131,
+        "sum": 1375145475465
+      },
+      "amazon_shuffle_in_star": {
+        "count": 14357487,
+        "sum": 3439841807744
+      },
+      "amazon_shuffle_out_star": {
+        "count": 6055167,
+        "sum": 1303479989940
+      },
+      "amazon_shuffle_p2": {
+        "count": 6021131,
+        "sum": 1375145475465
+      },
+      "enron_file_in_star": {
+        "count": 3759983,
+        "sum": 16522246000
+      },
+      "enron_file_out_star": {
+        "count": 35776927,
+        "sum": 629443940576
+      },
+      "enron_file_p2": {
+        "count": 5982269,
+        "sum": 58340459753
+      },
+      "enron_shuffle_in_star": {
+        "count": 3759983,
+        "sum": 16522246000
+      },
+      "enron_shuffle_out_star": {
+        "count": 35776927,
+        "sum": 629443940576
+      },
+      "enron_shuffle_p2": {
+        "count": 5982269,
+        "sum": 58340459753
+      },
+      "hepph_file_in_star": {
+        "count": 10134863,
+        "sum": 636451819974
+      },
+      "hepph_file_out_star": {
+        "count": 10349767,
+        "sum": 1113307110042
+      },
+      "hepph_file_p2": {
+        "count": 5156647,
+        "sum": 442135844251
+      },
+      "hepph_shuffle_in_star": {
+        "count": 10134863,
+        "sum": 636451819974
+      },
+      "hepph_shuffle_out_star": {
+        "count": 10349767,
+        "sum": 1113307110042
+      },
+      "hepph_shuffle_p2": {
+        "count": 5156647,
+        "sum": 442135844251
+      }
+    },
+    "snap_holdout_hashes": {
+      "observations.jsonl": "17a4b59a30a1eb979ab323631eadd7afa322839c0e9de8cefe85b615f79389de",
+      "plan.json": "a074a453fd16527a5ad2f75404136059a300193cc165f45f26a310129ebf2271",
+      "registration.json": "4106d9567b6ca73809d99803d8bf7a196afac47d02572cdc26fea8a58c08bcbb"
+    }
+  },
+  "graph_oracle_sha256": "03e8a23e2a2ddfb48404cca3145d26d9f3c68802fe67d521861bdb691a57d047",
+  "methods_sha256": {
+    "evidence/verify_snap_oracle.py": "8e653fe9029af7a47fbd8b5d815c083498b8f30b9762fe27b6bb4d0653cd3bc1",
+    "tests/differential/cases.sql": "96459ceff5da2d2fb1bfc6e44e2d01b228996c156a7cd94cea56ba7e63a6417c",
+    "tests/differential/setup.sql": "44dc02dfedfa97468b832bda9d7bb9c60b28217acee9879be72c02bec668c522"
+  }
+}

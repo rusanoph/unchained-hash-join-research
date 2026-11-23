@@ -1,0 +1,28 @@
+[package]
+name = "hashman-df-worker"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+
+[[bin]]
+name = "hashman-df-worker"
+path = "src/main.rs"
+
+[features]
+hashman = []
+
+[dependencies]
+datafusion = { path = "../datafusion/datafusion/core", default-features = true }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+serde_json = "1"
+futures = "0.3"
+libc = "0.2"
+
+[workspace]
+
+[profile.release]
+opt-level = 3
+codegen-units = 16
+lto = false
+debug = "line-tables-only"
+strip = false

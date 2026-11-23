@@ -1,0 +1,22 @@
+{
+ "schema_version": 1,
+ "pristine_commit": "500744d5c25499055e3b2ca46b022bc425989203",
+ "default_mode": "native",
+ "default_min_rows": 200000,
+ "default_probe_ratio": "0.05",
+ "default_reorder": "true",
+ "default_prefetch": "true",
+ "edits": 26,
+ "lab_core_sha256": "9be317f372d8a10258ef345b469c82114b5d0d5b6c79a00c5c5998aa4f6c0158",
+ "patched_files": {
+  "datafusion/common/src/config.rs": "155ac3433e13d61a7283af57a7ef7bf37b764db7110157b635fcd821dd618b6e",
+  "datafusion/physical-plan/Cargo.toml": "1ab1f64d4f75d6a5b74263c74a44971351f6066ab7536d4d535893941db7bfa9",
+  "datafusion/physical-plan/src/joins/array_map.rs": "1939911706b8a817a2cbc01159c6cb3aa1b832d9c0440ff31a204ee21611a309",
+  "datafusion/physical-plan/src/joins/hash_join/exec.rs": "e7a2a7ebd499180a46ace2d736a560f9c3c9478b5489736aa5f9b594cac6f99b",
+  "datafusion/physical-plan/src/joins/hash_join/stream.rs": "7e85fd9553a550af0c23fc322868c3ed88da2d1399507c308f0b8ce563eee6c8",
+  "datafusion/physical-plan/src/joins/join_hash_map.rs": "75efdee7117e46bcf3f6cea5dc437060011f7877d3580f226a5ddccaf141949f",
+  "datafusion/physical-plan/src/joins/mod.rs": "292b87a84ad4ac0ad293c6d75fc1c325441c5b79697c23d07f22203db3d0de01",
+  "datafusion/physical-plan/src/joins/hashman.rs": "feeae894b1afffe412c2c6d5a4c628f155a758e0db0cd4834dfaceddb3763ad9"
+ },
+ "worker_note": "v10b: patched-v10 tree + worker --parquet-direct (worker-only change)"
+}
