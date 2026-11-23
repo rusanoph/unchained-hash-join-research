@@ -1,17 +1,18 @@
 # unchained-join
 
-An independent implementation of the *Unchained* hash join
-([Birler, Schmidt, Fent, Neumann, "Simple, Efficient, and Robust Hash Tables for Join Processing", DaMoN 2024](https://doi.org/10.1145/3662010.3663442)),
-built into DuckDB 1.5.6 and measured against DuckDB's own join on about 300 queries (graphs, JOB, LDBC BI, TPC-DS).
+An independent, header-only C++17 core for the *Unchained* hash join.
+It implements the table layout, partitioned build, and exact key ranges.
+The design draws on the paper by Birler, Schmidt, Fent, and Neumann.
+[Simple, Efficient, and Robust Hash Tables for Join Processing](https://doi.org/10.1145/3662010.3663442)
 
-> **Status: work in progress.** The engine-independent core library is ported and tested. The DuckDB integration,
-> the benchmark harness and the full report are being moved over from the research repository this project grew out
-> of (see [Provenance](#provenance)). Nothing here is a production-ready join.
+This repository contains the core, its tests, and a build-kernel microbenchmark.
+The DuckDB integration and SQL campaigns are part of the separate research repository
+`hashman-sql-lab`.
 
-## The short answer
+## DuckDB research results
 
-The idea does **not** make DuckDB's hash join faster in general. It is a measured win in one narrow class and a
-small loss elsewhere:
+The separate DuckDB 1.5.6 integration was measured against the native join.
+It sped up graph self-joins and took longer on the tested analytical suites.
 
 | Workload (single thread, same machine, A/A-controlled) | stock / treatment time, geometric mean [95% CI] |
 |---|---|
@@ -20,11 +21,10 @@ small loss elsewhere:
 | JOB (113 queries) | 0.948 [0.945, 0.951] |
 | TPC-DS SF10 (99 queries; held out from tuning) | 0.988 [0.986, 0.990] |
 
-Values above 1 mean the treatment is faster. The gain comes from large build tables whose rows are in random order:
-DuckDB's table takes about 9x more TLB misses there, the partitioned Unchained build does not. The loss comes from
-joins where the build table is large but only a handful of probe rows read it, so the extra build work is never
-repaid. Numbers of different sessions are only comparable within a session (the same build gave 1.034 and 1.059 on the
-graphs in two sessions).
+Values above 1 mean the experimental join was faster. In the tested graph workloads,
+large shuffled builds benefited most from the new layout. In JOB, some large builds
+were probed by only a few rows and spent most of their time on construction. The
+ratios compare variants within each measurement session.
 
 ## Layout
 
@@ -33,11 +33,12 @@ core/include/unchained/   header-only library, no DuckDB dependency
   table.hpp               layout, directory with tags, count/prefix/scatter build
   partitioned_build.hpp   build per radix partition (cache-sized pieces), byte-identical result
   key_ranges.hpp          per-bucket key sorting and exact key ranges
-core/tests/               unit and differential tests, build-kernel micro-benchmark
-docs/                     report, design notes, figures (in progress)
+core/tests/               unit and differential tests, build-kernel microbenchmark
 ```
 
 ## Build and test the core
+
+Use CMake, Ninja, and GCC or Clang on Linux or WSL.
 
 ```sh
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug     # AddressSanitizer + UBSan are on by default
@@ -50,13 +51,11 @@ table fits the cache, about 45 ns per row at 4-8 million rows, and about half of
 
 ## Provenance
 
-This code is a cleaned-up port of an internal research repository. The core library here has the same code as the
-research repository's core (compared token by token after removing comments and whitespace and renaming the namespace);
-the DuckDB integration will be a cleaned port whose equivalence is checked by a sanity campaign (same session, the
-old build against the new one on a sample of queries, a criterion fixed in advance); its result will be stated here.
-Every performance number in the report comes from the research repository's builds. The research repository keeps the raw campaign data, registrations and the full chronicle including failed attempts.
+The core was ported from `hashman-sql-lab`. Its original port was checked
+token by token after removing comments and whitespace and normalizing the namespace.
+The SQL results above are from that research repository's v17 campaigns.
+The research repository contains the registrations, analysis, and reproduction instructions.
 
 ## License
 
-MIT, see [LICENSE](LICENSE). The paper's PDF and the datasets used (SNAP graphs, IMDb/JOB, LDBC, TPC-DS) are not
-redistributed; scripts and checksums will be provided instead.
+The independent core is available under the MIT license. [LICENSE](LICENSE)
