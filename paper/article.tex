@@ -13,6 +13,8 @@
 \input{glyphtounicode}
 \pdfgentounicode=1
 \pdftrailerid{}
+\newcommand{\artifactrepo}{https://github.com/rusanoph/unchained-hash-join-research}
+\newcommand{\artifactlink}[2]{\href{\artifactrepo/blob/2773c9341ea045d80c18f9b0b581503c7433ea70/#1}{#2}}
 \newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
 \newcommand{\widefigure}[1]{\makebox[\linewidth][c]{\includegraphics[width=\dimexpr\linewidth+12mm\relax]{figures/#1.pdf}}}
 \urlstyle{same}
@@ -526,9 +528,9 @@ cardinality alone. The DataFusion analytical screen would look promising from co
 alone. Both interpretations change once the other measurements are included.
 
 \section{Reproducibility and research artifacts}\label{sec:artifacts}
-The companion repository, \texttt{unchained-hash-join-research}, includes the complete
-\href{../duckdb/README.md}{DuckDB package} under \texttt{duckdb/} and the
-\href{../datafusion/README.md}{DataFusion package} under \texttt{datafusion/}. Their source
+The \href{\artifactrepo}{\texttt{rusanoph/unchained-hash-join-research}} repository contains the
+\artifactlink{duckdb/README.md}{DuckDB package} under \texttt{duckdb/} and the
+\artifactlink{datafusion/README.md}{DataFusion package} under \texttt{datafusion/}. Their source
 revisions are \texttt{22d589f} and \texttt{795bd73}, respectively. Each contains a standalone
 core, the engine integration, a SQL worker, a build script, small verification fixtures and
 aggregate JSON evidence. The engine pins are
@@ -553,12 +555,12 @@ commands below from the corresponding package root on Linux or WSL.
 \end{minipage}\end{quote}
 The first smoke test checks SQL output against SQLite, experimental execution, fallback and
 required-mode rejection. The second checks the two CSR paths and the native decision on small
-builds. For a real graph query, the DataFusion results guide gives the Enron input hash, Parquet
-conversion, two threshold settings, expected integer output and the worker field that records the
-chosen index.
+builds. The Enron example runs the two-hop query at both thresholds and checks the integer result
+against an independent answer. It also checks that the 183,831-row build used
+the native array at 200K and the exact-key CSR index at 50K.
 
-The \href{../duckdb/docs/results.md}{DuckDB results guide} and the
-\href{../datafusion/docs/results.md}{DataFusion results guide} map the comparisons to their
+The \artifactlink{duckdb/docs/results.md}{DuckDB results guide} and the
+\artifactlink{datafusion/docs/results.md}{DataFusion results guide} map the comparisons to their
 aggregate files. The DuckDB suite files under \texttt{docs/evidence/} contain the \texttt{automin}
 contrast in Figure~\ref{fig:duck}. The exact-range file records the separate ablation. The
 DataFusion suite files supply Table~\ref{tab:auto}. Its two threshold files record the cohort

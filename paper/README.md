@@ -19,6 +19,9 @@ The checked-in vector figures are sufficient for an offline build.
 Intermediate files go to `paper/build/`. A successful final pass replaces
 `paper/article.pdf`.
 
+The standalone PDF links to both engine packages and results guides
+at the [artifact revision](https://github.com/rusanoph/unchained-hash-join-research/tree/2773c9341ea045d80c18f9b0b581503c7433ea70).
+
 ## Recreate the figures
 
 From the repository root, run the following with Python 3 and Matplotlib
