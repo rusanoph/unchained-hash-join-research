@@ -14,6 +14,7 @@
 \pdfgentounicode=1
 \pdftrailerid{}
 \newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
+\newcommand{\widefigure}[1]{\makebox[\linewidth][c]{\includegraphics[width=\dimexpr\linewidth+12mm\relax]{figures/#1.pdf}}}
 \urlstyle{same}
 \setlength{\emergencystretch}{1em}
 \setlength{\parindent}{1.15em}
@@ -89,7 +90,7 @@ The processor can compute several addresses in advance and, when entries are sma
 several visits from one cache line.
 
 \begin{figure}[htbp]
-\centering\includegraphics[width=.95\linewidth]{figures/layout.pdf}
+\centering\widefigure{layout}
 \caption{One probe for key A in two layouts of the same six build entries. The arrows follow the
 duplicate chain. The bracket marks a half-open interval containing all three matches. Cells denote
 entries in address order. In a row-ID index an additional gather retrieves the
@@ -133,20 +134,22 @@ loading.
 \paragraph{Pairing and aggregation.}
 Campaigns record the binary, settings, workload and decision criteria. Blocks randomize query and
 arm order. Each query has a baseline and treatment observation in the same block. A repeated
-baseline (A/A) measures how much this comparison can move with identical implementations. Let
-$t_{qba}$ be the time for query $q$, block $b$ and arm $a$. The DuckDB suite statistic weights
-each query equally,
+baseline (A/A) measures how much this comparison can move with identical implementations.
+Write $x_{qb}$ and $y_{qb}$ for the baseline and alternative times for query $q$ in block $b$.
+For DuckDB, $x$ is stock execution and $y$ enables the contiguous-row policy. Take the median
+paired ratio for each query. The suite ratio is their geometric mean (GM) over all queries in $Q$,
 \begin{equation}
- R_{\mathrm{D}}=\exp\!\left(\frac{1}{|Q|}\sum_{q\in Q}
- \log\!\left[\operatorname{median}_b
- (t_{qb,\mathrm{stock}}/t_{qb,\mathrm{v17}})\right]\right).
+ R_{\mathrm{D}}=\operatorname{GM}_{q\in Q}
+ \left(\operatorname{median}_b\frac{x_{qb}}{y_{qb}}\right).
  \label{eq:duckstat}
 \end{equation}
 DataFusion's original campaigns sum per-query median times within each arm and report the
-percentage change in that total. Its later threshold studies use a within-block ratio of sums,
+percentage change in that total. In the threshold studies, $x$ and $y$ both use auto mode,
+with build floors of 200,000 and 50,000 rows, respectively. Sum query times within each
+block before taking the median paired ratio,
 \begin{equation}
  R_{\mathrm{F}}=\operatorname{median}_b
- \frac{\sum_{q\in Q}t_{qb,200\mathrm{K}}}{\sum_{q\in Q}t_{qb,50\mathrm{K}}}.
+ \frac{\sum_{q\in Q}x_{qb}}{\sum_{q\in Q}y_{qb}}.
  \label{eq:dfstat}
 \end{equation}
 Both ratios favor the denominator above one. For the reported confidence intervals (CIs), the
@@ -190,7 +193,7 @@ the index. Displacing either optimization changes how much work arrives at the j
 comparison keeps these engine choices available.
 
 \subsection{Experimental integration}
-The v17 patch reuses the sink's row representation and the host's hashes. At finalization it
+The contiguous-row join reuses the sink's row representation and the host's hashes. At finalization it
 counts hash prefixes, computes directory offsets and copies the staged records into their ranges.
 The packed directory combines a 48-bit offset with tag bits. For a bucket with multiple keys, a
 separate exact-key lookup can narrow the candidate interval before output. Probe state carries a
@@ -218,26 +221,34 @@ with stock DuckDB.
 
 \subsection{Workloads and benchmark results}
 Figure~\ref{fig:duck} shows the full cohorts, including queries that offered little opportunity to
-use v17. On the 35 SNAP queries, stock took 1.068 times as long by geometric mean. All three
+use the contiguous layout. On the 35 SNAP queries, stock took 1.068 times as long by geometric mean. All three
 analytical intervals fell below parity. JOB, where many statements contain several joins, had the
 largest deficit. TPC-DS was held out from tuning. A/A intervals included one on each of the four
 suites. The cohort result measures the consequence of enabling prefer mode across a workload,
 including its native fallbacks.
 
 \begin{figure}[htbp]
-\centering\includegraphics[width=\linewidth]{figures/duckdb.pdf}
-\caption{Stock DuckDB time divided by v17 time. Each point is the geometric mean of per-query
+\centering\widefigure{duckdb}
+\caption{Stock DuckDB time divided by time with the contiguous-row policy enabled.
+Each point is the geometric mean of per-query
 median paired ratios (Eq.~\ref{eq:duckstat}). Parentheses give query counts, whiskers give 95\%
-block-bootstrap intervals, and the dashed line marks parity. Only SNAP favors
-v17.}\label{fig:duck}
+block-bootstrap intervals, and the dashed line marks parity.}\label{fig:duck}
 \end{figure}
 
 The graph gain depends on the order in which build records arrive. For the five outgoing-star
 queries in delivered order the ratio was 0.932. The corresponding five with rows permuted by a
-hash of the edge endpoints gave 1.170. Shuffling preserves key multiplicities and the answer. It
-can nevertheless separate successive native duplicates in memory. When the original order already
-places those duplicates close together, the native path captures part of the locality that v17
-pays to construct.
+hash of the edge endpoints gave 1.170. Figure~\ref{fig:order} shows where that difference arose.
+On WebGoogle the ratio crossed from 0.840 to 1.487, whereas WikiVote remained near 0.96 in
+both orders. Shuffling preserves the matches but can separate successive native duplicates in
+memory. If the original order already places them close together, the native path gets much
+of that locality without copying the rows.
+
+\begin{figure}[htbp]
+\centering\widefigure{row-order}
+\caption{Outgoing-star queries on the same edges in two physical orders. Each point is the median
+paired stock-to-policy time ratio for one query. Whiskers give pointwise 95\% block-bootstrap
+intervals. Ratios above one favor the contiguous-row policy.}\label{fig:order}
+\end{figure}
 
 \subsection{Performance analysis}
 A separate WebGoogle diagnostic recorded data translation lookaside buffer (dTLB) load misses,
@@ -254,9 +265,9 @@ every build row, including rows whose keys none of the three probes will request
 
 A separate ablation disabled exact ranges in four selected JOB queries and two WebGoogle queries.
 This removed both grouping during construction and exact-range refinement during lookup. Across
-192 observations the plans and answers matched, as did the converted builds between the two v17
+192 observations the plans and answers matched, as did the converted builds between the two experimental
 arms. On 22d the medians were 958\,ms with ranges, 923\,ms without them and 552\,ms for stock. The
-paired ratio of v17 to range-off time was 1.027 with a 95\% interval of [0.988, 1.108]. All four
+paired ratio of range-on to range-off time was 1.027 with a 95\% interval of [0.988, 1.108]. All four
 JOB intervals included one. Both graph queries slowed down with ranges disabled. Removing the
 smaller grouping phase left most of the scatter cost in place, consistent with the modest change
 in whole-query time. Phase times and whole-query medians come from different executions.
@@ -268,7 +279,6 @@ therefore closed, with exact ranges retained in the archived graph-capable confi
 build-size floor avoids paying for small tables but still admits a large table with almost no
 probe traffic. The latter is precisely where the extra row copy proved most expensive.
 
-\clearpage
 \section{Apache DataFusion 55.2.0}
 \label{sec:df}
 \subsection{Native execution architecture}
@@ -286,7 +296,7 @@ unmatched rows according to join type, and gathers the output columns. A new ind
 enumeration without encoding the join type or storing a second copy of every Arrow column.
 
 \subsection{Experimental integration}
-The v10b adapter replaces the selected native index at build time. The exact variant counts
+The CSR adapter replaces the selected native index at build time. The exact variant counts
 occurrences of each dense integer key and scatters 32-bit row IDs into a flat array. Consecutive
 directory offsets delimit all matches for that key. For general keys the hash variant uses a
 prefix directory with tag bits and packs a 32-bit hash fragment alongside the row ID. Tags can
@@ -295,6 +305,7 @@ keys. Both representations use the offset-and-entry organization of compressed s
 storage. The lookup supports prefetch and can resume within a run when the caller limits the
 number of output pairs.
 
+Figure~\ref{fig:gather} traces one exact-key lookup from the index into an Arrow column.
 Adjacent row IDs in the index may still point to distant payload values. An optional permutation
 gathers the build batch once into index order and changes the indices accordingly. This makes
 later output gathers more sequential at the expense of a transient second batch. In auto mode the
@@ -302,6 +313,13 @@ permutation requires at least $2^{20}$ rows, estimated multiplicity of at least 
 fraction of repeated entries in local sample windows (below 0.25). It also requires a join that
 can omit the final build-side pass. That restriction preserves the host's ordering of rows emitted
 in that pass.
+
+\begin{figure}[htbp]
+\centering\widefigure{gather}
+\caption{Payload access for the three matches of key A in Figure~\ref{fig:layout}. The exact CSR
+index groups their row IDs. Permuting the build batch also places the three payloads in adjacent
+slots. Subscripts track the original rows through the permutation.}\label{fig:gather}
+\end{figure}
 
 \subsection{Activation and execution conditions}
 The package starts in native mode. Forced mode requests CSR on supported builds. The \texttt{auto}
@@ -344,7 +362,7 @@ the paired ratios. All 576 holdout observations included Parquet reads. Enron an
 when both thresholds select CSR.
 
 \begin{figure}[htbp]
-\centering\includegraphics[width=\linewidth]{figures/threshold.pdf}
+\centering\widefigure{threshold}
 \caption{Changing the DataFusion auto floor. Points are median paired ratios of block time sums
 (Eq.~\ref{eq:dfstat}) with 95\% intervals. The top two rows include Parquet reads. The bottom two
 time preloaded tables. The last row is one query within the changed-build
@@ -425,7 +443,7 @@ for cheaper output gathers. Moving payloads during construction then appears as 
 B$. Figure~\ref{fig:cost} illustrates the trade-off when the net cost is positive.
 
 \begin{figure}[htbp]
-\centering\includegraphics[width=.90\linewidth]{figures/break-even.pdf}
+\centering\widefigure{break-even}
 \caption{Break-even boundary from Eq.~\ref{eq:break} for a fixed positive net cost $C=\Delta
 B+\Delta G+\Delta O$ and nonnegative probe savings. One unit on either axis recovers the entire
 cost. The boundary is analytical.}\label{fig:cost}
@@ -462,7 +480,7 @@ pair count makes repeated enumeration tangible, and admission at 50K changed the
 interval for the graph cohort includes the cost of scanning the files and building the new index.
 Neither experiment measures all the coefficients in Eq.~\eqref{eq:general}.
 
-The v10b gate acts on row count, an estimate of probe cardinality when available, and sampled
+DataFusion's auto policy acts on row count, an estimate of probe cardinality when available, and sampled
 build multiplicity. These are quantities an engine can obtain before the probe runs. They
 approximate different terms of the inequality while leaving the joint key frequencies and realized
 cache costs unknown. The gate is an empirical policy tested by the threshold intervention. The
@@ -483,7 +501,7 @@ systems spend the extra work.
 memory accesses can benefit.}\label{tab:architecture}
 \centering\small
 \begin{tabularx}{\linewidth}{@{}lXX@{}}
-\toprule & DuckDB v17 & DataFusion v10b\\ \midrule
+\toprule & DuckDB & Apache DataFusion\\ \midrule
 Native lookup & Salted directory, duplicate links, optional perfect hash & Hash or integer array map to chain head\\
 Unit scattered & Staged row record, including in-row payload & Row ID, with a hash fragment on the general path\\
 Output reads & Gather fields from candidate rows & Gather Arrow values by row IDs, optionally in index order\\
@@ -518,9 +536,10 @@ aggregate JSON evidence. The engine pins are
 \texttt{069cc9f9}}
 and
 \href{https://github.com/apache/datafusion/tree/500744d5c25499055e3b2ca46b022bc425989203}{Apache
-DataFusion \texttt{500744d5}}. The DuckDB package verifies its source archive and records the v17
-patch digest. The DataFusion package checks the upstream files when applying v10b and supplies the
-Rust worker lockfile.
+DataFusion \texttt{500744d5}}. The research archive labels the DuckDB patch \texttt{v17}
+and the DataFusion integration \texttt{v10b}. The DuckDB package verifies its source archive and
+records the patch digest. The DataFusion package checks the upstream files before patching them
+and supplies the Rust worker lockfile.
 
 For a compact functional reproduction, install the dependencies listed in each README and run the
 commands below from the corresponding package root on Linux or WSL.

@@ -30,7 +30,10 @@ python3 paper/build.py
 
 The script extracts full-precision contrasts from the two evidence directories
 into [results.csv](results.csv). The [drawing source](figures/draw.py) generates
-the layout illustration, two measured interval plots and the analytical
-break-even figure. The engine guides provide the runtime settings, SQL smoke
+the layout and payload-gather diagrams, two suite-level interval plots and
+the analytical break-even figure. It also plots the five outgoing-star
+queries in delivered and permuted order directly from the
+[per-query SNAP record](../duckdb/docs/evidence/snap.json).
+The engine guides provide the runtime settings, SQL smoke
 checks and the provenance of the recorded campaigns.
 [DuckDB](../duckdb/docs/results.md) · [DataFusion](../datafusion/docs/results.md)

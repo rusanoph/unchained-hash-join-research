@@ -11,8 +11,8 @@ ranges pays off during probing. [Original Unchained paper](https://doi.org/10.11
 
 | Comparison | Workload | Speed ratio [95% CI] |
 | --- | --- | ---: |
-| DuckDB stock / v17 | 35 SNAP graph queries | 1.068 [1.059, 1.077] |
-| DuckDB stock / v17 | 113 JOB queries | 0.948 [0.945, 0.951] |
+| DuckDB stock / contiguous-row policy | 35 SNAP graph queries | 1.068 [1.059, 1.077] |
+| DuckDB stock / contiguous-row policy | 113 JOB queries | 0.948 [0.945, 0.951] |
 | DataFusion 200K / 50K build-row threshold | 12 held-out Enron and HepPh queries | 2.177 [2.156, 2.212] |
 | DataFusion 200K / 50K build-row threshold | 31 analytical queries whose index selection changed | 1.004 [0.977, 1.016] |
 
