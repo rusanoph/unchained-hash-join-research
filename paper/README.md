@@ -4,6 +4,12 @@ Maxim Rusanov · November 2026
 
 [Read the paper (PDF)](article.pdf) · [LaTeX source](article.tex) · [References](references.bib) · [Editorial verification](VERIFICATION.md)
 
+The main DataFusion comparison is native execution versus automatic CSR
+selection at the 200,000-row build threshold on the same engine build
+(Table 1). Auto reduced the sum of per-query median times by 73% on SNAP
+and 11.7% on JOB. Figure 5 reports the follow-up comparison of two auto
+thresholds. [DataFusion results](../datafusion/docs/results.md#native-join-versus-auto-mode)
+
 ## Rebuild the PDF
 
 From the repository root on Linux or WSL, run
@@ -20,7 +26,7 @@ Intermediate files go to `paper/build/`. A successful final pass replaces
 `paper/article.pdf`.
 
 The standalone PDF links to both engine packages and results guides
-at the [artifact revision](https://github.com/rusanoph/unchained-hash-join-research/tree/2773c9341ea045d80c18f9b0b581503c7433ea70).
+at the [artifact revision](https://github.com/rusanoph/unchained-hash-join-research/tree/b33f6e504467b7c381943539dc57e45d543de1c5).
 
 ## Recreate the figures
 

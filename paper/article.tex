@@ -14,7 +14,7 @@
 \pdfgentounicode=1
 \pdftrailerid{}
 \newcommand{\artifactrepo}{https://github.com/rusanoph/unchained-hash-join-research}
-\newcommand{\artifactlink}[2]{\href{\artifactrepo/blob/2773c9341ea045d80c18f9b0b581503c7433ea70/#1}{#2}}
+\newcommand{\artifactlink}[2]{\href{\artifactrepo/blob/b33f6e504467b7c381943539dc57e45d543de1c5/#1}{#2}}
 \newcommand{\doi}[1]{\href{https://doi.org/#1}{doi:\nolinkurl{#1}}}
 \newcommand{\widefigure}[1]{\makebox[\linewidth][c]{\includegraphics[width=\dimexpr\linewidth+12mm\relax]{figures/#1.pdf}}}
 \urlstyle{same}
@@ -42,9 +42,11 @@ two independent integrations of the Unchained design. DuckDB 1.5.6 scatters stag
 contiguous buckets. Apache DataFusion 55.2.0 can instead build a contiguous index of Arrow row
 identifiers. In paired single-thread SQL runs, DuckDB gained a factor of 1.068 on graph queries by
 geometric mean and lost ground on all three analytical suites. One JOB join scattered 5.54 million
-rows for three probes. In DataFusion, admitting smaller builds more than halved aggregate time on
-twelve held-out graph queries, including Parquet reads. The same threshold change gave a ratio
-close to one across analytical queries where it changed the index. A cost decomposition relates
+rows for three probes. On the same DataFusion build, automatic CSR selection at 200,000 rows
+reduced summed median times versus native by 73\% on 35 SNAP queries and 11.7\% on 100 JOB
+queries. Lowering the threshold more than halved aggregate time on twelve held-out graph
+queries, including Parquet reads, and had little aggregate effect on analytical queries whose
+index changed. A cost decomposition relates
 these outcomes to probe frequency, candidate volume and the bytes moved during construction. It
 explains why the existing native index and the keys reached by the probe matter as much as build
 cardinality when selecting a layout.
@@ -145,8 +147,9 @@ paired ratio for each query. The suite ratio is their geometric mean (GM) over a
  \left(\operatorname{median}_b\frac{x_{qb}}{y_{qb}}\right).
  \label{eq:duckstat}
 \end{equation}
-DataFusion's original campaigns sum per-query median times within each arm and report the
-percentage change in that total. In the threshold studies, $x$ and $y$ both use auto mode,
+DataFusion's main comparison uses the same research binary in native mode and in auto mode at
+200K. It sums per-query median times within each arm and reports the percentage change in that
+total. In the follow-up threshold studies, $x$ and $y$ both use auto mode,
 with build floors of 200,000 and 50,000 rows, respectively. Sum query times within each
 block before taking the median paired ratio,
 \begin{equation}
@@ -335,8 +338,9 @@ leaving the conversion cutoff above its attainable range. A rejected build proce
 native map. The recorded build kind identifies native hash, native array, hash CSR or exact CSR.
 
 \subsection{Workloads and benchmark results}
-Table~\ref{tab:auto} compares native execution with the original 200K auto policy. SNAP and JOB
-saved the most total time. TPC-DS includes the 94 of 99 queries that completed native coverage.
+Table~\ref{tab:auto} compares the native index with the 200K auto policy on the same research
+build. Total time fell by 73\% on SNAP and 11.7\% on JOB, with CSR selected in 24 of 35 and
+56 of 100 queries, respectively. TPC-DS includes the 94 of 99 queries that completed native coverage.
 All 25 \texttt{hj} queries kept their native indexes.
 
 \begin{table}[htbp]
@@ -355,7 +359,7 @@ DataFusion \texttt{hj} & 25 & 0 & $+0.2\%$\\ \bottomrule
 \end{tabular*}
 \end{table}
 
-The second question concerns two \emph{auto} policies. Lowering only the build floor from 200K to
+The follow-up tests two \emph{auto} policies. Lowering only the build floor from 200K to
 50K admitted all twelve Enron and HepPh queries on which the original gate had kept the native
 index. Each graph supplied a two-hop path and two star orientations in two row orders. Amazon0302
 supplied the same six controls with builds above both floors. Figure~\ref{fig:threshold} reports
@@ -572,8 +576,10 @@ source and vector assets so that rebuilding the paper requires only the typesett
 \section{Conclusion}
 A contiguous join layout purchases cheaper future visits with work paid up front. DuckDB's scatter
 bought enough locality on permuted graph rows and left a substantial deficit on a large JOB build
-that was barely probed. DataFusion could group row IDs while leaving the payload in place. A lower
-threshold paid off on two graphs whose repeated endpoints generated many pairs. The analytical
+that was barely probed. DataFusion grouped row IDs while leaving the payload in place. At the
+original 200K threshold, auto reduced total time relative to native on SNAP and JOB, with smaller
+changes on the other suites. A lower threshold paid off on two held-out graphs whose repeated
+endpoints generated many pairs. The analytical
 audit shows how quickly that argument loses force when a different set of keys reaches the probe.
 The engineering question is how many costly visits a new layout removes over the lifetime of this
 build, and what the engine must move to remove them.
