@@ -8,7 +8,11 @@ remain with the research archive.
 
 ## Native join versus auto mode
 
-The original single-thread campaigns used the 200,000-row build threshold.
+The main comparison runs both modes on the same DataFusion research build
+with preloaded tables. In `native` mode the join uses DataFusion's native
+index. In `auto` mode it can select CSR for builds of at least 200,000 rows
+that pass the eligibility checks. For each mode, total time is the sum of
+the per-query median times. Negative changes mean less time with `auto`.
 
 | Workload | Queries | Queries using CSR | Change in total query time |
 |---|---:|---:|---:|
@@ -18,7 +22,12 @@ The original single-thread campaigns used the 200,000-row build threshold.
 | TPC-DS SF10 | 94 | 24 | −0.1% |
 | DataFusion hj | 25 | 0 | +0.2% |
 
+[SNAP query medians](evidence/snap.json) · [Analytical totals](evidence/natural.json) · [TPC-DS coverage](evidence/tpcds-sf10.json)
+
 ## Lowering the build threshold in auto mode
+
+The follow-up compares two settings of `auto`. For the 12 Enron and
+HepPh queries, 200K retained the native index and 50K selected CSR.
 
 | Workload | Timed queries | 200K / 50K speed ratio [95% CI] |
 |---|---:|---:|

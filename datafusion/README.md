@@ -12,11 +12,17 @@ keys. The DataFusion integration retains the native join in `native` mode,
 supports forced conversion in `unchained` mode, and makes a build-time
 decision in `auto` mode. The default mode is `native`.
 
-On a single CPU, lowering the `auto` threshold from 200,000 to 50,000 build
-rows sped up the tested Enron and HepPh graph queries by **2.18×**. A follow-up
-on analytical queries found a grouped speedup of **1.004×** among the 31
-queries whose CSR builds changed. The default `auto` threshold remains
-200,000 rows. [Research results and measurement scope](docs/results.md)
+In single-thread runs on the same engine build, `auto` at the 200,000-row
+threshold reduced total query time relative to `native` by **73%** on
+35 SNAP graph queries and **11.7%** on 100 JOB queries. Each total is the
+sum of per-query median times. CSR ran in 24 SNAP queries and 56 JOB queries.
+[Native versus auto results](docs/results.md#native-join-versus-auto-mode)
+
+A follow-up lowered the `auto` threshold to 50,000 rows. It yielded a
+**2.18×** speed ratio on held-out Enron and HepPh queries and **1.004×**
+among the 31 analytical queries whose CSR builds changed. The default
+`auto` threshold remains 200,000 rows.
+[Threshold results](docs/results.md#lowering-the-build-threshold-in-auto-mode)
 
 ## Build and verify
 
