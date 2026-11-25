@@ -4,6 +4,11 @@ Maxim Rusanov · November 2026
 
 [Read the paper (PDF)](article.pdf) · [LaTeX source](article.tex) · [References](references.bib) · [Editorial verification](VERIFICATION.md)
 
+The article and its original figures are available under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+Credit Maxim Rusanov, link to the article DOI and license, and indicate
+any changes. [Article DOI](https://doi.org/10.5281/zenodo.24519118)
+
 The main DataFusion comparison is native execution versus automatic CSR
 selection at the 200,000-row build threshold on the same engine build
 (Table 1). Auto reduced the sum of per-query median times by 73% on SNAP

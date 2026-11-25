@@ -76,11 +76,14 @@ rebuilds the figures and paper.
 
 ## Licenses
 
-The independent implementations are MIT-licensed.
+The original research code, including the implementations and the
+build and analysis scripts, is available under the [MIT License](LICENSE-CODE).
 The patches retain the [DuckDB license](duckdb/licenses/duckdb-LICENSE.txt)
 and the [Apache DataFusion license](datafusion/licenses/datafusion-LICENSE.txt)
 and [notice](datafusion/NOTICE), respectively.
-[DuckDB implementation license](duckdb/LICENSE) · [DataFusion implementation license](datafusion/LICENSE)
 
-The code licenses cover the implementations. Contact the author for
-reuse permissions for the article, figures and research evidence.
+The article, its original figures and the original benchmark observations
+are available under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
+When reusing them, credit **Maxim Rusanov**, link to the relevant DOI and
+license, and indicate any changes. [Article DOI](https://doi.org/10.5281/zenodo.24519118) ·
+[Dataset DOI](https://doi.org/10.5281/zenodo.24519430)
