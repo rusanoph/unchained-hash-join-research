@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "study": "Independent validation of Apache DataFusion PR 27746",
+  "upstream": {
+    "repository": "https://github.com/apache/datafusion",
+    "pull_request": 27746,
+    "issue": 27398,
+    "review": 6061888053,
+    "request_comment": 7169234271,
+    "arm_a": "6a060586ed85d2ff71837b6d818b7eddc075b699",
+    "arm_b": "2f6c665fef63936f08a4aa7a4fb01b87a4d2b009",
+    "observed_main": "73043acbe3fbe681a0219c2060eb4eb6e9d47228",
+    "arm_c_base": "2f6c665fef63936f08a4aa7a4fb01b87a4d2b009",
+    "arm_c_patch": "patches/review-4698342517.patch"
+  },
+  "historical_baseline": "https://github.com/rusanoph/unchained-hash-join-research/releases/tag/v1.0.0",
+  "worker": {
+    "source": "worker/src/main.rs",
+    "cargo_template": "worker/Cargo.toml.in",
+    "rust_toolchain": "1.97.0",
+    "cargo_profile": "release",
+    "input_receipt": "workloads/input-receipt.json",
+    "workload": "workloads/historical.json",
+    "snap_oracle": "workloads/graph-oracle.json"
+  },
+  "primary_evidence": {
+    "pilot": "results/raw/pilot-001-registration.json",
+    "snap": "results/raw/snap-001-registration.json",
+    "job": "results/raw/job-001-registration.json",
+    "job_22d_diagnostic": "results/raw/job-22d-001-registration.json",
+    "comparative_report": "reports/comparative-results.md"
+  },
+  "protocol": "PROTOCOL.md",
+  "secondary_reports": {
+    "counting_sort_x86": "reports/counting-sort-x86.md",
+    "controlled_memory": "reports/memory-analysis.md",
+    "accepted_hj_registration": "results/raw/hj-official-sf10-002-registration.json",
+    "excluded_hj_attempt": "results/invalid-hj-001/README.md"
+  },
+  "checksums": "SHA256SUMS",
+  "artifact_version": "upstream-pr27746-v1",
+  "portable_transformations": [
+    "machine-local paths normalized",
+    "plan digests updated",
+    "JOB exact row arrays replaced with SHA-256"
+  ]
+}

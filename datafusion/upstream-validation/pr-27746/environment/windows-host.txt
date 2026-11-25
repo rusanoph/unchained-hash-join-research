@@ -1,0 +1,8 @@
+Windows display version 25H2
+Build 26200.9974
+Edition ProfessionalN
+WSL resource settings from the host configuration
+memory=20GB
+processors=4
+swap=4GB
+autoMemoryReclaim=gradual

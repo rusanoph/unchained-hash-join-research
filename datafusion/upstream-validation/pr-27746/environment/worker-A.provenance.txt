@@ -1,0 +1,19 @@
+6a060586ed85d2ff71837b6d818b7eddc075b699
+0b264cb20b42de01e9a5ce00d2d9663552ba7039
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+cargo 1.97.0 (c980f4866 2026-06-30)
+50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0  /recorded/datafusion-upstream-validation/bin/worker-A
+7def55df5a85e251fa17afa47f60618d6c1f705933cca4ade02a68dcbabaac3a  /recorded/datafusion-upstream-validation/build/worker-A/Cargo.lock
+768bdfe8e306be5f84ca66b5a729aea1f5bab5304ab71a32ffe2dff15f3d4fe7  /recorded/datafusion-upstream-validation/build/worker-A/Cargo.toml
+5f857b53337540fda38057fbcb61ddf4e0d6dfef6fbaaf0deaaf0adf1179c66b  /recorded/datafusion-upstream-validation/build/worker-A/src/main.rs
+	linux-vdso.so.1 (0x00007823a0aff000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x00007823a0aca000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x000078239a119000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000782399e00000)
+	/lib64/ld-linux-x86-64.so.2 (0x00007823a0b01000)

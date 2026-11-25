@@ -1,0 +1,90 @@
+{
+  "arms": [
+    "A",
+    "AA",
+    "B"
+  ],
+  "blocks": 3,
+  "block_caps": {
+    "job_17b": 1
+  },
+  "seed": 27746001,
+  "cpu": [
+    2
+  ],
+  "partitions": 1,
+  "batch_size": 8192,
+  "warmups": 1,
+  "timeout_seconds": 600,
+  "address_space_gib": 10,
+  "queries": [
+    "wikivote_p2",
+    "epinions_p2_sel",
+    "enron_file_out_star",
+    "hepph_shuffle_p2",
+    "job_7a",
+    "job_4b",
+    "job_2d",
+    "job_17b"
+  ],
+  "custom": [
+    {
+      "id": "smoke_duplicates_null_residual",
+      "sql": "SELECT b.v, p.v FROM (VALUES (1, 10), (1, 20), (2, 30), (NULL, 40)) b(k, v) FULL JOIN (VALUES (1, 11), (1, 21), (3, 31), (NULL, 41)) p(k, v) ON b.k IS NOT DISTINCT FROM p.k AND b.v < p.v",
+      "oracle": [
+        [
+          "10",
+          "11"
+        ],
+        [
+          "10",
+          "21"
+        ],
+        [
+          "20",
+          "21"
+        ],
+        [
+          "30",
+          null
+        ],
+        [
+          "40",
+          "41"
+        ],
+        [
+          null,
+          "31"
+        ]
+      ]
+    },
+    {
+      "id": "smoke_low_probe_unique",
+      "setup": "CREATE TABLE b AS SELECT i AS k, i * 2 AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (11), (1000000), (1000001)) p(k) ON b.k = p.k",
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "oracle": [
+        [
+          "2",
+          "2000022"
+        ]
+      ]
+    },
+    {
+      "id": "smoke_composite_sparse",
+      "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, CAST(i % 3 AS VARCHAR) AS s, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0, '0'), (1, '1'), (10001, '2')) p(k, s) ON b.k = p.k AND b.s = p.s",
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "oracle": [
+        [
+          "67",
+          "33660034"
+        ]
+      ]
+    }
+  ]
+}

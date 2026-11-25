@@ -1,0 +1,665 @@
+{
+  "binaries": {
+    "A": "544a4e3909dd581a8fe192ea6d2f3a48902f798fb4680e125650dadeb0230d77",
+    "B": "de01dfbe3d321944360e9e3a8a8f31737eab6f1303e73e5bc6ea6d7bad48d664",
+    "C": "9d1af089c3cd8edeb14f7c7107361a5f5e36fa5b56cc3fc15bb2d145ebbd0ced"
+  },
+  "config": {
+    "address_space_gib": 4,
+    "arms": [
+      "A",
+      "B",
+      "C"
+    ],
+    "batch_size": 8192,
+    "blocks": 5,
+    "cpu": [
+      2
+    ],
+    "custom": [
+      {
+        "id": "dense_unique",
+        "oracle": [
+          [
+            "2",
+            "1000011"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (11), (1000000), (1000001)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "dense_dup100",
+        "oracle": [
+          [
+            "200",
+            "100001100"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (11), (10001)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "sparse_int_unique",
+        "oracle": [
+          [
+            "2",
+            "1000011"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i * 101 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (1111), (101000000), (101000001)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "sparse_int_dup100",
+        "oracle": [
+          [
+            "200",
+            "100001100"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT (i % 10000) * 1009 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (11099), (10100000)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "mixed_singletons_hot_key",
+        "oracle": [
+          [
+            "250001",
+            "31251125000"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT CASE WHEN i <= 250000 THEN 0 ELSE i END AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (1000000), (1000001)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "general_composite",
+        "oracle": [
+          [
+            "67",
+            "33660034"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, i AS v, CAST(i % 3 AS VARCHAR) AS s FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0, '0'), (1, '1'), (10001, '2')) p(k, s) ON b.k = p.k AND b.s = p.s"
+      }
+    ],
+    "data": {},
+    "memory_limit_mb": 64,
+    "partitions": 1,
+    "seed": 27746069,
+    "timeout_seconds": 90,
+    "warmups": 0
+  },
+  "driver_sha256": "6a555d2c1265722a45c823dc3df26f134b9e644d36b72b384c4a65d4352081e2",
+  "environment": {
+    "affinity": [
+      2
+    ],
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+    "kernel": "6.18.58.1-microsoft-standard-WSL2",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "thp": "always [madvise] never"
+  },
+  "inputs": {},
+  "queries": {
+    "dense_dup100": {
+      "id": "dense_dup100",
+      "oracle": [
+        [
+          "200",
+          "100001100"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (11), (10001)) p(k) ON b.k = p.k"
+    },
+    "dense_unique": {
+      "id": "dense_unique",
+      "oracle": [
+        [
+          "2",
+          "1000011"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (11), (1000000), (1000001)) p(k) ON b.k = p.k"
+    },
+    "general_composite": {
+      "id": "general_composite",
+      "oracle": [
+        [
+          "67",
+          "33660034"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, i AS v, CAST(i % 3 AS VARCHAR) AS s FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0, '0'), (1, '1'), (10001, '2')) p(k, s) ON b.k = p.k AND b.s = p.s"
+    },
+    "mixed_singletons_hot_key": {
+      "id": "mixed_singletons_hot_key",
+      "oracle": [
+        [
+          "250001",
+          "31251125000"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT CASE WHEN i <= 250000 THEN 0 ELSE i END AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (1000000), (1000001)) p(k) ON b.k = p.k"
+    },
+    "sparse_int_dup100": {
+      "id": "sparse_int_dup100",
+      "oracle": [
+        [
+          "200",
+          "100001100"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT (i % 10000) * 1009 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0), (11099), (10100000)) p(k) ON b.k = p.k"
+    },
+    "sparse_int_unique": {
+      "id": "sparse_int_unique",
+      "oracle": [
+        [
+          "2",
+          "1000011"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i * 101 AS k, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (1111), (101000000), (101000001)) p(k) ON b.k = p.k"
+    }
+  },
+  "slots": [
+    [
+      0,
+      "dense_dup100",
+      "B"
+    ],
+    [
+      0,
+      "dense_dup100",
+      "C"
+    ],
+    [
+      0,
+      "dense_dup100",
+      "A"
+    ],
+    [
+      0,
+      "mixed_singletons_hot_key",
+      "A"
+    ],
+    [
+      0,
+      "mixed_singletons_hot_key",
+      "B"
+    ],
+    [
+      0,
+      "mixed_singletons_hot_key",
+      "C"
+    ],
+    [
+      0,
+      "general_composite",
+      "A"
+    ],
+    [
+      0,
+      "general_composite",
+      "B"
+    ],
+    [
+      0,
+      "general_composite",
+      "C"
+    ],
+    [
+      0,
+      "dense_unique",
+      "B"
+    ],
+    [
+      0,
+      "dense_unique",
+      "C"
+    ],
+    [
+      0,
+      "dense_unique",
+      "A"
+    ],
+    [
+      0,
+      "sparse_int_dup100",
+      "A"
+    ],
+    [
+      0,
+      "sparse_int_dup100",
+      "B"
+    ],
+    [
+      0,
+      "sparse_int_dup100",
+      "C"
+    ],
+    [
+      0,
+      "sparse_int_unique",
+      "A"
+    ],
+    [
+      0,
+      "sparse_int_unique",
+      "B"
+    ],
+    [
+      0,
+      "sparse_int_unique",
+      "C"
+    ],
+    [
+      1,
+      "dense_dup100",
+      "C"
+    ],
+    [
+      1,
+      "dense_dup100",
+      "A"
+    ],
+    [
+      1,
+      "dense_dup100",
+      "B"
+    ],
+    [
+      1,
+      "general_composite",
+      "B"
+    ],
+    [
+      1,
+      "general_composite",
+      "C"
+    ],
+    [
+      1,
+      "general_composite",
+      "A"
+    ],
+    [
+      1,
+      "sparse_int_unique",
+      "B"
+    ],
+    [
+      1,
+      "sparse_int_unique",
+      "C"
+    ],
+    [
+      1,
+      "sparse_int_unique",
+      "A"
+    ],
+    [
+      1,
+      "mixed_singletons_hot_key",
+      "B"
+    ],
+    [
+      1,
+      "mixed_singletons_hot_key",
+      "C"
+    ],
+    [
+      1,
+      "mixed_singletons_hot_key",
+      "A"
+    ],
+    [
+      1,
+      "sparse_int_dup100",
+      "B"
+    ],
+    [
+      1,
+      "sparse_int_dup100",
+      "C"
+    ],
+    [
+      1,
+      "sparse_int_dup100",
+      "A"
+    ],
+    [
+      1,
+      "dense_unique",
+      "C"
+    ],
+    [
+      1,
+      "dense_unique",
+      "A"
+    ],
+    [
+      1,
+      "dense_unique",
+      "B"
+    ],
+    [
+      2,
+      "dense_unique",
+      "A"
+    ],
+    [
+      2,
+      "dense_unique",
+      "B"
+    ],
+    [
+      2,
+      "dense_unique",
+      "C"
+    ],
+    [
+      2,
+      "general_composite",
+      "C"
+    ],
+    [
+      2,
+      "general_composite",
+      "A"
+    ],
+    [
+      2,
+      "general_composite",
+      "B"
+    ],
+    [
+      2,
+      "sparse_int_unique",
+      "C"
+    ],
+    [
+      2,
+      "sparse_int_unique",
+      "A"
+    ],
+    [
+      2,
+      "sparse_int_unique",
+      "B"
+    ],
+    [
+      2,
+      "sparse_int_dup100",
+      "C"
+    ],
+    [
+      2,
+      "sparse_int_dup100",
+      "A"
+    ],
+    [
+      2,
+      "sparse_int_dup100",
+      "B"
+    ],
+    [
+      2,
+      "dense_dup100",
+      "A"
+    ],
+    [
+      2,
+      "dense_dup100",
+      "B"
+    ],
+    [
+      2,
+      "dense_dup100",
+      "C"
+    ],
+    [
+      2,
+      "mixed_singletons_hot_key",
+      "C"
+    ],
+    [
+      2,
+      "mixed_singletons_hot_key",
+      "A"
+    ],
+    [
+      2,
+      "mixed_singletons_hot_key",
+      "B"
+    ],
+    [
+      3,
+      "sparse_int_dup100",
+      "A"
+    ],
+    [
+      3,
+      "sparse_int_dup100",
+      "B"
+    ],
+    [
+      3,
+      "sparse_int_dup100",
+      "C"
+    ],
+    [
+      3,
+      "dense_unique",
+      "B"
+    ],
+    [
+      3,
+      "dense_unique",
+      "C"
+    ],
+    [
+      3,
+      "dense_unique",
+      "A"
+    ],
+    [
+      3,
+      "general_composite",
+      "A"
+    ],
+    [
+      3,
+      "general_composite",
+      "B"
+    ],
+    [
+      3,
+      "general_composite",
+      "C"
+    ],
+    [
+      3,
+      "dense_dup100",
+      "B"
+    ],
+    [
+      3,
+      "dense_dup100",
+      "C"
+    ],
+    [
+      3,
+      "dense_dup100",
+      "A"
+    ],
+    [
+      3,
+      "mixed_singletons_hot_key",
+      "A"
+    ],
+    [
+      3,
+      "mixed_singletons_hot_key",
+      "B"
+    ],
+    [
+      3,
+      "mixed_singletons_hot_key",
+      "C"
+    ],
+    [
+      3,
+      "sparse_int_unique",
+      "A"
+    ],
+    [
+      3,
+      "sparse_int_unique",
+      "B"
+    ],
+    [
+      3,
+      "sparse_int_unique",
+      "C"
+    ],
+    [
+      4,
+      "sparse_int_dup100",
+      "B"
+    ],
+    [
+      4,
+      "sparse_int_dup100",
+      "C"
+    ],
+    [
+      4,
+      "sparse_int_dup100",
+      "A"
+    ],
+    [
+      4,
+      "general_composite",
+      "B"
+    ],
+    [
+      4,
+      "general_composite",
+      "C"
+    ],
+    [
+      4,
+      "general_composite",
+      "A"
+    ],
+    [
+      4,
+      "mixed_singletons_hot_key",
+      "B"
+    ],
+    [
+      4,
+      "mixed_singletons_hot_key",
+      "C"
+    ],
+    [
+      4,
+      "mixed_singletons_hot_key",
+      "A"
+    ],
+    [
+      4,
+      "dense_unique",
+      "C"
+    ],
+    [
+      4,
+      "dense_unique",
+      "A"
+    ],
+    [
+      4,
+      "dense_unique",
+      "B"
+    ],
+    [
+      4,
+      "sparse_int_unique",
+      "B"
+    ],
+    [
+      4,
+      "sparse_int_unique",
+      "C"
+    ],
+    [
+      4,
+      "sparse_int_unique",
+      "A"
+    ],
+    [
+      4,
+      "dense_dup100",
+      "C"
+    ],
+    [
+      4,
+      "dense_dup100",
+      "A"
+    ],
+    [
+      4,
+      "dense_dup100",
+      "B"
+    ]
+  ]
+}

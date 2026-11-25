@@ -1,0 +1,2765 @@
+{
+  "amazon_file_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 11.626653504762013,
+      "distinct_build": 262111,
+      "distinct_probe": 262111,
+      "equal_key_pairs": 14357487,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 11.626653504762013,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 11.626653504762013,
+      "shared_keys": 262111
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1162.67% (14.36 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 19.78,
+          "elapsed_compute_ms": 224.18,
+          "input_rows": "1.23 M",
+          "join_time_ms": 204.39,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "14.36 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1162.67% (14.36 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "16.6 MB",
+          "build_time_ms": 32.02,
+          "elapsed_compute_ms": 101.32,
+          "input_rows": "1.23 M",
+          "join_time_ms": 69.3,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "14.36 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 14357487
+  },
+  "amazon_file_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 4.90345759132286,
+      "distinct_build": 257570,
+      "distinct_probe": 257570,
+      "equal_key_pairs": 6055167,
+      "frequency_overlap": 0.9999999999976482,
+      "matches_per_probe": 4.90345759132286,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 4.90345759132286,
+      "shared_keys": 257570
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "490.35% (6.06 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 17.14,
+          "elapsed_compute_ms": 30.08,
+          "input_rows": "1.23 M",
+          "join_time_ms": 12.94,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "6.06 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "490.35% (6.06 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "17.1 MB",
+          "build_time_ms": 27.33,
+          "elapsed_compute_ms": 43.63,
+          "input_rows": "1.23 M",
+          "join_time_ms": 16.3,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "6.06 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 6055167
+  },
+  "amazon_file_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 11.626653504762013,
+      "distinct_build": 262111,
+      "distinct_probe": 257570,
+      "equal_key_pairs": 6021131,
+      "frequency_overlap": 0.6955405275193743,
+      "matches_per_probe": 4.8758953320857055,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 4.90345759132286,
+      "shared_keys": 257570
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "487.59% (6.02 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 20.16,
+          "elapsed_compute_ms": 58.61,
+          "input_rows": "1.23 M",
+          "join_time_ms": 38.45,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "6.02 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "487.59% (6.02 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "16.6 MB",
+          "build_time_ms": 32.25,
+          "elapsed_compute_ms": 60.13,
+          "input_rows": "1.23 M",
+          "join_time_ms": 27.89,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "6.02 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 6021131
+  },
+  "amazon_shuffle_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 11.626653504762013,
+      "distinct_build": 262111,
+      "distinct_probe": 262111,
+      "equal_key_pairs": 14357487,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 11.626653504762013,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 11.626653504762013,
+      "shared_keys": 262111
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1162.67% (14.36 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 17.81,
+          "elapsed_compute_ms": 308.29,
+          "input_rows": "1.23 M",
+          "join_time_ms": 290.48,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "14.36 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1162.67% (14.36 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "16.6 MB",
+          "build_time_ms": 32.5,
+          "elapsed_compute_ms": 112.07,
+          "input_rows": "1.23 M",
+          "join_time_ms": 79.58,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "14.36 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 14357487
+  },
+  "amazon_shuffle_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 4.90345759132286,
+      "distinct_build": 257570,
+      "distinct_probe": 257570,
+      "equal_key_pairs": 6055167,
+      "frequency_overlap": 0.9999999999975825,
+      "matches_per_probe": 4.90345759132286,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 4.90345759132286,
+      "shared_keys": 257570
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "490.35% (6.06 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 17.83,
+          "elapsed_compute_ms": 74.0,
+          "input_rows": "1.23 M",
+          "join_time_ms": 56.17,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "6.06 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "490.35% (6.06 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "17.1 MB",
+          "build_time_ms": 34.86,
+          "elapsed_compute_ms": 124.94,
+          "input_rows": "1.23 M",
+          "join_time_ms": 90.08,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "6.06 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 6055167
+  },
+  "amazon_shuffle_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 1234877,
+      "build_size_biased_multiplicity": 11.626653504762013,
+      "distinct_build": 262111,
+      "distinct_probe": 257570,
+      "equal_key_pairs": 6021131,
+      "frequency_overlap": 0.6955405275195123,
+      "matches_per_probe": 4.8758953320857055,
+      "probe_rows": 1234877,
+      "probe_size_biased_multiplicity": 4.90345759132286,
+      "shared_keys": 257570
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "487.59% (6.02 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "15.1 MB",
+          "build_time_ms": 18.24,
+          "elapsed_compute_ms": 145.88,
+          "input_rows": "1.23 M",
+          "join_time_ms": 127.64,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "6.02 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "487.59% (6.02 M/1.23 M)",
+          "build_input_rows": "1.23 M",
+          "build_mem_used": "16.6 MB",
+          "build_time_ms": 33.94,
+          "elapsed_compute_ms": 96.36,
+          "input_rows": "1.23 M",
+          "join_time_ms": 62.42,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "6.02 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (1.23 M/1.23 M)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 6021131
+  },
+  "astroph_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.66,
+          "elapsed_compute_ms": 79.55,
+          "input_rows": "396.2 K",
+          "join_time_ms": 76.89,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 5.83,
+          "elapsed_compute_ms": 31.24,
+          "input_rows": "396.2 K",
+          "join_time_ms": 25.42,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 25901092
+  },
+  "astroph_sh_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.84,
+          "elapsed_compute_ms": 308.86,
+          "input_rows": "396.2 K",
+          "join_time_ms": 306.02,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 6.33,
+          "elapsed_compute_ms": 47.42,
+          "input_rows": "396.2 K",
+          "join_time_ms": 41.09,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 25901092
+  },
+  "astroph_sh_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.89,
+          "elapsed_compute_ms": 318.08,
+          "input_rows": "396.2 K",
+          "join_time_ms": 315.19,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 5.96,
+          "elapsed_compute_ms": 48.36,
+          "input_rows": "396.2 K",
+          "join_time_ms": 42.4,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 25901092
+  },
+  "astroph_sh_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.93,
+          "elapsed_compute_ms": 319.18,
+          "input_rows": "396.2 K",
+          "join_time_ms": 316.25,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 5.93,
+          "elapsed_compute_ms": 47.03,
+          "input_rows": "396.2 K",
+          "join_time_ms": 41.1,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 25901092
+  },
+  "astroph_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.91,
+          "elapsed_compute_ms": 180.03,
+          "input_rows": "396.2 K",
+          "join_time_ms": 177.12,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 5.8,
+          "elapsed_compute_ms": 40.86,
+          "input_rows": "396.2 K",
+          "join_time_ms": 35.06,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 25901092
+  },
+  "astroph_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 396160,
+      "build_size_biased_multiplicity": 65.38038166397415,
+      "distinct_build": 18772,
+      "distinct_probe": 18772,
+      "equal_key_pairs": 25901092,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 65.38038166397415,
+      "probe_rows": 396160,
+      "probe_size_biased_multiplicity": 65.38038166397415,
+      "shared_keys": 18772
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 2.75,
+          "elapsed_compute_ms": 65.68,
+          "input_rows": "396.2 K",
+          "join_time_ms": 62.93,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 5.24,
+          "elapsed_compute_ms": 30.14,
+          "input_rows": "396.2 K",
+          "join_time_ms": 24.9,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 25901092
+  },
+  "astroph_tri": {
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (8.12 M/8.12 M)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "13.0 MB",
+          "build_time_ms": 6.55,
+          "elapsed_compute_ms": 287.35,
+          "input_rows": "25.90 M",
+          "join_time_ms": 280.8,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "8.12 M",
+          "plan_line": 3,
+          "probe_hit_rate": "31.34% (8.12 M/25.90 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.0 MB",
+          "build_time_ms": 3.09,
+          "elapsed_compute_ms": 110.66,
+          "input_rows": "396.2 K",
+          "join_time_ms": 107.57,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 5,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (8.12 M/8.12 M)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "11.5 MB",
+          "build_time_ms": 6.62,
+          "elapsed_compute_ms": 344.56,
+          "input_rows": "25.90 M",
+          "join_time_ms": 337.93,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "8.12 M",
+          "plan_line": 3,
+          "probe_hit_rate": "31.34% (8.12 M/25.90 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "6538.04% (25.90 M/396.2 K)",
+          "build_input_rows": "396.2 K",
+          "build_mem_used": "5.2 MB",
+          "build_time_ms": 4.83,
+          "elapsed_compute_ms": 46.53,
+          "input_rows": "396.2 K",
+          "join_time_ms": 41.71,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "25.90 M",
+          "plan_line": 5,
+          "probe_hit_rate": "100% (396.2 K/396.2 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 8117964
+  },
+  "enron_file_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 20.453476290723543,
+      "distinct_build": 35600,
+      "distinct_probe": 35600,
+      "equal_key_pairs": 3759983,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 20.453476290723543,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 20.453476290723543,
+      "shared_keys": 35600
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "2045.35% (3.76 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.2 MB",
+          "build_time_ms": 2.67,
+          "elapsed_compute_ms": 22.32,
+          "input_rows": "183.8 K",
+          "join_time_ms": 19.65,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "3.76 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "2045.35% (3.76 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.4 MB",
+          "build_time_ms": 4.05,
+          "elapsed_compute_ms": 12.48,
+          "input_rows": "183.8 K",
+          "join_time_ms": 8.43,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "3.76 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 3759983
+  },
+  "enron_file_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 194.61857358116967,
+      "distinct_build": 16507,
+      "distinct_probe": 16507,
+      "equal_key_pairs": 35776927,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 194.61857358116967,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 194.61857358116967,
+      "shared_keys": 16507
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "19461.86% (35.78 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.3 MB",
+          "build_time_ms": 2.95,
+          "elapsed_compute_ms": 79.94,
+          "input_rows": "183.8 K",
+          "join_time_ms": 76.99,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "35.78 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "19461.86% (35.78 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.3 MB",
+          "build_time_ms": 3.72,
+          "elapsed_compute_ms": 34.2,
+          "input_rows": "183.8 K",
+          "join_time_ms": 30.48,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "35.78 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 35776927
+  },
+  "enron_file_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 20.453476290723543,
+      "distinct_build": 35600,
+      "distinct_probe": 16507,
+      "equal_key_pairs": 5982269,
+      "frequency_overlap": 0.469779308168829,
+      "matches_per_probe": 32.54222084414489,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 194.61857358116967,
+      "shared_keys": 15415
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "3284.81% (5.98 M/182.1 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.2 MB",
+          "build_time_ms": 3.12,
+          "elapsed_compute_ms": 19.57,
+          "input_rows": "183.8 K",
+          "join_time_ms": 16.46,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.98 M",
+          "plan_line": 3,
+          "probe_hit_rate": "99.07% (182.1 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "3284.81% (5.98 M/182.1 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.4 MB",
+          "build_time_ms": 3.94,
+          "elapsed_compute_ms": 10.96,
+          "input_rows": "183.8 K",
+          "join_time_ms": 7.02,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.98 M",
+          "plan_line": 3,
+          "probe_hit_rate": "99.07% (182.1 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 5982269
+  },
+  "enron_shuffle_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 20.453476290723543,
+      "distinct_build": 35600,
+      "distinct_probe": 35600,
+      "equal_key_pairs": 3759983,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 20.453476290723543,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 20.453476290723543,
+      "shared_keys": 35600
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "2045.35% (3.76 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.2 MB",
+          "build_time_ms": 2.63,
+          "elapsed_compute_ms": 40.08,
+          "input_rows": "183.8 K",
+          "join_time_ms": 37.45,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "3.76 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "2045.35% (3.76 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.4 MB",
+          "build_time_ms": 4.18,
+          "elapsed_compute_ms": 14.52,
+          "input_rows": "183.8 K",
+          "join_time_ms": 10.34,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "3.76 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 3759983
+  },
+  "enron_shuffle_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 194.61857358116967,
+      "distinct_build": 16507,
+      "distinct_probe": 16507,
+      "equal_key_pairs": 35776927,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 194.61857358116967,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 194.61857358116967,
+      "shared_keys": 16507
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "19461.86% (35.78 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.3 MB",
+          "build_time_ms": 2.92,
+          "elapsed_compute_ms": 312.73,
+          "input_rows": "183.8 K",
+          "join_time_ms": 309.8,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "35.78 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "19461.86% (35.78 M/183.8 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.3 MB",
+          "build_time_ms": 4.27,
+          "elapsed_compute_ms": 49.3,
+          "input_rows": "183.8 K",
+          "join_time_ms": 45.04,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "35.78 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (183.8 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 35776927
+  },
+  "enron_shuffle_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 183831,
+      "build_size_biased_multiplicity": 20.453476290723543,
+      "distinct_build": 35600,
+      "distinct_probe": 16507,
+      "equal_key_pairs": 5982269,
+      "frequency_overlap": 0.4697793081688325,
+      "matches_per_probe": 32.54222084414489,
+      "probe_rows": 183831,
+      "probe_size_biased_multiplicity": 194.61857358116967,
+      "shared_keys": 15415
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "3284.81% (5.98 M/182.1 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.2 MB",
+          "build_time_ms": 3.24,
+          "elapsed_compute_ms": 61.68,
+          "input_rows": "183.8 K",
+          "join_time_ms": 58.44,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.98 M",
+          "plan_line": 3,
+          "probe_hit_rate": "99.07% (182.1 K/183.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "3284.81% (5.98 M/182.1 K)",
+          "build_input_rows": "183.8 K",
+          "build_mem_used": "2.4 MB",
+          "build_time_ms": 4.04,
+          "elapsed_compute_ms": 20.64,
+          "input_rows": "183.8 K",
+          "join_time_ms": 16.61,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.98 M",
+          "plan_line": 3,
+          "probe_hit_rate": "99.07% (182.1 K/183.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 5982269
+  },
+  "epinions_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 175.874429335917,
+      "distinct_build": 51957,
+      "distinct_probe": 60341,
+      "equal_key_pairs": 39924100,
+      "frequency_overlap": 0.6246027706322353,
+      "matches_per_probe": 78.46147194484678,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 107.63996918463083,
+      "shared_keys": 36419
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.41,
+          "elapsed_compute_ms": 163.63,
+          "input_rows": "508.8 K",
+          "join_time_ms": 160.22,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 3,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 7.08,
+          "elapsed_compute_ms": 50.27,
+          "input_rows": "508.8 K",
+          "join_time_ms": 43.19,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 3,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 39924100
+  },
+  "epinions_p2_sel": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 8200,
+      "build_size_biased_multiplicity": 3.9734146341463417,
+      "distinct_build": 4774,
+      "distinct_probe": 60341,
+      "equal_key_pairs": 658453,
+      "frequency_overlap": 0.3712827652364712,
+      "matches_per_probe": 1.2940352214952922,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 107.63996918463083,
+      "shared_keys": 4367
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "284.85% (658.5 K/231.2 K)",
+          "build_input_rows": "8.20 K",
+          "build_mem_used": "368.2 KB",
+          "build_time_ms": 0.7726799999999999,
+          "elapsed_compute_ms": 4.82,
+          "input_rows": "508.8 K",
+          "join_time_ms": 4.05,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "658.5 K",
+          "plan_line": 3,
+          "probe_hit_rate": "45.43% (231.2 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "284.85% (658.5 K/231.2 K)",
+          "build_input_rows": "8.20 K",
+          "build_mem_used": "365.2 KB",
+          "build_time_ms": 0.63036,
+          "elapsed_compute_ms": 4.11,
+          "input_rows": "508.8 K",
+          "join_time_ms": 3.48,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "658.5 K",
+          "plan_line": 3,
+          "probe_hit_rate": "45.43% (231.2 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 658453
+  },
+  "epinions_sh_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 175.874429335917,
+      "distinct_build": 51957,
+      "distinct_probe": 60341,
+      "equal_key_pairs": 39924100,
+      "frequency_overlap": 0.6246027706322577,
+      "matches_per_probe": 78.46147194484678,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 107.63996918463083,
+      "shared_keys": 36419
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.75,
+          "elapsed_compute_ms": 479.93,
+          "input_rows": "508.8 K",
+          "join_time_ms": 476.18,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 3,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 7.12,
+          "elapsed_compute_ms": 69.35,
+          "input_rows": "508.8 K",
+          "join_time_ms": 62.22,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 3,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 39924100
+  },
+  "epinions_sh_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 175.874429335917,
+      "distinct_build": 51957,
+      "distinct_probe": 51957,
+      "equal_key_pairs": 89491417,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 175.874429335917,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 175.874429335917,
+      "shared_keys": 51957
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "17587.44% (89.49 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.82,
+          "elapsed_compute_ms": 1050.0,
+          "input_rows": "508.8 K",
+          "join_time_ms": 1050.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "89.49 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "17587.44% (89.49 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 7.9,
+          "elapsed_compute_ms": 123.92,
+          "input_rows": "508.8 K",
+          "join_time_ms": 116.02,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "89.49 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 89491417
+  },
+  "epinions_sh_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 107.63996918463083,
+      "distinct_build": 60341,
+      "distinct_probe": 60341,
+      "equal_key_pairs": 54771199,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 107.63996918463083,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 107.63996918463083,
+      "shared_keys": 60341
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "10764% (54.77 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.88,
+          "elapsed_compute_ms": 645.81,
+          "input_rows": "508.8 K",
+          "join_time_ms": 641.94,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "54.77 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "10764% (54.77 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 8.03,
+          "elapsed_compute_ms": 90.25,
+          "input_rows": "508.8 K",
+          "join_time_ms": 82.22,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "54.77 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 54771199
+  },
+  "epinions_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 175.874429335917,
+      "distinct_build": 51957,
+      "distinct_probe": 51957,
+      "equal_key_pairs": 89491417,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 175.874429335917,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 175.874429335917,
+      "shared_keys": 51957
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "17587.44% (89.49 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.88,
+          "elapsed_compute_ms": 794.58,
+          "input_rows": "508.8 K",
+          "join_time_ms": 790.69,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "89.49 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "17587.44% (89.49 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 6.72,
+          "elapsed_compute_ms": 112.69,
+          "input_rows": "508.8 K",
+          "join_time_ms": 105.97,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "89.49 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 89491417
+  },
+  "epinions_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 508837,
+      "build_size_biased_multiplicity": 107.63996918463083,
+      "distinct_build": 60341,
+      "distinct_probe": 60341,
+      "equal_key_pairs": 54771199,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 107.63996918463083,
+      "probe_rows": 508837,
+      "probe_size_biased_multiplicity": 107.63996918463083,
+      "shared_keys": 60341
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "10764% (54.77 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.49,
+          "elapsed_compute_ms": 166.09,
+          "input_rows": "508.8 K",
+          "join_time_ms": 162.6,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "54.77 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "10764% (54.77 M/508.8 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 6.21,
+          "elapsed_compute_ms": 56.26,
+          "input_rows": "508.8 K",
+          "join_time_ms": 50.05,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "54.77 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (508.8 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 54771199
+  },
+  "epinions_tri": {
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (2.22 M/2.22 M)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "22.8 MB",
+          "build_time_ms": 14.27,
+          "elapsed_compute_ms": 337.18,
+          "input_rows": "39.92 M",
+          "join_time_ms": 322.91,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "2.22 M",
+          "plan_line": 3,
+          "probe_hit_rate": "5.56% (2.22 M/39.92 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.1 MB",
+          "build_time_ms": 3.64,
+          "elapsed_compute_ms": 193.79,
+          "input_rows": "508.8 K",
+          "join_time_ms": 190.15,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 5,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (2.22 M/2.22 M)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "20.9 MB",
+          "build_time_ms": 15.32,
+          "elapsed_compute_ms": 368.23,
+          "input_rows": "39.92 M",
+          "join_time_ms": 352.91,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "2.22 M",
+          "plan_line": 3,
+          "probe_hit_rate": "5.56% (2.22 M/39.92 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8419.57% (39.92 M/474.2 K)",
+          "build_input_rows": "508.8 K",
+          "build_mem_used": "6.2 MB",
+          "build_time_ms": 6.22,
+          "elapsed_compute_ms": 67.82,
+          "input_rows": "508.8 K",
+          "join_time_ms": 61.6,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "39.92 M",
+          "plan_line": 5,
+          "probe_hit_rate": "93.19% (474.2 K/508.8 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 2220930
+  },
+  "hepph_file_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 85.51111617350512,
+      "distinct_build": 9656,
+      "distinct_probe": 9656,
+      "equal_key_pairs": 10134863,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 85.51111617350512,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 85.51111617350512,
+      "shared_keys": 9656
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8551.11% (10.13 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1753.0 KB",
+          "build_time_ms": 1.6,
+          "elapsed_compute_ms": 45.4,
+          "input_rows": "118.5 K",
+          "join_time_ms": 43.8,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "10.13 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8551.11% (10.13 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.2 KB",
+          "build_time_ms": 2.38,
+          "elapsed_compute_ms": 13.52,
+          "input_rows": "118.5 K",
+          "join_time_ms": 11.14,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "10.13 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 10134863
+  },
+  "hepph_file_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 87.32433070932578,
+      "distinct_build": 9626,
+      "distinct_probe": 9626,
+      "equal_key_pairs": 10349767,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 87.32433070932578,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 87.32433070932578,
+      "shared_keys": 9626
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8732.43% (10.35 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1752.9 KB",
+          "build_time_ms": 1.55,
+          "elapsed_compute_ms": 25.52,
+          "input_rows": "118.5 K",
+          "join_time_ms": 23.97,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "10.35 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8732.43% (10.35 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.1 KB",
+          "build_time_ms": 2.88,
+          "elapsed_compute_ms": 13.1,
+          "input_rows": "118.5 K",
+          "join_time_ms": 10.21,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "10.35 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 10349767
+  },
+  "hepph_file_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 85.51111617350512,
+      "distinct_build": 9656,
+      "distinct_probe": 9626,
+      "equal_key_pairs": 5156647,
+      "frequency_overlap": 0.4786071666624855,
+      "matches_per_probe": 43.508298107508374,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 87.32433070932578,
+      "shared_keys": 7274
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "4718.23% (5.16 M/109.3 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1753.0 KB",
+          "build_time_ms": 2.25,
+          "elapsed_compute_ms": 21.93,
+          "input_rows": "118.5 K",
+          "join_time_ms": 19.68,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.16 M",
+          "plan_line": 3,
+          "probe_hit_rate": "92.21% (109.3 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "4718.23% (5.16 M/109.3 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.2 KB",
+          "build_time_ms": 2.7,
+          "elapsed_compute_ms": 11.09,
+          "input_rows": "118.5 K",
+          "join_time_ms": 8.39,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.16 M",
+          "plan_line": 3,
+          "probe_hit_rate": "92.21% (109.3 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 5156647
+  },
+  "hepph_shuffle_in_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 85.51111617350512,
+      "distinct_build": 9656,
+      "distinct_probe": 9656,
+      "equal_key_pairs": 10134863,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 85.51111617350512,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 85.51111617350512,
+      "shared_keys": 9656
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8551.11% (10.13 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1753.0 KB",
+          "build_time_ms": 1.71,
+          "elapsed_compute_ms": 75.36,
+          "input_rows": "118.5 K",
+          "join_time_ms": 73.65,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "10.13 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8551.11% (10.13 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.2 KB",
+          "build_time_ms": 2.68,
+          "elapsed_compute_ms": 15.87,
+          "input_rows": "118.5 K",
+          "join_time_ms": 13.2,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "10.13 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 10134863
+  },
+  "hepph_shuffle_out_star": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 87.32433070932578,
+      "distinct_build": 9626,
+      "distinct_probe": 9626,
+      "equal_key_pairs": 10349767,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 87.32433070932578,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 87.32433070932578,
+      "shared_keys": 9626
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8732.43% (10.35 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1752.9 KB",
+          "build_time_ms": 1.69,
+          "elapsed_compute_ms": 77.73,
+          "input_rows": "118.5 K",
+          "join_time_ms": 76.04,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "10.35 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8732.43% (10.35 M/118.5 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.1 KB",
+          "build_time_ms": 2.48,
+          "elapsed_compute_ms": 16.12,
+          "input_rows": "118.5 K",
+          "join_time_ms": 13.63,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "10.35 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (118.5 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 10349767
+  },
+  "hepph_shuffle_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 118521,
+      "build_size_biased_multiplicity": 85.51111617350512,
+      "distinct_build": 9656,
+      "distinct_probe": 9626,
+      "equal_key_pairs": 5156647,
+      "frequency_overlap": 0.4786071666624845,
+      "matches_per_probe": 43.508298107508374,
+      "probe_rows": 118521,
+      "probe_size_biased_multiplicity": 87.32433070932578,
+      "shared_keys": 7274
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "4718.23% (5.16 M/109.3 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1753.0 KB",
+          "build_time_ms": 1.7,
+          "elapsed_compute_ms": 41.07,
+          "input_rows": "118.5 K",
+          "join_time_ms": 39.37,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.16 M",
+          "plan_line": 3,
+          "probe_hit_rate": "92.21% (109.3 K/118.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "4718.23% (5.16 M/109.3 K)",
+          "build_input_rows": "118.5 K",
+          "build_mem_used": "1811.2 KB",
+          "build_time_ms": 2.64,
+          "elapsed_compute_ms": 10.96,
+          "input_rows": "118.5 K",
+          "join_time_ms": 8.31,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "5.16 M",
+          "plan_line": 3,
+          "probe_hit_rate": "92.21% (109.3 K/118.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 5156647
+  },
+  "slashdot_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 133.13275569763323,
+      "distinct_build": 82168,
+      "distinct_probe": 78441,
+      "equal_key_pairs": 117126458,
+      "frequency_overlap": 0.8825363956873804,
+      "matches_per_probe": 123.49067334131817,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 129.61739823546282,
+      "shared_keys": 78441
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12349.07% (117.1 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.86,
+          "elapsed_compute_ms": 474.99,
+          "input_rows": "948.5 K",
+          "join_time_ms": 468.14,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "117.1 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12349.07% (117.1 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.8 MB",
+          "build_time_ms": 16.16,
+          "elapsed_compute_ms": 137.13,
+          "input_rows": "948.5 K",
+          "join_time_ms": 120.96,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "117.1 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 117126458
+  },
+  "slashdot_p2_sel": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 14427,
+      "build_size_biased_multiplicity": 3.003327095030152,
+      "distinct_build": 9472,
+      "distinct_probe": 78441,
+      "equal_key_pairs": 1807503,
+      "frequency_overlap": 0.44204106448127195,
+      "matches_per_probe": 1.9057159786771032,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 129.61739823546282,
+      "shared_keys": 9250
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "379.27% (1.81 M/476.6 K)",
+          "build_input_rows": "14.43 K",
+          "build_mem_used": "489.8 KB",
+          "build_time_ms": 1.08,
+          "elapsed_compute_ms": 5.69,
+          "input_rows": "948.5 K",
+          "join_time_ms": 4.61,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "1.81 M",
+          "plan_line": 3,
+          "probe_hit_rate": "50.25% (476.6 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "379.27% (1.81 M/476.6 K)",
+          "build_input_rows": "14.43 K",
+          "build_mem_used": "490.5 KB",
+          "build_time_ms": 1.17,
+          "elapsed_compute_ms": 7.09,
+          "input_rows": "948.5 K",
+          "join_time_ms": 5.92,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "1.81 M",
+          "plan_line": 3,
+          "probe_hit_rate": "50.25% (476.6 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 1807503
+  },
+  "slashdot_sh_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 133.13275569763323,
+      "distinct_build": 82168,
+      "distinct_probe": 78441,
+      "equal_key_pairs": 117126458,
+      "frequency_overlap": 0.8825363956873895,
+      "matches_per_probe": 123.49067334131817,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 129.61739823546282,
+      "shared_keys": 78441
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12349.07% (117.1 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.66,
+          "elapsed_compute_ms": 1510.0,
+          "input_rows": "948.5 K",
+          "join_time_ms": 1510.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "117.1 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12349.07% (117.1 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.8 MB",
+          "build_time_ms": 15.05,
+          "elapsed_compute_ms": 192.7,
+          "input_rows": "948.5 K",
+          "join_time_ms": 177.65,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "117.1 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 117126458
+  },
+  "slashdot_sh_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 133.13275569763323,
+      "distinct_build": 82168,
+      "distinct_probe": 82168,
+      "equal_key_pairs": 126271626,
+      "frequency_overlap": 0.9999999999993523,
+      "matches_per_probe": 133.13275569763323,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 133.13275569763323,
+      "shared_keys": 82168
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13313.28% (126.3 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.88,
+          "elapsed_compute_ms": 1580.0,
+          "input_rows": "948.5 K",
+          "join_time_ms": 1580.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "126.3 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13313.28% (126.3 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.8 MB",
+          "build_time_ms": 14.75,
+          "elapsed_compute_ms": 206.32,
+          "input_rows": "948.5 K",
+          "join_time_ms": 191.57,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "126.3 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 126271626
+  },
+  "slashdot_sh_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 129.61739823546282,
+      "distinct_build": 78441,
+      "distinct_probe": 78441,
+      "equal_key_pairs": 122937436,
+      "frequency_overlap": 0.9999999999991297,
+      "matches_per_probe": 129.61739823546282,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 129.61739823546282,
+      "shared_keys": 78441
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12961.74% (122.9 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.56,
+          "elapsed_compute_ms": 1570.0,
+          "input_rows": "948.5 K",
+          "join_time_ms": 1560.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "122.9 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12961.74% (122.9 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.7 MB",
+          "build_time_ms": 15.13,
+          "elapsed_compute_ms": 198.06,
+          "input_rows": "948.5 K",
+          "join_time_ms": 182.93,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "122.9 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 122937436
+  },
+  "slashdot_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 133.13275569763323,
+      "distinct_build": 82168,
+      "distinct_probe": 82168,
+      "equal_key_pairs": 126271626,
+      "frequency_overlap": 0.9999999999993544,
+      "matches_per_probe": 133.13275569763323,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 133.13275569763323,
+      "shared_keys": 82168
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13313.28% (126.3 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.69,
+          "elapsed_compute_ms": 1320.0,
+          "input_rows": "948.5 K",
+          "join_time_ms": 1310.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "126.3 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13313.28% (126.3 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.8 MB",
+          "build_time_ms": 13.93,
+          "elapsed_compute_ms": 187.41,
+          "input_rows": "948.5 K",
+          "join_time_ms": 173.48,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "126.3 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 126271626
+  },
+  "slashdot_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 948464,
+      "build_size_biased_multiplicity": 129.61739823546282,
+      "distinct_build": 78441,
+      "distinct_probe": 78441,
+      "equal_key_pairs": 122937436,
+      "frequency_overlap": 0.9999999999991555,
+      "matches_per_probe": 129.61739823546282,
+      "probe_rows": 948464,
+      "probe_size_biased_multiplicity": 129.61739823546282,
+      "shared_keys": 78441
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12961.74% (122.9 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.2 MB",
+          "build_time_ms": 6.19,
+          "elapsed_compute_ms": 301.55,
+          "input_rows": "948.5 K",
+          "join_time_ms": 295.36,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "122.9 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "12961.74% (122.9 M/948.5 K)",
+          "build_input_rows": "948.5 K",
+          "build_mem_used": "11.7 MB",
+          "build_time_ms": 12.93,
+          "elapsed_compute_ms": 126.98,
+          "input_rows": "948.5 K",
+          "join_time_ms": 114.06,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "122.9 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (948.5 K/948.5 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 122937436
+  },
+  "webgoogle_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 5105039,
+      "build_size_biased_multiplicity": 269.8129383536541,
+      "distinct_build": 714545,
+      "distinct_probe": 739454,
+      "equal_key_pairs": 60687836,
+      "frequency_overlap": 0.48197477041821707,
+      "matches_per_probe": 11.887830044001623,
+      "probe_rows": 5105039,
+      "probe_size_biased_multiplicity": 13.287551965812602,
+      "shared_keys": 578286
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1402.36% (60.69 M/4.33 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "61.9 MB",
+          "build_time_ms": 43.29,
+          "elapsed_compute_ms": 422.54,
+          "input_rows": "5.11 M",
+          "join_time_ms": 379.25,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "60.69 M",
+          "plan_line": 3,
+          "probe_hit_rate": "84.77% (4.33 M/5.11 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1402.36% (60.69 M/4.33 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "64.2 MB",
+          "build_time_ms": 107.64,
+          "elapsed_compute_ms": 270.12,
+          "input_rows": "5.11 M",
+          "join_time_ms": 162.48,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "60.69 M",
+          "plan_line": 3,
+          "probe_hit_rate": "84.77% (4.33 M/5.11 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 60687836
+  },
+  "webgoogle_p2_sel": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 79975,
+      "build_size_biased_multiplicity": 5.406301969365427,
+      "distinct_build": 57492,
+      "distinct_probe": 739454,
+      "equal_key_pairs": 955108,
+      "frequency_overlap": 0.1170547318720296,
+      "matches_per_probe": 0.18709122496419714,
+      "probe_rows": 5105039,
+      "probe_size_biased_multiplicity": 13.287551965812602,
+      "shared_keys": 53388
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "159.32% (955.1 K/599.5 K)",
+          "build_input_rows": "79.97 K",
+          "build_mem_used": "3.0 MB",
+          "build_time_ms": 10.26,
+          "elapsed_compute_ms": 31.94,
+          "input_rows": "5.11 M",
+          "join_time_ms": 21.68,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "955.1 K",
+          "plan_line": 3,
+          "probe_hit_rate": "11.74% (599.5 K/5.11 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "159.32% (955.1 K/599.5 K)",
+          "build_input_rows": "79.97 K",
+          "build_mem_used": "2.9 MB",
+          "build_time_ms": 7.55,
+          "elapsed_compute_ms": 27.35,
+          "input_rows": "5.11 M",
+          "join_time_ms": 19.8,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "955.1 K",
+          "plan_line": 3,
+          "probe_hit_rate": "11.74% (599.5 K/5.11 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 955108
+  },
+  "webgoogle_sh_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 5105039,
+      "build_size_biased_multiplicity": 269.8129383536541,
+      "distinct_build": 714545,
+      "distinct_probe": 739454,
+      "equal_key_pairs": 60687836,
+      "frequency_overlap": 0.48197477041821624,
+      "matches_per_probe": 11.887830044001623,
+      "probe_rows": 5105039,
+      "probe_size_biased_multiplicity": 13.287551965812602,
+      "shared_keys": 578286
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1402.36% (60.69 M/4.33 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "61.9 MB",
+          "build_time_ms": 44.04,
+          "elapsed_compute_ms": 4750.0,
+          "input_rows": "5.11 M",
+          "join_time_ms": 4700.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "60.69 M",
+          "plan_line": 3,
+          "probe_hit_rate": "84.77% (4.33 M/5.11 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1402.36% (60.69 M/4.33 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "64.2 MB",
+          "build_time_ms": 118.03,
+          "elapsed_compute_ms": 808.03,
+          "input_rows": "5.11 M",
+          "join_time_ms": 690.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "60.69 M",
+          "plan_line": 3,
+          "probe_hit_rate": "84.77% (4.33 M/5.11 M)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 60687836
+  },
+  "webgoogle_sh_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 5105039,
+      "build_size_biased_multiplicity": 13.287551965812602,
+      "distinct_build": 739454,
+      "distinct_probe": 739454,
+      "equal_key_pairs": 67833471,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 13.287551965812602,
+      "probe_rows": 5105039,
+      "probe_size_biased_multiplicity": 13.287551965812602,
+      "shared_keys": 739454
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1328.76% (67.83 M/5.11 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "61.9 MB",
+          "build_time_ms": 56.14,
+          "elapsed_compute_ms": 5690.0,
+          "input_rows": "5.11 M",
+          "join_time_ms": 5630.0,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "67.83 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (5.11 M/5.11 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1328.76% (67.83 M/5.11 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "66.2 MB",
+          "build_time_ms": 124.29,
+          "elapsed_compute_ms": 1060.0,
+          "input_rows": "5.11 M",
+          "join_time_ms": 936.69,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "67.83 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (5.11 M/5.11 M)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 67833471
+  },
+  "webgoogle_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 5105039,
+      "build_size_biased_multiplicity": 13.287551965812602,
+      "distinct_build": 739454,
+      "distinct_probe": 739454,
+      "equal_key_pairs": 67833471,
+      "frequency_overlap": 1.0,
+      "matches_per_probe": 13.287551965812602,
+      "probe_rows": 5105039,
+      "probe_size_biased_multiplicity": 13.287551965812602,
+      "shared_keys": 739454
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1328.76% (67.83 M/5.11 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "61.9 MB",
+          "build_time_ms": 43.31,
+          "elapsed_compute_ms": 213.49,
+          "input_rows": "5.11 M",
+          "join_time_ms": 170.17,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "67.83 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (5.11 M/5.11 M)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "1328.76% (67.83 M/5.11 M)",
+          "build_input_rows": "5.11 M",
+          "build_mem_used": "66.2 MB",
+          "build_time_ms": 86.34,
+          "elapsed_compute_ms": 210.85,
+          "input_rows": "5.11 M",
+          "join_time_ms": 124.51,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "67.83 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (5.11 M/5.11 M)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 67833471
+  },
+  "wikivote_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 83.6525282334674,
+      "distinct_build": 2381,
+      "distinct_probe": 6110,
+      "equal_key_pairs": 4542805,
+      "frequency_overlap": 0.3470859975503692,
+      "matches_per_probe": 43.81183153468545,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 137.23076700517896,
+      "shared_keys": 1376
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.57049,
+          "elapsed_compute_ms": 12.62,
+          "input_rows": "103.7 K",
+          "join_time_ms": 12.05,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 1.27,
+          "elapsed_compute_ms": 6.01,
+          "input_rows": "103.7 K",
+          "join_time_ms": 4.74,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 4542805
+  },
+  "wikivote_p3": {
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "351603.2% (202.7 M/57.65 K)",
+          "build_input_rows": "4.54 M",
+          "build_mem_used": "52.0 MB",
+          "build_time_ms": 46.96,
+          "elapsed_compute_ms": 516.46,
+          "input_rows": "103.7 K",
+          "join_time_ms": 469.5,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "202.7 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.6% (57.65 K/103.7 K)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.31565,
+          "elapsed_compute_ms": 18.1,
+          "input_rows": "103.7 K",
+          "join_time_ms": 17.79,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 4,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "351603.2% (202.7 M/57.65 K)",
+          "build_input_rows": "4.54 M",
+          "build_mem_used": "52.0 MB",
+          "build_time_ms": 71.49,
+          "elapsed_compute_ms": 244.81,
+          "input_rows": "103.7 K",
+          "join_time_ms": 173.31,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "202.7 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.6% (57.65 K/103.7 K)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 0.7690800000000001,
+          "elapsed_compute_ms": 9.15,
+          "input_rows": "103.7 K",
+          "join_time_ms": 8.38,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 4,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 202699243
+  },
+  "wikivote_sh_p2": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 83.6525282334674,
+      "distinct_build": 2381,
+      "distinct_probe": 6110,
+      "equal_key_pairs": 4542805,
+      "frequency_overlap": 0.3470859975503697,
+      "matches_per_probe": 43.81183153468545,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 137.23076700517896,
+      "shared_keys": 1376
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.5926100000000001,
+          "elapsed_compute_ms": 32.99,
+          "input_rows": "103.7 K",
+          "join_time_ms": 32.4,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 1.26,
+          "elapsed_compute_ms": 8.0,
+          "input_rows": "103.7 K",
+          "join_time_ms": 6.74,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 3,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 4542805
+  },
+  "wikivote_sh_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 83.6525282334674,
+      "distinct_build": 2381,
+      "distinct_probe": 2381,
+      "equal_key_pairs": 8673847,
+      "frequency_overlap": 0.9999999999999922,
+      "matches_per_probe": 83.6525282334674,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 83.6525282334674,
+      "shared_keys": 2381
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8365.25% (8.67 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.6303300000000001,
+          "elapsed_compute_ms": 62.9,
+          "input_rows": "103.7 K",
+          "join_time_ms": 62.27,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "8.67 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8365.25% (8.67 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 1.3,
+          "elapsed_compute_ms": 12.26,
+          "input_rows": "103.7 K",
+          "join_time_ms": 10.96,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "8.67 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 8673847
+  },
+  "wikivote_sh_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 137.23076700517896,
+      "distinct_build": 6110,
+      "distinct_probe": 6110,
+      "equal_key_pairs": 14229321,
+      "frequency_overlap": 0.9999999999998544,
+      "matches_per_probe": 137.23076700517896,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 137.23076700517896,
+      "shared_keys": 6110
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13723.08% (14.23 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.4 KB",
+          "build_time_ms": 0.6524,
+          "elapsed_compute_ms": 94.04,
+          "input_rows": "103.7 K",
+          "join_time_ms": 93.38,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "14.23 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13723.08% (14.23 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1268.3 KB",
+          "build_time_ms": 1.25,
+          "elapsed_compute_ms": 18.14,
+          "input_rows": "103.7 K",
+          "join_time_ms": 16.89,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "14.23 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "permuted",
+    "query_output_count": 14229321
+  },
+  "wikivote_star_in": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 83.6525282334674,
+      "distinct_build": 2381,
+      "distinct_probe": 2381,
+      "equal_key_pairs": 8673847,
+      "frequency_overlap": 0.9999999999999919,
+      "matches_per_probe": 83.6525282334674,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 83.6525282334674,
+      "shared_keys": 2381
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8365.25% (8.67 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.7015399999999999,
+          "elapsed_compute_ms": 40.89,
+          "input_rows": "103.7 K",
+          "join_time_ms": 40.19,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "8.67 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "8365.25% (8.67 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 1.2,
+          "elapsed_compute_ms": 12.28,
+          "input_rows": "103.7 K",
+          "join_time_ms": 11.08,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+          "output_rows": "8.67 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 8673847
+  },
+  "wikivote_star_out": {
+    "exact_binary_shape": {
+      "build_alias": "a",
+      "build_rows": 103689,
+      "build_size_biased_multiplicity": 137.23076700517896,
+      "distinct_build": 6110,
+      "distinct_probe": 6110,
+      "equal_key_pairs": 14229321,
+      "frequency_overlap": 0.9999999999999006,
+      "matches_per_probe": 137.23076700517896,
+      "probe_rows": 103689,
+      "probe_size_biased_multiplicity": 137.23076700517896,
+      "shared_keys": 6110
+    },
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13723.08% (14.23 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.4 KB",
+          "build_time_ms": 0.64622,
+          "elapsed_compute_ms": 33.37,
+          "input_rows": "103.7 K",
+          "join_time_ms": 32.72,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "14.23 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "13723.08% (14.23 M/103.7 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1268.3 KB",
+          "build_time_ms": 2.03,
+          "elapsed_compute_ms": 15.11,
+          "input_rows": "103.7 K",
+          "join_time_ms": 13.08,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+          "output_rows": "14.23 M",
+          "plan_line": 3,
+          "probe_hit_rate": "100% (103.7 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 14229321
+  },
+  "wikivote_tri": {
+    "operator_observations": {
+      "A": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (131.9 K/131.9 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "3.3 MB",
+          "build_time_ms": 1.51,
+          "elapsed_compute_ms": 32.78,
+          "input_rows": "4.54 M",
+          "join_time_ms": 31.27,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "131.9 K",
+          "plan_line": 3,
+          "probe_hit_rate": "2.9% (131.9 K/4.54 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1247.5 KB",
+          "build_time_ms": 0.6589400000000001,
+          "elapsed_compute_ms": 14.93,
+          "input_rows": "103.7 K",
+          "join_time_ms": 14.27,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 5,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ],
+      "B": [
+        {
+          "array_map_created_count": "0",
+          "avg_fanout": "100% (131.9 K/131.9 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "2.9 MB",
+          "build_time_ms": 1.4,
+          "elapsed_compute_ms": 35.01,
+          "input_rows": "4.54 M",
+          "join_time_ms": 33.61,
+          "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, dst@2), (dst@1, src@0)], projection=[src@2, src@3, src@0]",
+          "output_rows": "131.9 K",
+          "plan_line": 3,
+          "probe_hit_rate": "2.9% (131.9 K/4.54 M)"
+        },
+        {
+          "array_map_created_count": "1",
+          "avg_fanout": "7841.35% (4.54 M/57.93 K)",
+          "build_input_rows": "103.7 K",
+          "build_mem_used": "1266.3 KB",
+          "build_time_ms": 1.11,
+          "elapsed_compute_ms": 7.46,
+          "input_rows": "103.7 K",
+          "join_time_ms": 6.35,
+          "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, src@2, dst@3]",
+          "output_rows": "4.54 M",
+          "plan_line": 5,
+          "probe_hit_rate": "55.87% (57.93 K/103.7 K)"
+        }
+      ]
+    },
+    "order": "delivered",
+    "query_output_count": 131925
+  }
+}

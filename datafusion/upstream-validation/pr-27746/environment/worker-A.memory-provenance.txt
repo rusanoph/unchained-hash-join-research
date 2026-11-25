@@ -1,0 +1,5 @@
+6a060586ed85d2ff71837b6d818b7eddc075b699
+0b264cb20b42de01e9a5ce00d2d9663552ba7039
+801d935d97d037373fac099ac57b64b8c2be303feb787fc03c661ba512e8cd97  /recorded/datafusion-upstream-validation/build/memory-A/src/main.rs
+7def55df5a85e251fa17afa47f60618d6c1f705933cca4ade02a68dcbabaac3a  /recorded/datafusion-upstream-validation/build/memory-A/Cargo.lock
+544a4e3909dd581a8fe192ea6d2f3a48902f798fb4680e125650dadeb0230d77  /recorded/datafusion-upstream-validation/memory-bin/worker-A

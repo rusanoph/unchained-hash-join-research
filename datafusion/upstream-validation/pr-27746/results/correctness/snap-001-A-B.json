@@ -1,0 +1,744 @@
+[
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_file_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_file_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_file_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_shuffle_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_shuffle_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "amazon_shuffle_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_sh_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_sh_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_sh_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "astroph_tri",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_file_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_file_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_file_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_shuffle_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_shuffle_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_shuffle_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_p2_sel",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_sh_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_sh_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_sh_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_tri",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_file_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_file_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_file_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_shuffle_in_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_shuffle_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_shuffle_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_p2_sel",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_sh_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_sh_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_sh_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "slashdot_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "webgoogle_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "webgoogle_p2_sel",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "webgoogle_sh_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "webgoogle_sh_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "webgoogle_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_p3",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_sh_p2",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_sh_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_sh_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_star_in",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_star_out",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 9
+      },
+      "B": {
+        "succeeded": 9
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_tri",
+    "status": "consistent",
+    "suite": "snap"
+  }
+]

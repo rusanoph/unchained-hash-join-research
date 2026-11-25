@@ -1,0 +1,11 @@
+{
+  "margin": 0.24,
+  "median_abs_aa_log_ratio": 0.1195414542742196,
+  "n_repeated_aa_queries": 10,
+  "p90_abs_aa_log_ratio": 0.20927284644206975,
+  "pilot": {
+    "observed": 93,
+    "registered": 93
+  },
+  "repetition_rationale": "Repeat every SNAP query seven times, or nine when observed A/A noise exceeds the 5% floor. JOB uses five blocks, with the nine historically expensive queries capped at three to bound execution time. The historical exclusion 22d has separately registered one-shot coverage."
+}

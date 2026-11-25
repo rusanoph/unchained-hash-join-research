@@ -1,0 +1,677 @@
+{
+  "amazon_file_out_star": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "490.35% (6.06 M/1.23 M)"
+          ],
+          "build_input_rows": [
+            "1.23 M"
+          ],
+          "build_mem_used": [
+            "15.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.23 M"
+          ],
+          "output_rows": [
+            "6.06 M"
+          ],
+          "probe_hit_rate": [
+            "100% (1.23 M/1.23 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 17.67,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 13.86,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "490.35% (6.06 M/1.23 M)"
+          ],
+          "build_input_rows": [
+            "1.23 M"
+          ],
+          "build_mem_used": [
+            "17.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.23 M"
+          ],
+          "output_rows": [
+            "6.06 M"
+          ],
+          "probe_hit_rate": [
+            "100% (1.23 M/1.23 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 26.66,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 16.15,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "amazon_shuffle_out_star": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "490.35% (6.06 M/1.23 M)"
+          ],
+          "build_input_rows": [
+            "1.23 M"
+          ],
+          "build_mem_used": [
+            "15.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.23 M"
+          ],
+          "output_rows": [
+            "6.06 M"
+          ],
+          "probe_hit_rate": [
+            "100% (1.23 M/1.23 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 17.87,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 59.11,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "490.35% (6.06 M/1.23 M)"
+          ],
+          "build_input_rows": [
+            "1.23 M"
+          ],
+          "build_mem_used": [
+            "17.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.23 M"
+          ],
+          "output_rows": [
+            "6.06 M"
+          ],
+          "probe_hit_rate": [
+            "100% (1.23 M/1.23 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 34.28,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 67.38,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "enron_file_out_star": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "19461.86% (35.78 M/183.8 K)"
+          ],
+          "build_input_rows": [
+            "183.8 K"
+          ],
+          "build_mem_used": [
+            "2.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "183.8 K"
+          ],
+          "output_rows": [
+            "35.78 M"
+          ],
+          "probe_hit_rate": [
+            "100% (183.8 K/183.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.27,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 79.51,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "19461.86% (35.78 M/183.8 K)"
+          ],
+          "build_input_rows": [
+            "183.8 K"
+          ],
+          "build_mem_used": [
+            "2.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "183.8 K"
+          ],
+          "output_rows": [
+            "35.78 M"
+          ],
+          "probe_hit_rate": [
+            "100% (183.8 K/183.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 4.19,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 31.42,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "enron_shuffle_out_star": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "19461.86% (35.78 M/183.8 K)"
+          ],
+          "build_input_rows": [
+            "183.8 K"
+          ],
+          "build_mem_used": [
+            "2.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "183.8 K"
+          ],
+          "output_rows": [
+            "35.78 M"
+          ],
+          "probe_hit_rate": [
+            "100% (183.8 K/183.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.03,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 314.68,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "19461.86% (35.78 M/183.8 K)"
+          ],
+          "build_input_rows": [
+            "183.8 K"
+          ],
+          "build_mem_used": [
+            "2.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "183.8 K"
+          ],
+          "output_rows": [
+            "35.78 M"
+          ],
+          "probe_hit_rate": [
+            "100% (183.8 K/183.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 4.46,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 45.04,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "slashdot_p2_sel": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "379.27% (1.81 M/476.6 K)"
+          ],
+          "build_input_rows": [
+            "14.43 K"
+          ],
+          "build_mem_used": [
+            "489.8 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "948.5 K"
+          ],
+          "output_rows": [
+            "1.81 M"
+          ],
+          "probe_hit_rate": [
+            "50.25% (476.6 K/948.5 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.13,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 4.71,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "379.27% (1.81 M/476.6 K)"
+          ],
+          "build_input_rows": [
+            "14.43 K"
+          ],
+          "build_mem_used": [
+            "490.5 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "948.5 K"
+          ],
+          "output_rows": [
+            "1.81 M"
+          ],
+          "probe_hit_rate": [
+            "50.25% (476.6 K/948.5 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.13,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 5.85,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "slashdot_sh_star_in": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "13313.28% (126.3 M/948.5 K)"
+          ],
+          "build_input_rows": [
+            "948.5 K"
+          ],
+          "build_mem_used": [
+            "11.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "948.5 K"
+          ],
+          "output_rows": [
+            "126.3 M"
+          ],
+          "probe_hit_rate": [
+            "100% (948.5 K/948.5 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 7.03,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 1670.0,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "13313.28% (126.3 M/948.5 K)"
+          ],
+          "build_input_rows": [
+            "948.5 K"
+          ],
+          "build_mem_used": [
+            "11.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "948.5 K"
+          ],
+          "output_rows": [
+            "126.3 M"
+          ],
+          "probe_hit_rate": [
+            "100% (948.5 K/948.5 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 15.93,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 200.11,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, dst@1)], projection=[src@0, src@2]",
+      "pairs": 9
+    }
+  ],
+  "webgoogle_p2": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1402.36% (60.69 M/4.33 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "61.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "60.69 M"
+          ],
+          "probe_hit_rate": [
+            "84.77% (4.33 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 44.59,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 384.62,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1402.36% (60.69 M/4.33 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "64.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "60.69 M"
+          ],
+          "probe_hit_rate": [
+            "84.77% (4.33 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 103.58,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 162.37,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "webgoogle_sh_p2": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1402.36% (60.69 M/4.33 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "61.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "60.69 M"
+          ],
+          "probe_hit_rate": [
+            "84.77% (4.33 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 46.8,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 5420.0,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1402.36% (60.69 M/4.33 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "64.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "60.69 M"
+          ],
+          "probe_hit_rate": [
+            "84.77% (4.33 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 129.94,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 885.18,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(dst@1, src@0)], projection=[src@0, dst@3]",
+      "pairs": 9
+    }
+  ],
+  "webgoogle_star_out": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1328.76% (67.83 M/5.11 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "61.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "67.83 M"
+          ],
+          "probe_hit_rate": [
+            "100% (5.11 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 46.56,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 173.58,
+          "n": 9
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1328.76% (67.83 M/5.11 M)"
+          ],
+          "build_input_rows": [
+            "5.11 M"
+          ],
+          "build_mem_used": [
+            "66.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.11 M"
+          ],
+          "output_rows": [
+            "67.83 M"
+          ],
+          "probe_hit_rate": [
+            "100% (5.11 M/5.11 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 88.21,
+          "n": 9
+        },
+        "join_time_ms": {
+          "median": 121.79,
+          "n": 9
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(src@0, src@0)], projection=[dst@1, dst@3]",
+      "pairs": 9
+    }
+  ]
+}

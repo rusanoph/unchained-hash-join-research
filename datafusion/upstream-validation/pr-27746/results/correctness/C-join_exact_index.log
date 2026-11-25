@@ -1,0 +1,6 @@
+    Finished `release-nonlto` profile [optimized] target(s) in 11m 19s
+     Running bin/sqllogictests.rs (/recorded/datafusion-upstream-validation/hj-target/release-nonlto/deps/sqllogictests-291369f60bfc8bf6)
+Running with 4 test threads (available parallelism: 4)
+Progress: 1/1 files completed (100%)
+Peak memory drift: drift=285.6 KB allocated=285.6 KB reserved=0.0 B pool=join_exact_index.slt consumer=ExternalSorter[0]
+Test files ran concurrently, so the file and consumer above can be wrong. Run with --test-threads 1 to attribute drift to one file.

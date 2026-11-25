@@ -1,0 +1,13 @@
+2f6c665fef63936f08a4aa7a4fb01b87a4d2b009
+13822d4439290235c7918a4c423b7742be9a5cab
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+cargo 1.97.0 (c980f4866 2026-06-30)
+    Finished `release-nonlto` profile [optimized] target(s) in 0.23s
+79e43db5fbc42debe10270027575c40102ece3707530b93d4776617274ae138f  /recorded/datafusion-upstream-validation/hj-bin/dfbench-B
+ee32a9eece99161b2b1ddd3df3ed30bbb48b3e73d7e1077b8caf0458f622d419  Cargo.lock

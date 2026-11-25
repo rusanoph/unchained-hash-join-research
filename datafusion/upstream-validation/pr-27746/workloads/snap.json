@@ -1,0 +1,20 @@
+{
+  "address_space_gib": 10,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "batch_size": 8192,
+  "blocks": 9,
+  "cpu": [
+    2
+  ],
+  "partitions": 1,
+  "seed": 27746002,
+  "suites": [
+    "snap",
+    "snap_holdout"
+  ],
+  "timeout_seconds": 600,
+  "warmups": 1
+}

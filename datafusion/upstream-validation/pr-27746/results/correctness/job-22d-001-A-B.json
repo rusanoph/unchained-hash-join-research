@@ -1,0 +1,16 @@
+[
+  {
+    "arms": {
+      "A": {
+        "succeeded": 1
+      },
+      "B": {
+        "succeeded": 1
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_22d",
+    "status": "consistent",
+    "suite": "job_excluded"
+  }
+]

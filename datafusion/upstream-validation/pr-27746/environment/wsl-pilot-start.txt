@@ -1,0 +1,92 @@
+2026-11-25T18:14:08+00:00
+Linux wsl-host 6.18.58.1-microsoft-standard-WSL2 #1 SMP PREEMPT_DYNAMIC Tue Oct 27 00:24:11 UTC 2026 x86_64 x86_64 x86_64 GNU/Linux
+PRETTY_NAME="Ubuntu 22.04.5 LTS"
+NAME="Ubuntu"
+VERSION_ID="22.04"
+VERSION="22.04.5 LTS (Jammy Jellyfish)"
+VERSION_CODENAME=jammy
+ID=ubuntu
+ID_LIKE=debian
+HOME_URL="https://www.ubuntu.com/"
+SUPPORT_URL="https://help.ubuntu.com/"
+BUG_REPORT_URL="https://bugs.launchpad.net/ubuntu/"
+PRIVACY_POLICY_URL="https://www.ubuntu.com/legal/terms-and-policies/privacy-policy"
+UBUNTU_CODENAME=jammy
+Architecture:                            x86_64
+CPU op-mode(s):                          32-bit, 64-bit
+Address sizes:                           48 bits physical, 48 bits virtual
+Byte Order:                              Little Endian
+CPU(s):                                  4
+On-line CPU(s) list:                     0-3
+Vendor ID:                               AuthenticAMD
+Model name:                              AMD Ryzen 5 7500F 6-Core Processor
+CPU family:                              25
+Model:                                   97
+Thread(s) per core:                      2
+Core(s) per socket:                      2
+Socket(s):                               1
+Stepping:                                2
+BogoMIPS:                                7385.99
+Flags:                                   fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush mmx fxsr sse sse2 ht syscall nx mmxext fxsr_opt pdpe1gb rdtscp lm constant_tsc rep_good nopl xtopology tsc_reliable nonstop_tsc cpuid extd_apicid tsc_known_freq pni pclmulqdq ssse3 fma cx16 sse4_1 sse4_2 movbe popcnt aes xsave avx f16c rdrand hypervisor lahf_lm cmp_legacy svm cr8_legacy abm sse4a misalignsse 3dnowprefetch osvw topoext perfctr_core ssbd ibrs ibpb stibp vmmcall fsgsbase bmi1 avx2 smep bmi2 erms invpcid avx512f avx512dq rdseed adx smap avx512ifma clflushopt clwb avx512cd sha_ni avx512bw avx512vl xsaveopt xsavec xgetbv1 xsaves avx512_bf16 clzero xsaveerptr arat npt nrip_save tsc_scale vmcb_clean flushbyasid decodeassists pausefilter pfthreshold avx512vbmi umip avx512_vbmi2 gfni vaes vpclmulqdq avx512_vnni avx512_bitalg avx512_vpopcntdq rdpid fsrm
+Virtualization:                          AMD-V
+Hypervisor vendor:                       Microsoft
+Virtualization type:                     full
+L1d cache:                               64 KiB (2 instances)
+L1i cache:                               64 KiB (2 instances)
+L2 cache:                                2 MiB (2 instances)
+L3 cache:                                32 MiB (1 instance)
+NUMA node(s):                            1
+NUMA node0 CPU(s):                       0-3
+Vulnerability Gather data sampling:      Not affected
+Vulnerability Ghostwrite:                Not affected
+Vulnerability Indirect target selection: Not affected
+Vulnerability Itlb multihit:             Not affected
+Vulnerability L1tf:                      Not affected
+Vulnerability Mds:                       Not affected
+Vulnerability Meltdown:                  Not affected
+Vulnerability Mmio stale data:           Not affected
+Vulnerability Old microcode:             Not affected
+Vulnerability Reg file data sampling:    Not affected
+Vulnerability Retbleed:                  Not affected
+Vulnerability Spec rstack overflow:      Vulnerable: Safe RET, no microcode
+Vulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl
+Vulnerability Spectre v1:                Mitigation; usercopy/swapgs barriers and __user pointer sanitization
+Vulnerability Spectre v2:                Mitigation; Retpolines; IBPB conditional; IBRS_FW; STIBP always-on; RSB filling; PBRSB-eIBRS Not affected; BHI Not affected
+Vulnerability Srbds:                     Not affected
+Vulnerability Tsa:                       Vulnerable: No microcode
+Vulnerability Tsx async abort:           Not affected
+Vulnerability Vmscape:                   Not affected
+               total        used        free      shared  buff/cache   available
+Mem:            19Gi       1.0Gi       8.1Gi        79Mi        10Gi        18Gi
+Swap:          4.0Gi          0B       4.0Gi
+Filesystem     Type  Size  Used Avail Use% Mounted on
+/dev/sdd       ext4 1007G  130G  826G  14% /
+C:\            9p    953G  848G  105G  89% /mnt/c
+TARGET SOURCE FSTYPE OPTIONS
+/mnt/c C:\    9p     rw,noatime,aname=drvfs;path=C:\;uid=1000;gid=1000;symlinkroot=/mnt/,cache=0x5,access=client,msize=65536,trans=fd,rfd=6,wfd=6
+pid 18210's current affinity list: 0-3
+pid 18219's current affinity list: 2
+always [madvise] never
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+cargo 1.97.0 (c980f4866 2026-06-30)
+ldd (Ubuntu GLIBC 2.35-0ubuntu3.18) 2.35
+Python 3.10.12
+ 21:14:08 up 17 min,  1 user,  load average: 2.12, 2.78, 1.90
+COMMAND         %CPU %MEM
+systemd          0.0  0.0
+pipewire         0.0  0.0
+pipewire-media-  0.0  0.0
+bash             0.0  0.4
+dbus-daemon      0.0  0.0
+bash             0.0  0.0
+bash             0.0  0.0
+ps               0.0  0.0
+head             0.0  0.0
+/sys/devices/system/cpu/cpu2/cpufreq/scaling_cur_freq unavailable
+/sys/class/thermal/thermal_zone0/temp unavailable

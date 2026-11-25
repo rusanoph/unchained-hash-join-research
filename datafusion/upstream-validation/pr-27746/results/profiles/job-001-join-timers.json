@@ -1,0 +1,6965 @@
+{
+  "job_17a": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1506.94% (258.3 K/17.14 K)"
+          ],
+          "build_input_rows": [
+            "258.3 K"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.79 M"
+          ],
+          "output_rows": [
+            "258.3 K"
+          ],
+          "probe_hit_rate": [
+            "0.68% (17.14 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 12700.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 8.23,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1506.94% (258.3 K/17.14 K)"
+          ],
+          "build_input_rows": [
+            "258.3 K"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.79 M"
+          ],
+          "output_rows": [
+            "258.3 K"
+          ],
+          "probe_hit_rate": [
+            "0.68% (17.14 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 9620.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 9.41,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (movie_id@2, id@0), (movie_id@1, id@0)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "903.61% (258.3 K/28.58 K)"
+          ],
+          "build_input_rows": [
+            "2.83 M"
+          ],
+          "build_mem_used": [
+            "69.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "343.4 K"
+          ],
+          "output_rows": [
+            "258.3 K"
+          ],
+          "probe_hit_rate": [
+            "8.32% (28.58 K/343.4 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 12690.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7.92,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "903.61% (258.3 K/28.58 K)"
+          ],
+          "build_input_rows": [
+            "2.83 M"
+          ],
+          "build_mem_used": [
+            "71.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "343.4 K"
+          ],
+          "output_rows": [
+            "258.3 K"
+          ],
+          "probe_hit_rate": [
+            "8.32% (28.58 K/343.4 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 9600.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 5.78,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "916.4 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "0.31% (2.83 M/916.4 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.22746000000000002,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 537.63,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "916.4 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "0.31% (2.83 M/916.4 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.22000999999999998,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 516.84,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "28618.29% (916.4 M/3.20 M)"
+          ],
+          "build_input_rows": [
+            "32.29 M"
+          ],
+          "build_mem_used": [
+            "1580.7 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "916.4 M"
+          ],
+          "probe_hit_rate": [
+            "70.78% (3.20 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 4230.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7820.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "28618.29% (916.4 M/3.20 M)"
+          ],
+          "build_input_rows": [
+            "32.29 M"
+          ],
+          "build_mem_used": [
+            "1584.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "916.4 M"
+          ],
+          "probe_hit_rate": [
+            "70.78% (3.20 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 6800.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2170.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (32.29 M/32.29 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "32.29 M"
+          ],
+          "probe_hit_rate": [
+            "40.22% (32.29 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.48710000000000003,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 453.89,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (32.29 M/32.29 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "32.29 M"
+          ],
+          "probe_hit_rate": [
+            "40.22% (32.29 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.52419,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 439.78,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 10.37,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1860.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.62,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1860.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_17b": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1163.65% (52.31 K/4.50 K)"
+          ],
+          "build_input_rows": [
+            "52.31 K"
+          ],
+          "build_mem_used": [
+            "6.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.58 M"
+          ],
+          "output_rows": [
+            "52.31 K"
+          ],
+          "probe_hit_rate": [
+            "0.18% (4.50 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 33890.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 4.52,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1163.65% (52.31 K/4.50 K)"
+          ],
+          "build_input_rows": [
+            "52.31 K"
+          ],
+          "build_mem_used": [
+            "6.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.58 M"
+          ],
+          "output_rows": [
+            "52.31 K"
+          ],
+          "probe_hit_rate": [
+            "0.18% (4.50 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22860.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 4.46,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (movie_id@2, id@0), (movie_id@1, id@0)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1678.09% (52.31 K/3.12 K)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "164.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.17 K"
+          ],
+          "output_rows": [
+            "52.31 K"
+          ],
+          "probe_hit_rate": [
+            "8.62% (3.12 K/36.17 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 33880.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1.9,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1678.09% (52.31 K/3.12 K)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "167.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.17 K"
+          ],
+          "output_rows": [
+            "52.31 K"
+          ],
+          "probe_hit_rate": [
+            "8.62% (3.12 K/36.17 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22850.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1.37,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.23908000000000001,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1810.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.27149,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1790.0,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 7020.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 24770.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 13270.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7240.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.54071,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 383.25,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.56817,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 510.37,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 10.28,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1950.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.7,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2040.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_17c": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1042.39% (1.92 K/184)"
+          ],
+          "build_input_rows": [
+            "1.92 K"
+          ],
+          "build_mem_used": [
+            "323.8 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "1.92 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (184/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 34530.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 3.45,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1042.39% (1.92 K/184)"
+          ],
+          "build_input_rows": [
+            "1.92 K"
+          ],
+          "build_mem_used": [
+            "323.8 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "1.92 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (184/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22080.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 3.17,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (movie_id@2, id@0), (movie_id@1, id@0)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1313.7% (1.92 K/146)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "164.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.66 K"
+          ],
+          "output_rows": [
+            "1.92 K"
+          ],
+          "probe_hit_rate": [
+            "5.48% (146/2.66 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 34520.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 0.16149000000000002,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1313.7% (1.92 K/146)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "167.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.66 K"
+          ],
+          "output_rows": [
+            "1.92 K"
+          ],
+          "probe_hit_rate": [
+            "5.48% (146/2.66 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22080.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 0.14597,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.29205000000000003,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1810.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.34811000000000003,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1730.0,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 7490.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 24950.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 13000.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7060.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.52924,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 541.6,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.5366000000000001,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 489.14,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 11.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2080.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 24.94,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1890.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_17d": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "703.11% (11.54 K/1.64 K)"
+          ],
+          "build_input_rows": [
+            "11.54 K"
+          ],
+          "build_mem_used": [
+            "818.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.54 M"
+          ],
+          "output_rows": [
+            "11.54 K"
+          ],
+          "probe_hit_rate": [
+            "0.06% (1.64 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 34900.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 3.7,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "703.11% (11.54 K/1.64 K)"
+          ],
+          "build_input_rows": [
+            "11.54 K"
+          ],
+          "build_mem_used": [
+            "818.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.54 M"
+          ],
+          "output_rows": [
+            "11.54 K"
+          ],
+          "probe_hit_rate": [
+            "0.06% (1.64 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22980.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 3.75,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (movie_id@2, id@0), (movie_id@1, id@0)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1714.41% (11.54 K/673)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "164.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.22 K"
+          ],
+          "output_rows": [
+            "11.54 K"
+          ],
+          "probe_hit_rate": [
+            "12.9% (673/5.22 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 34830.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 0.6071300000000001,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1714.41% (11.54 K/673)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "167.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "5.22 K"
+          ],
+          "output_rows": [
+            "11.54 K"
+          ],
+          "probe_hit_rate": [
+            "12.9% (673/5.22 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22920.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 0.44512,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.25182,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1800.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.36681,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1780.0,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 7900.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 24710.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 13470.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7300.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.6284,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 460.52,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.52728,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 436.61,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 10.65,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2070.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.85,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2110.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_17e": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "2.53 M"
+          ],
+          "build_mem_used": [
+            "87.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.83 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "100% (2.83 M/2.83 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 57.3,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 62.67,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "2.53 M"
+          ],
+          "build_mem_used": [
+            "87.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.83 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "100% (2.83 M/2.83 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 56.05,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 58.78,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, movie_id@0), (id@0, movie_id@2), (id@0, movie_id@1)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "879.21% (2.83 M/322.2 K)"
+          ],
+          "build_input_rows": [
+            "2.83 M"
+          ],
+          "build_mem_used": [
+            "69.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.17 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "7.73% (322.2 K/4.17 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 12840.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 82.44,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "879.21% (2.83 M/322.2 K)"
+          ],
+          "build_input_rows": [
+            "2.83 M"
+          ],
+          "build_mem_used": [
+            "71.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.17 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "7.73% (322.2 K/4.17 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 9550.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 66.95,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "916.4 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "0.31% (2.83 M/916.4 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.24802000000000002,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 543.45,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 M/2.83 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "916.4 M"
+          ],
+          "output_rows": [
+            "2.83 M"
+          ],
+          "probe_hit_rate": [
+            "0.31% (2.83 M/916.4 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.28581,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 515.9,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "28618.29% (916.4 M/3.20 M)"
+          ],
+          "build_input_rows": [
+            "32.29 M"
+          ],
+          "build_mem_used": [
+            "1580.7 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "916.4 M"
+          ],
+          "probe_hit_rate": [
+            "70.78% (3.20 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 4370.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7910.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "28618.29% (916.4 M/3.20 M)"
+          ],
+          "build_input_rows": [
+            "32.29 M"
+          ],
+          "build_mem_used": [
+            "1584.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "916.4 M"
+          ],
+          "probe_hit_rate": [
+            "70.78% (3.20 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 6730.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2150.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (32.29 M/32.29 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "32.29 M"
+          ],
+          "probe_hit_rate": [
+            "40.22% (32.29 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.61141,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 497.73,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (32.29 M/32.29 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "32.29 M"
+          ],
+          "probe_hit_rate": [
+            "40.22% (32.29 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.60238,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 461.88,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 10.82,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1870.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.57,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1940.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_17f": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "4105.18% (1.11 M/27.11 K)"
+          ],
+          "build_input_rows": [
+            "1.11 M"
+          ],
+          "build_mem_used": [
+            "163.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.64 M"
+          ],
+          "output_rows": [
+            "1.11 M"
+          ],
+          "probe_hit_rate": [
+            "1.07% (27.11 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 35410.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 33.7,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "4105.18% (1.11 M/27.11 K)"
+          ],
+          "build_input_rows": [
+            "1.11 M"
+          ],
+          "build_mem_used": [
+            "163.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.64 M"
+          ],
+          "output_rows": [
+            "1.11 M"
+          ],
+          "probe_hit_rate": [
+            "1.07% (27.11 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 23000.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 35.9,
+          "n": 3
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (movie_id@2, id@0), (movie_id@1, id@0)], projection=[name@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1894% (1.11 M/58.77 K)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "164.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "536.7 K"
+          ],
+          "output_rows": [
+            "1.11 M"
+          ],
+          "probe_hit_rate": [
+            "10.95% (58.77 K/536.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 35290.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 30.14,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1894% (1.11 M/58.77 K)"
+          ],
+          "build_input_rows": [
+            "7.80 M"
+          ],
+          "build_mem_used": [
+            "167.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "536.7 K"
+          ],
+          "output_rows": [
+            "1.11 M"
+          ],
+          "probe_hit_rate": [
+            "10.95% (58.77 K/536.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 22910.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 21.55,
+          "n": 3
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, name@5]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.21753,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1810.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (7.80 M/7.80 M)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.10 B"
+          ],
+          "output_rows": [
+            "7.80 M"
+          ],
+          "probe_hit_rate": [
+            "0.25% (7.80 M/3.10 B)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.23689,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1730.0,
+          "n": 3
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 8220.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 24930.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "77523.05% (3.10 B/4.00 M)"
+          ],
+          "build_input_rows": [
+            "80.27 M"
+          ],
+          "build_mem_used": [
+            "3.3 GB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "3.10 B"
+          ],
+          "probe_hit_rate": [
+            "88.43% (4.00 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 13450.0,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 7090.0,
+          "n": 3
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.49277,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 417.59,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (80.27 M/80.27 M)"
+          ],
+          "build_input_rows": [
+            "235.0 K"
+          ],
+          "build_mem_used": [
+            "1835.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "80.27 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "100% (80.27 M/80.27 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.64003,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 440.63,
+          "n": 3
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 3
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 10.85,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 1940.0,
+          "n": 3
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "389.78% (80.27 M/20.59 M)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "80.27 M"
+          ],
+          "probe_hit_rate": [
+            "56.82% (20.59 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.95,
+          "n": 3
+        },
+        "join_time_ms": {
+          "median": 2050.0,
+          "n": 3
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 3
+    }
+  ],
+  "job_29a": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "162000% (1.62 K/1)"
+          ],
+          "build_input_rows": [
+            "1.62 K"
+          ],
+          "build_mem_used": [
+            "464.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "33.33% (1/3)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 713.94,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.07289,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "162000% (1.62 K/1)"
+          ],
+          "build_input_rows": [
+            "1.62 K"
+          ],
+          "build_mem_used": [
+            "464.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "33.33% (1/3)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 745.92,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.0509,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@4, id@0), (movie_id@3, id@0), (movie_id@0, id@0), (movie_id@5, id@0), (movie_id@1, id@0)], projection=[name@2, name@6, title@8]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.62 K/1.62 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.62 K"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "100% (1.62 K/1.62 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.04858,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.040850000000000004,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.62 K/1.62 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.62 K"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "100% (1.62 K/1.62 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.04807,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.03675,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, role_id@1)], projection=[movie_id@0, movie_id@2, name@3, movie_id@4, movie_id@5, movie_id@6, name@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.62 K/1.62 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.89 K"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "33.13% (1.62 K/4.89 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00562,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.03748,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.62 K/1.62 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.89 K"
+          ],
+          "output_rows": [
+            "1.62 K"
+          ],
+          "probe_hit_rate": [
+            "33.13% (1.62 K/4.89 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.005200000000000001,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.03072,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@8)], projection=[movie_id@0, role_id@1, movie_id@2, name@3, movie_id@4, movie_id@5, movie_id@6, name@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3000% (4.89 K/163)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "521.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.96 M"
+          ],
+          "output_rows": [
+            "4.89 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (163/2.96 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 705.4,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 7.54,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3000% (4.89 K/163)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "521.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.96 M"
+          ],
+          "output_rows": [
+            "4.89 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (163/2.96 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 737.75,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 7.57,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(id@8, person_id@0), (person_id@0, person_id@0)], projection=[movie_id@1, role_id@2, movie_id@3, name@4, movie_id@5, movie_id@6, movie_id@7, name@9, info_type_id@11]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3000% (30/1)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "385.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "50.01 K"
+          ],
+          "output_rows": [
+            "30"
+          ],
+          "probe_hit_rate": [
+            "0% (1/50.01 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 665.24,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.25081000000000003,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3000% (30/1)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "385.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "50.01 K"
+          ],
+          "output_rows": [
+            "30"
+          ],
+          "probe_hit_rate": [
+            "0% (1/50.01 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 698.73,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.23343,
+          "n": 5
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@1, id@0), (person_id@0, id@0)], projection=[person_id@1, movie_id@2, role_id@3, movie_id@4, name@5, movie_id@6, movie_id@7, movie_id@8, id@9, name@10]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (30/30)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "11.02 K"
+          ],
+          "output_rows": [
+            "30"
+          ],
+          "probe_hit_rate": [
+            "0.27% (30/11.02 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.19032,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.0222,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (30/30)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "11.02 K"
+          ],
+          "output_rows": [
+            "30"
+          ],
+          "probe_hit_rate": [
+            "0.27% (30/11.02 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.19897,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.02649,
+          "n": 5
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@9)], projection=[person_id@0, person_id@1, movie_id@2, role_id@3, movie_id@4, name@5, movie_id@6, movie_id@7, movie_id@8]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "5100% (11.02 K/216)"
+          ],
+          "build_input_rows": [
+            "102"
+          ],
+          "build_mem_used": [
+            "354.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "11.02 K"
+          ],
+          "probe_hit_rate": [
+            "0% (216/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 649.05,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 15.51,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "5100% (11.02 K/216)"
+          ],
+          "build_input_rows": [
+            "102"
+          ],
+          "build_mem_used": [
+            "354.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "11.02 K"
+          ],
+          "probe_hit_rate": [
+            "0% (216/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 682.66,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 15.34,
+          "n": 5
+        }
+      },
+      "join": 6,
+      "operator": "                HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@6, movie_id@0), (movie_id@7, movie_id@0), (movie_id@2, movie_id@0), (movie_id@4, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (102/102)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "102"
+          ],
+          "output_rows": [
+            "102"
+          ],
+          "probe_hit_rate": [
+            "100% (102/102)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00471,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01634,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (102/102)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "102"
+          ],
+          "output_rows": [
+            "102"
+          ],
+          "probe_hit_rate": [
+            "100% (102/102)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00458,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01759,
+          "n": 5
+        }
+      },
+      "join": 7,
+      "operator": "                  HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@8)], projection=[person_id@0, person_id@1, movie_id@2, role_id@3, movie_id@4, name@5, movie_id@6, movie_id@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3400% (102/3)"
+          ],
+          "build_input_rows": [
+            "142"
+          ],
+          "build_mem_used": [
+            "324.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "451.1 K"
+          ],
+          "output_rows": [
+            "102"
+          ],
+          "probe_hit_rate": [
+            "0% (3/451.1 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 192.28,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 1.61,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3400% (102/3)"
+          ],
+          "build_input_rows": [
+            "142"
+          ],
+          "build_mem_used": [
+            "324.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "451.1 K"
+          ],
+          "output_rows": [
+            "102"
+          ],
+          "probe_hit_rate": [
+            "0% (3/451.1 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 197.74,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 1.9,
+          "n": 5
+        }
+      },
+      "join": 8,
+      "operator": "                    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@6, movie_id@0), (movie_id@2, movie_id@0), (movie_id@4, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (142/142)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "469"
+          ],
+          "output_rows": [
+            "142"
+          ],
+          "probe_hit_rate": [
+            "30.28% (142/469)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.45982,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01534,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (142/142)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "469"
+          ],
+          "output_rows": [
+            "142"
+          ],
+          "probe_hit_rate": [
+            "30.28% (142/469)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.47138,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01569,
+          "n": 5
+        }
+      },
+      "join": 9,
+      "operator": "                      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@7)], projection=[person_id@0, person_id@1, movie_id@2, role_id@3, movie_id@4, name@5, movie_id@6]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "455.34% (469/103)"
+          ],
+          "build_input_rows": [
+            "17"
+          ],
+          "build_mem_used": [
+            "288.7 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.61 M"
+          ],
+          "output_rows": [
+            "469"
+          ],
+          "probe_hit_rate": [
+            "0% (103/2.61 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 183.9,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 6.67,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "455.34% (469/103)"
+          ],
+          "build_input_rows": [
+            "17"
+          ],
+          "build_mem_used": [
+            "288.7 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.61 M"
+          ],
+          "output_rows": [
+            "469"
+          ],
+          "probe_hit_rate": [
+            "0% (103/2.61 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 189.74,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 7.11,
+          "n": 5
+        }
+      },
+      "join": 10,
+      "operator": "                        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@2, movie_id@0), (movie_id@4, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1700% (17/1)"
+          ],
+          "build_input_rows": [
+            "15.41 K"
+          ],
+          "build_mem_used": [
+            "967.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1"
+          ],
+          "output_rows": [
+            "17"
+          ],
+          "probe_hit_rate": [
+            "100% (1/1)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 178.9,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.02631,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1700% (17/1)"
+          ],
+          "build_input_rows": [
+            "15.41 K"
+          ],
+          "build_mem_used": [
+            "976.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1"
+          ],
+          "output_rows": [
+            "17"
+          ],
+          "probe_hit_rate": [
+            "100% (1/1)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 185.59,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.028120000000000003,
+          "n": 5
+        }
+      },
+      "join": 11,
+      "operator": "                          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_role_id@3, id@0)], projection=[person_id@0, person_id@1, movie_id@2, role_id@4, movie_id@5, name@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (15.41 K/15.41 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "92.89 K"
+          ],
+          "output_rows": [
+            "15.41 K"
+          ],
+          "probe_hit_rate": [
+            "16.59% (15.41 K/92.89 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00743,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.26177999999999996,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (15.41 K/15.41 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "92.89 K"
+          ],
+          "output_rows": [
+            "15.41 K"
+          ],
+          "probe_hit_rate": [
+            "16.59% (15.41 K/92.89 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00821,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.26821,
+          "n": 5
+        }
+      },
+      "join": 12,
+      "operator": "                            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, status_id@6)], projection=[person_id@0, person_id@1, movie_id@2, person_role_id@3, role_id@4, movie_id@5]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (92.89 K/92.89 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "155.0 K"
+          ],
+          "output_rows": [
+            "92.89 K"
+          ],
+          "probe_hit_rate": [
+            "59.93% (92.89 K/155.0 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.0047,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.84735,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (92.89 K/92.89 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "155.0 K"
+          ],
+          "output_rows": [
+            "92.89 K"
+          ],
+          "probe_hit_rate": [
+            "59.93% (92.89 K/155.0 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.0049299999999999995,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.82352,
+          "n": 5
+        }
+      },
+      "join": 13,
+      "operator": "                              HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, subject_id@6)], projection=[person_id@0, person_id@1, movie_id@2, person_role_id@3, role_id@4, movie_id@5, status_id@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "149.11% (155.0 K/104.0 K)"
+          ],
+          "build_input_rows": [
+            "135.1 K"
+          ],
+          "build_mem_used": [
+            "6.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.77 M"
+          ],
+          "output_rows": [
+            "155.0 K"
+          ],
+          "probe_hit_rate": [
+            "5.87% (104.0 K/1.77 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.91,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 10.53,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "149.11% (155.0 K/104.0 K)"
+          ],
+          "build_input_rows": [
+            "135.1 K"
+          ],
+          "build_mem_used": [
+            "6.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.77 M"
+          ],
+          "output_rows": [
+            "155.0 K"
+          ],
+          "probe_hit_rate": [
+            "5.87% (104.0 K/1.77 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.82,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 11.28,
+          "n": 5
+        }
+      },
+      "join": 14,
+      "operator": "                                HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@2)], projection=[person_id@3, person_id@4, movie_id@5, person_role_id@6, role_id@7, movie_id@0, subject_id@1, status_id@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "337.58% (1.77 M/524.6 K)"
+          ],
+          "build_input_rows": [
+            "901.3 K"
+          ],
+          "build_mem_used": [
+            "22.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "836.7 K"
+          ],
+          "output_rows": [
+            "1.77 M"
+          ],
+          "probe_hit_rate": [
+            "62.7% (524.6 K/836.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 5.04,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 10.49,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "337.58% (1.77 M/524.6 K)"
+          ],
+          "build_input_rows": [
+            "901.3 K"
+          ],
+          "build_mem_used": [
+            "23.0 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "836.7 K"
+          ],
+          "output_rows": [
+            "1.77 M"
+          ],
+          "probe_hit_rate": [
+            "62.7% (524.6 K/836.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 7.51,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 12.36,
+          "n": 5
+        }
+      },
+      "join": 15,
+      "operator": "                                  HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, person_id@0)]",
+      "pairs": 5
+    }
+  ],
+  "job_2d": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "277.19% (68.32 K/24.65 K)"
+          ],
+          "build_input_rows": [
+            "68.32 K"
+          ],
+          "build_mem_used": [
+            "2.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "24.65 K"
+          ],
+          "probe_hit_rate": [
+            "0.97% (24.65 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 65.62,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 6.0,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "277.19% (68.32 K/24.65 K)"
+          ],
+          "build_input_rows": [
+            "68.32 K"
+          ],
+          "build_mem_used": [
+            "2.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "24.65 K"
+          ],
+          "probe_hit_rate": [
+            "0.97% (24.65 K/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 82.47,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 5.89,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(movie_id@0, id@0), (movie_id@1, id@0)], projection=[title@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (68.32 K/68.32 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "12.18 M"
+          ],
+          "output_rows": [
+            "68.32 K"
+          ],
+          "probe_hit_rate": [
+            "0.56% (68.32 K/12.18 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.19403,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 6.84,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (68.32 K/68.32 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "12.18 M"
+          ],
+          "output_rows": [
+            "68.32 K"
+          ],
+          "probe_hit_rate": [
+            "0.56% (68.32 K/12.18 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.20816,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 6.72,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@2)], projection=[movie_id@0, movie_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "377.75% (12.18 M/3.22 M)"
+          ],
+          "build_input_rows": [
+            "1.15 M"
+          ],
+          "build_mem_used": [
+            "18.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "12.18 M"
+          ],
+          "probe_hit_rate": [
+            "71.26% (3.22 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.67,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 34.37,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "377.75% (12.18 M/3.22 M)"
+          ],
+          "build_input_rows": [
+            "1.15 M"
+          ],
+          "build_mem_used": [
+            "20.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "12.18 M"
+          ],
+          "probe_hit_rate": [
+            "71.26% (3.22 M/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 27.79,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 44.87,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.15 M/1.15 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.61 M"
+          ],
+          "output_rows": [
+            "1.15 M"
+          ],
+          "probe_hit_rate": [
+            "44.22% (1.15 M/2.61 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.4285,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 10.45,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.15 M/1.15 M)"
+          ],
+          "build_input_rows": [
+            "84.84 K"
+          ],
+          "build_mem_used": [
+            "1249.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.61 M"
+          ],
+          "output_rows": [
+            "1.15 M"
+          ],
+          "probe_hit_rate": [
+            "44.22% (1.15 M/2.61 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.41516000000000003,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 9.92,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@1)], projection=[movie_id@0]",
+      "pairs": 5
+    }
+  ],
+  "job_31c": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1846.41% (2.83 K/153)"
+          ],
+          "build_input_rows": [
+            "2.83 K"
+          ],
+          "build_mem_used": [
+            "679.1 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (153/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 334.43,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 9.63,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1846.41% (2.83 K/153)"
+          ],
+          "build_input_rows": [
+            "2.83 K"
+          ],
+          "build_mem_used": [
+            "680.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2.53 M"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (153/2.53 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 395.33,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 9.63,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@2, id@0), (movie_id@4, id@0), (movie_id@0, id@0), (movie_id@6, id@0), (movie_id@1, id@0)], projection=[info@3, info@5, name@7, title@9]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1284.09% (2.83 K/220)"
+          ],
+          "build_input_rows": [
+            "2.83 K"
+          ],
+          "build_mem_used": [
+            "527.1 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.17 M"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (220/4.17 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 325.63,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 8.38,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1284.09% (2.83 K/220)"
+          ],
+          "build_input_rows": [
+            "2.83 K"
+          ],
+          "build_mem_used": [
+            "528.7 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.17 M"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "0.01% (220/4.17 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 383.9,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 10.93,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, movie_id@3, info@4, movie_id@5, info@6, movie_id@7, name@9]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 K/2.83 K)"
+          ],
+          "build_input_rows": [
+            "7"
+          ],
+          "build_mem_used": [
+            "34.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "107.4 K"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "2.63% (2.83 K/107.4 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.95543,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.28737,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (2.83 K/2.83 K)"
+          ],
+          "build_input_rows": [
+            "7"
+          ],
+          "build_mem_used": [
+            "34.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "107.4 K"
+          ],
+          "output_rows": [
+            "2.83 K"
+          ],
+          "probe_hit_rate": [
+            "2.63% (2.83 K/107.4 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.99109,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.27913,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@8)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3, info@4, movie_id@5, info@6, movie_id@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "653.08% (107.4 K/16.45 K)"
+          ],
+          "build_input_rows": [
+            "1.02 K"
+          ],
+          "build_mem_used": [
+            "454.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "107.4 K"
+          ],
+          "probe_hit_rate": [
+            "0.36% (16.45 K/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 305.98,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 17.68,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "653.08% (107.4 K/16.45 K)"
+          ],
+          "build_input_rows": [
+            "1.02 K"
+          ],
+          "build_mem_used": [
+            "455.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "107.4 K"
+          ],
+          "probe_hit_rate": [
+            "0.36% (16.45 K/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 365.14,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 16.89,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@3, movie_id@0), (movie_id@5, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.02 K/1.02 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.08 K"
+          ],
+          "output_rows": [
+            "1.02 K"
+          ],
+          "probe_hit_rate": [
+            "32.99% (1.02 K/3.08 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.01436,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01365,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.02 K/1.02 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "3.08 K"
+          ],
+          "output_rows": [
+            "1.02 K"
+          ],
+          "probe_hit_rate": [
+            "32.99% (1.02 K/3.08 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.01562,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.015130000000000001,
+          "n": 5
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@6)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3, info@4, movie_id@5, info@7]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "303.15% (3.08 K/1.02 K)"
+          ],
+          "build_input_rows": [
+            "1.38 M"
+          ],
+          "build_mem_used": [
+            "79.7 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.03 K"
+          ],
+          "output_rows": [
+            "3.08 K"
+          ],
+          "probe_hit_rate": [
+            "98.55% (1.02 K/1.03 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 53.6,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.16574000000000003,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "303.15% (3.08 K/1.02 K)"
+          ],
+          "build_input_rows": [
+            "1.38 M"
+          ],
+          "build_mem_used": [
+            "83.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.03 K"
+          ],
+          "output_rows": [
+            "3.08 K"
+          ],
+          "probe_hit_rate": [
+            "98.55% (1.02 K/1.03 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 89.45,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.19747,
+          "n": 5
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1), (movie_id@0, movie_id@3), (movie_id@0, movie_id@2)], projection=[person_id@3, movie_id@4, movie_id@5, movie_id@6, info@7, movie_id@0, info_type_id@1, info@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.03 K/1.03 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.09 K"
+          ],
+          "output_rows": [
+            "1.03 K"
+          ],
+          "probe_hit_rate": [
+            "94.51% (1.03 K/1.09 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.06719,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.03207,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.03 K/1.03 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.09 K"
+          ],
+          "output_rows": [
+            "1.03 K"
+          ],
+          "probe_hit_rate": [
+            "94.51% (1.03 K/1.09 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.07295,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.016579999999999998,
+          "n": 5
+        }
+      },
+      "join": 6,
+      "operator": "                HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@4)], projection=[person_id@0, movie_id@1, movie_id@2, movie_id@3, info@5]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "247.62% (1.09 K/441)"
+          ],
+          "build_input_rows": [
+            "1.45 K"
+          ],
+          "build_mem_used": [
+            "135.7 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "189.0 K"
+          ],
+          "output_rows": [
+            "1.09 K"
+          ],
+          "probe_hit_rate": [
+            "0.23% (441/189.0 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 217.1,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.68603,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "247.62% (1.09 K/441)"
+          ],
+          "build_input_rows": [
+            "1.45 K"
+          ],
+          "build_mem_used": [
+            "137.3 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "189.0 K"
+          ],
+          "output_rows": [
+            "1.09 K"
+          ],
+          "probe_hit_rate": [
+            "0.23% (441/189.0 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 238.52,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.8069500000000001,
+          "n": 5
+        }
+      },
+      "join": 7,
+      "operator": "                  HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, movie_id@0), (movie_id@2, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (1.45 K/1.45 K)"
+          ],
+          "build_input_rows": [
+            "10"
+          ],
+          "build_mem_used": [
+            "32.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.56 M"
+          ],
+          "output_rows": [
+            "1.45 K"
+          ],
+          "probe_hit_rate": [
+            "0.09% (1.45 K/1.56 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.72687,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 2.73,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (1.45 K/1.45 K)"
+          ],
+          "build_input_rows": [
+            "10"
+          ],
+          "build_mem_used": [
+            "32.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.56 M"
+          ],
+          "output_rows": [
+            "1.45 K"
+          ],
+          "probe_hit_rate": [
+            "0.09% (1.45 K/1.56 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.67066,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 2.87,
+          "n": 5
+        }
+      },
+      "join": 8,
+      "operator": "                    HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, company_id@3)], projection=[person_id@0, movie_id@1, movie_id@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "281.91% (1.56 M/552.4 K)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "39.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.24 M"
+          ],
+          "output_rows": [
+            "1.56 M"
+          ],
+          "probe_hit_rate": [
+            "44.38% (552.4 K/1.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 23.54,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 36.33,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "281.91% (1.56 M/552.4 K)"
+          ],
+          "build_input_rows": [
+            "2.61 M"
+          ],
+          "build_mem_used": [
+            "43.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.24 M"
+          ],
+          "output_rows": [
+            "1.56 M"
+          ],
+          "probe_hit_rate": [
+            "44.38% (552.4 K/1.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 35.24,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 43.91,
+          "n": 5
+        }
+      },
+      "join": 9,
+      "operator": "                      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, company_id@1]",
+      "pairs": 5
+    }
+  ],
+  "job_4b": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "120% (6/5)"
+          ],
+          "build_input_rows": [
+            "21"
+          ],
+          "build_mem_used": [
+            "192.7 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "391.7 K"
+          ],
+          "output_rows": [
+            "6"
+          ],
+          "probe_hit_rate": [
+            "0% (5/391.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 13.32,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 1.19,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "120% (6/5)"
+          ],
+          "build_input_rows": [
+            "21"
+          ],
+          "build_mem_used": [
+            "192.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "391.7 K"
+          ],
+          "output_rows": [
+            "6"
+          ],
+          "probe_hit_rate": [
+            "0% (5/391.7 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 14.04,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 1.4,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, id@0), (movie_id@2, id@0)], projection=[info@1, title@4]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (21/21)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "33.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "6.03 K"
+          ],
+          "output_rows": [
+            "21"
+          ],
+          "probe_hit_rate": [
+            "0.35% (21/6.03 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.99,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01245,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (21/21)"
+          ],
+          "build_input_rows": [
+            "30"
+          ],
+          "build_mem_used": [
+            "33.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "6.03 K"
+          ],
+          "output_rows": [
+            "21"
+          ],
+          "probe_hit_rate": [
+            "0.35% (21/6.03 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 1.93,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01471,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, keyword_id@3)], projection=[movie_id@0, info@1, movie_id@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (6.03 K/6.03 K)"
+          ],
+          "build_input_rows": [
+            "305"
+          ],
+          "build_mem_used": [
+            "169.8 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "6.03 K"
+          ],
+          "probe_hit_rate": [
+            "0.13% (6.03 K/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2.42,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 8.49,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (6.03 K/6.03 K)"
+          ],
+          "build_input_rows": [
+            "305"
+          ],
+          "build_mem_used": [
+            "168.5 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "4.52 M"
+          ],
+          "output_rows": [
+            "6.03 K"
+          ],
+          "probe_hit_rate": [
+            "0.13% (6.03 K/4.52 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2.38,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 9.49,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (305/305)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "8.32 K"
+          ],
+          "output_rows": [
+            "305"
+          ],
+          "probe_hit_rate": [
+            "3.66% (305/8.32 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.00768,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.03997,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (305/305)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "8.32 K"
+          ],
+          "output_rows": [
+            "305"
+          ],
+          "probe_hit_rate": [
+            "3.66% (305/8.32 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.008140000000000001,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01796,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@1)], projection=[movie_id@0, info@2]",
+      "pairs": 5
+    }
+  ],
+  "job_6c": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "200% (2/1)"
+          ],
+          "build_input_rows": [
+            "6"
+          ],
+          "build_mem_used": [
+            "336.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "438"
+          ],
+          "output_rows": [
+            "2"
+          ],
+          "probe_hit_rate": [
+            "0.23% (1/438)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2600.0,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.04125,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "200% (2/1)"
+          ],
+          "build_input_rows": [
+            "6"
+          ],
+          "build_mem_used": [
+            "336.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "438"
+          ],
+          "output_rows": [
+            "2"
+          ],
+          "probe_hit_rate": [
+            "0.23% (1/438)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2370.0,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.02554,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@1, id@0), (movie_id@0, id@0)], projection=[keyword@2, name@3, title@5]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "600% (6/1)"
+          ],
+          "build_input_rows": [
+            "1.24 K"
+          ],
+          "build_mem_used": [
+            "318.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2"
+          ],
+          "output_rows": [
+            "6"
+          ],
+          "probe_hit_rate": [
+            "50% (1/2)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2490.0,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.054630000000000005,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "600% (6/1)"
+          ],
+          "build_input_rows": [
+            "1.24 K"
+          ],
+          "build_mem_used": [
+            "316.5 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "2"
+          ],
+          "output_rows": [
+            "6"
+          ],
+          "probe_hit_rate": [
+            "50% (1/2)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 2250.0,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.05868,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0)], projection=[movie_id@1, movie_id@2, keyword@3, name@5]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.24 K/1.24 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "168.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "215.8 M"
+          ],
+          "output_rows": [
+            "1.24 K"
+          ],
+          "probe_hit_rate": [
+            "0% (1.24 K/215.8 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.20564,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 140.33,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.24 K/1.24 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "168.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "215.8 M"
+          ],
+          "output_rows": [
+            "1.24 K"
+          ],
+          "probe_hit_rate": [
+            "0% (1.24 K/215.8 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.20422,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 135.96,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(id@0, keyword_id@3)], projection=[person_id@2, movie_id@3, movie_id@4, keyword@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1973.03% (215.8 M/10.94 M)"
+          ],
+          "build_input_rows": [
+            "4.52 M"
+          ],
+          "build_mem_used": [
+            "61.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "215.8 M"
+          ],
+          "probe_hit_rate": [
+            "30.17% (10.94 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 35.87,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 2290.0,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "1973.03% (215.8 M/10.94 M)"
+          ],
+          "build_input_rows": [
+            "4.52 M"
+          ],
+          "build_mem_used": [
+            "63.9 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "215.8 M"
+          ],
+          "probe_hit_rate": [
+            "30.17% (10.94 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 69.03,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 2020.0,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, movie_id@1)], projection=[person_id@2, movie_id@3, movie_id@0, keyword_id@1]",
+      "pairs": 5
+    }
+  ],
+  "job_7a": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "457.14% (32/7)"
+          ],
+          "build_input_rows": [
+            "151"
+          ],
+          "build_mem_used": [
+            "204.9 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "340.2 K"
+          ],
+          "output_rows": [
+            "32"
+          ],
+          "probe_hit_rate": [
+            "0% (7/340.2 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 269.0,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.88817,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "457.14% (32/7)"
+          ],
+          "build_input_rows": [
+            "151"
+          ],
+          "build_mem_used": [
+            "205.1 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "340.2 K"
+          ],
+          "output_rows": [
+            "32"
+          ],
+          "probe_hit_rate": [
+            "0% (7/340.2 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 356.97,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.9748300000000001,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, id@0), (linked_movie_id@1, id@0)], projection=[name@2, title@4]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (151/151)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "151"
+          ],
+          "output_rows": [
+            "151"
+          ],
+          "probe_hit_rate": [
+            "100% (151/151)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.039509999999999997,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01597,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (151/151)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "151"
+          ],
+          "output_rows": [
+            "151"
+          ],
+          "probe_hit_rate": [
+            "100% (151/151)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.03572,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.014490000000000001,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@3)], projection=[movie_id@0, linked_movie_id@1, name@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (151/151)"
+          ],
+          "build_input_rows": [
+            "64"
+          ],
+          "build_mem_used": [
+            "66.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "67.31 K"
+          ],
+          "output_rows": [
+            "151"
+          ],
+          "probe_hit_rate": [
+            "0.22% (151/67.31 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.64,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.25586000000000003,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (151/151)"
+          ],
+          "build_input_rows": [
+            "64"
+          ],
+          "build_mem_used": [
+            "66.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "67.31 K"
+          ],
+          "output_rows": [
+            "151"
+          ],
+          "probe_hit_rate": [
+            "0.22% (151/67.31 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.8,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.24811000000000002,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@4), (person_id@0, person_id@0), (person_id@0, person_id@1)], projection=[movie_id@4, linked_movie_id@5, name@7, info_type_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "798.81% (67.31 K/8.43 K)"
+          ],
+          "build_input_rows": [
+            "348.5 K"
+          ],
+          "build_mem_used": [
+            "15.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "543.3 K"
+          ],
+          "output_rows": [
+            "67.31 K"
+          ],
+          "probe_hit_rate": [
+            "1.55% (8.43 K/543.3 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 245.15,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 4.69,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "798.81% (67.31 K/8.43 K)"
+          ],
+          "build_input_rows": [
+            "348.5 K"
+          ],
+          "build_mem_used": [
+            "15.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "543.3 K"
+          ],
+          "output_rows": [
+            "67.31 K"
+          ],
+          "probe_hit_rate": [
+            "1.55% (8.43 K/543.3 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 333.96,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 3.83,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0), (person_id@1, id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (348.5 K/348.5 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.64 M"
+          ],
+          "output_rows": [
+            "348.5 K"
+          ],
+          "probe_hit_rate": [
+            "21.21% (348.5 K/1.64 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.012029999999999999,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 5.98,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (348.5 K/348.5 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.64 M"
+          ],
+          "output_rows": [
+            "348.5 K"
+          ],
+          "probe_hit_rate": [
+            "21.21% (348.5 K/1.64 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.0187,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 4.43,
+          "n": 5
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, link_type_id@4)], projection=[person_id@0, person_id@1, movie_id@2, linked_movie_id@3]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.67% (1.64 M/776.2 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1439.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.14 M"
+          ],
+          "output_rows": [
+            "1.64 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (776.2 K/27.14 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.373,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 88.49,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.67% (1.64 M/776.2 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1432.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.14 M"
+          ],
+          "output_rows": [
+            "1.64 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (776.2 K/27.14 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.5213300000000001,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 101.8,
+          "n": 5
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(linked_movie_id@0, movie_id@2)], projection=[person_id@2, person_id@3, movie_id@4, linked_movie_id@0, link_type_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "198.67% (27.14 M/13.66 M)"
+          ],
+          "build_input_rows": [
+            "674.7 K"
+          ],
+          "build_mem_used": [
+            "21.0 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.14 M"
+          ],
+          "probe_hit_rate": [
+            "37.7% (13.66 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 17.8,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 120.07,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "198.67% (27.14 M/13.66 M)"
+          ],
+          "build_input_rows": [
+            "674.7 K"
+          ],
+          "build_mem_used": [
+            "21.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.14 M"
+          ],
+          "probe_hit_rate": [
+            "37.7% (13.66 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 20.88,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 188.45,
+          "n": 5
+        }
+      },
+      "join": 6,
+      "operator": "                HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, person_id@0)]",
+      "pairs": 5
+    }
+  ],
+  "job_7b": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "800% (16/2)"
+          ],
+          "build_input_rows": [
+            "46"
+          ],
+          "build_mem_used": [
+            "201.3 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "76.06 K"
+          ],
+          "output_rows": [
+            "16"
+          ],
+          "probe_hit_rate": [
+            "0% (2/76.06 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 265.53,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.24963,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "800% (16/2)"
+          ],
+          "build_input_rows": [
+            "46"
+          ],
+          "build_mem_used": [
+            "201.3 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "76.06 K"
+          ],
+          "output_rows": [
+            "16"
+          ],
+          "probe_hit_rate": [
+            "0% (2/76.06 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 348.49,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.25156,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(movie_id@0, id@0), (linked_movie_id@1, id@0)], projection=[name@2, title@4]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (46/46)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "46"
+          ],
+          "output_rows": [
+            "46"
+          ],
+          "probe_hit_rate": [
+            "100% (46/46)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.030600000000000002,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01771,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (46/46)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "46"
+          ],
+          "output_rows": [
+            "46"
+          ],
+          "probe_hit_rate": [
+            "100% (46/46)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.032920000000000005,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.01068,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@3)], projection=[movie_id@0, linked_movie_id@1, name@2]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (46/46)"
+          ],
+          "build_input_rows": [
+            "64"
+          ],
+          "build_mem_used": [
+            "66.4 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "11.75 K"
+          ],
+          "output_rows": [
+            "46"
+          ],
+          "probe_hit_rate": [
+            "0.39% (46/11.75 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.58,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.051680000000000004,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "100% (46/46)"
+          ],
+          "build_input_rows": [
+            "64"
+          ],
+          "build_mem_used": [
+            "66.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "11.75 K"
+          ],
+          "output_rows": [
+            "46"
+          ],
+          "probe_hit_rate": [
+            "0.39% (46/11.75 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 3.55,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.05965,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@4), (person_id@0, person_id@0), (person_id@0, person_id@1)], projection=[movie_id@4, linked_movie_id@5, name@7, info_type_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "777.76% (11.75 K/1.51 K)"
+          ],
+          "build_input_rows": [
+            "348.5 K"
+          ],
+          "build_mem_used": [
+            "15.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "91.98 K"
+          ],
+          "output_rows": [
+            "11.75 K"
+          ],
+          "probe_hit_rate": [
+            "1.64% (1.51 K/91.98 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 251.47,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.78137,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "777.76% (11.75 K/1.51 K)"
+          ],
+          "build_input_rows": [
+            "348.5 K"
+          ],
+          "build_mem_used": [
+            "15.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "91.98 K"
+          ],
+          "output_rows": [
+            "11.75 K"
+          ],
+          "probe_hit_rate": [
+            "1.64% (1.51 K/91.98 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 335.18,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.6785599999999999,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0), (person_id@1, id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (348.5 K/348.5 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.64 M"
+          ],
+          "output_rows": [
+            "348.5 K"
+          ],
+          "probe_hit_rate": [
+            "21.21% (348.5 K/1.64 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.0115,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 6.0,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (348.5 K/348.5 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.64 M"
+          ],
+          "output_rows": [
+            "348.5 K"
+          ],
+          "probe_hit_rate": [
+            "21.21% (348.5 K/1.64 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.01578,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 4.43,
+          "n": 5
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, link_type_id@4)], projection=[person_id@0, person_id@1, movie_id@2, linked_movie_id@3]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.67% (1.64 M/776.2 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1439.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.14 M"
+          ],
+          "output_rows": [
+            "1.64 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (776.2 K/27.14 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.38145,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 89.12,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.67% (1.64 M/776.2 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1432.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.14 M"
+          ],
+          "output_rows": [
+            "1.64 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (776.2 K/27.14 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.5019,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 102.26,
+          "n": 5
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(linked_movie_id@0, movie_id@2)], projection=[person_id@2, person_id@3, movie_id@4, linked_movie_id@0, link_type_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "198.67% (27.14 M/13.66 M)"
+          ],
+          "build_input_rows": [
+            "674.7 K"
+          ],
+          "build_mem_used": [
+            "21.0 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.14 M"
+          ],
+          "probe_hit_rate": [
+            "37.7% (13.66 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 17.65,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 123.34,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "198.67% (27.14 M/13.66 M)"
+          ],
+          "build_input_rows": [
+            "674.7 K"
+          ],
+          "build_mem_used": [
+            "21.2 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.14 M"
+          ],
+          "probe_hit_rate": [
+            "37.7% (13.66 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 21.51,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 187.21,
+          "n": 5
+        }
+      },
+      "join": 6,
+      "operator": "                HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, person_id@0)]",
+      "pairs": 5
+    }
+  ],
+  "job_7c": [
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1676.13% (68.19 K/4.07 K)"
+          ],
+          "build_input_rows": [
+            "109.8 K"
+          ],
+          "build_mem_used": [
+            "67.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.62 M"
+          ],
+          "output_rows": [
+            "68.19 K"
+          ],
+          "probe_hit_rate": [
+            "0.26% (4.07 K/1.56 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 344.05,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 3.77,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1676.13% (68.19 K/4.07 K)"
+          ],
+          "build_input_rows": [
+            "109.8 K"
+          ],
+          "build_mem_used": [
+            "67.8 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.62 M"
+          ],
+          "output_rows": [
+            "68.19 K"
+          ],
+          "probe_hit_rate": [
+            "0.26% (4.07 K/1.56 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 458.74,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 3.58,
+          "n": 5
+        }
+      },
+      "join": 0,
+      "operator": "    HashJoinExec: mode=CollectLeft, join_type=LeftSemi, on=[(movie_id@0, id@0), (linked_movie_id@1, id@0)], projection=[name@2, info@3]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (109.8 K/109.8 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "109.8 K"
+          ],
+          "output_rows": [
+            "109.8 K"
+          ],
+          "probe_hit_rate": [
+            "100% (109.8 K/109.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.04162,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.62038,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (109.8 K/109.8 K)"
+          ],
+          "build_input_rows": [
+            "1"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "109.8 K"
+          ],
+          "output_rows": [
+            "109.8 K"
+          ],
+          "probe_hit_rate": [
+            "100% (109.8 K/109.8 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.04315,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 0.64724,
+          "n": 5
+        }
+      },
+      "join": 1,
+      "operator": "      HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, info_type_id@3)], projection=[movie_id@0, linked_movie_id@1, name@2, info@4]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3176.46% (109.8 K/3.46 K)"
+          ],
+          "build_input_rows": [
+            "271.7 K"
+          ],
+          "build_mem_used": [
+            "47.4 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "84.18 K"
+          ],
+          "output_rows": [
+            "109.8 K"
+          ],
+          "probe_hit_rate": [
+            "4.11% (3.46 K/84.18 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 309.69,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 3.02,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "3176.46% (109.8 K/3.46 K)"
+          ],
+          "build_input_rows": [
+            "271.7 K"
+          ],
+          "build_mem_used": [
+            "47.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "84.18 K"
+          ],
+          "output_rows": [
+            "109.8 K"
+          ],
+          "probe_hit_rate": [
+            "4.11% (3.46 K/84.18 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 418.79,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 2.26,
+          "n": 5
+        }
+      },
+      "join": 2,
+      "operator": "        HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(id@4, person_id@0), (person_id@0, person_id@0), (person_id@1, person_id@0)], projection=[movie_id@2, linked_movie_id@3, name@5, info_type_id@7, info@8]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1915.83% (271.7 K/14.18 K)"
+          ],
+          "build_input_rows": [
+            "1.39 M"
+          ],
+          "build_mem_used": [
+            "60.5 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "507.6 K"
+          ],
+          "output_rows": [
+            "271.7 K"
+          ],
+          "probe_hit_rate": [
+            "2.79% (14.18 K/507.6 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 276.14,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 10.13,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "1915.83% (271.7 K/14.18 K)"
+          ],
+          "build_input_rows": [
+            "1.39 M"
+          ],
+          "build_mem_used": [
+            "61.0 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "507.6 K"
+          ],
+          "output_rows": [
+            "271.7 K"
+          ],
+          "probe_hit_rate": [
+            "2.79% (14.18 K/507.6 K)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 384.99,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 7.93,
+          "n": 5
+        }
+      },
+      "join": 3,
+      "operator": "          HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, id@0), (person_id@1, id@0)]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.39 M/1.39 M)"
+          ],
+          "build_input_rows": [
+            "4"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.67 M"
+          ],
+          "output_rows": [
+            "1.39 M"
+          ],
+          "probe_hit_rate": [
+            "83.38% (1.39 M/1.67 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.014310000000000002,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 8.22,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "100% (1.39 M/1.39 M)"
+          ],
+          "build_input_rows": [
+            "4"
+          ],
+          "build_mem_used": [
+            "32.0 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "1.67 M"
+          ],
+          "output_rows": [
+            "1.39 M"
+          ],
+          "probe_hit_rate": [
+            "83.38% (1.39 M/1.67 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.01307,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 7.13,
+          "n": 5
+        }
+      },
+      "join": 4,
+      "operator": "            HashJoinExec: mode=CollectLeft, join_type=RightSemi, on=[(id@0, link_type_id@4)], projection=[person_id@0, person_id@1, movie_id@2, linked_movie_id@3]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.63% (1.67 M/788.4 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1439.6 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.60 M"
+          ],
+          "output_rows": [
+            "1.67 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (788.4 K/27.60 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.39844,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 88.62,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "0"
+          ],
+          "avg_fanout": [
+            "211.63% (1.67 M/788.4 K)"
+          ],
+          "build_input_rows": [
+            "30.00 K"
+          ],
+          "build_mem_used": [
+            "1432.2 KB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "27.60 M"
+          ],
+          "output_rows": [
+            "1.67 M"
+          ],
+          "probe_hit_rate": [
+            "2.86% (788.4 K/27.60 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 0.53067,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 109.01,
+          "n": 5
+        }
+      },
+      "join": 5,
+      "operator": "              HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(linked_movie_id@0, movie_id@2)], projection=[person_id@2, person_id@3, movie_id@4, linked_movie_id@0, link_type_id@1]",
+      "pairs": 5
+    },
+    {
+      "A": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "199.8% (27.60 M/13.81 M)"
+          ],
+          "build_input_rows": [
+            "686.1 K"
+          ],
+          "build_mem_used": [
+            "21.1 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.60 M"
+          ],
+          "probe_hit_rate": [
+            "38.11% (13.81 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 20.8,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 120.94,
+          "n": 5
+        }
+      },
+      "B": {
+        "available_metric_values": {
+          "array_map_created_count": [
+            "1"
+          ],
+          "avg_fanout": [
+            "199.8% (27.60 M/13.81 M)"
+          ],
+          "build_input_rows": [
+            "686.1 K"
+          ],
+          "build_mem_used": [
+            "21.3 MB"
+          ],
+          "dense_index_created_count": [],
+          "input_rows": [
+            "36.24 M"
+          ],
+          "output_rows": [
+            "27.60 M"
+          ],
+          "probe_hit_rate": [
+            "38.11% (13.81 M/36.24 M)"
+          ]
+        },
+        "build_time_ms": {
+          "median": 19.52,
+          "n": 5
+        },
+        "join_time_ms": {
+          "median": 191.86,
+          "n": 5
+        }
+      },
+      "join": 6,
+      "operator": "                HashJoinExec: mode=CollectLeft, join_type=Inner, on=[(person_id@0, person_id@0)]",
+      "pairs": 5
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+2f6c665fef63936f08a4aa7a4fb01b87a4d2b009
+13822d4439290235c7918a4c423b7742be9a5cab
+ M datafusion/physical-plan/src/joins/join_index/directory.rs
+ M datafusion/physical-plan/src/joins/join_index/directory/dense.rs
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+cargo 1.97.0 (c980f4866 2026-06-30)
+d7034900cb21c6d0b8b8455702a19bcab2111de985a675e5e6b10866e269fa72  /recorded/datafusion-upstream-validation/bin/worker-C
+7def55df5a85e251fa17afa47f60618d6c1f705933cca4ade02a68dcbabaac3a  /recorded/datafusion-upstream-validation/build/worker-C/Cargo.lock
+4396b360ccac4dfd2daf5ea474b466f8171beac5ee04ed1bd451f8149a95491c  /recorded/datafusion-upstream-validation/build/worker-C/Cargo.toml
+5f857b53337540fda38057fbcb61ddf4e0d6dfef6fbaaf0deaaf0adf1179c66b  /recorded/datafusion-upstream-validation/build/worker-C/src/main.rs
+	linux-vdso.so.1 (0x000074096b3b3000)
+	libgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x000074096b37e000)
+	libm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000740964919000)
+	libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000740964600000)
+	/lib64/ld-linux-x86-64.so.2 (0x000074096b3b5000)

@@ -1,0 +1,30 @@
+{
+  "address_space_gib": 10,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "batch_size": 8192,
+  "block_caps": {
+    "job_17a": 3,
+    "job_17b": 3,
+    "job_17c": 3,
+    "job_17d": 3,
+    "job_17e": 3,
+    "job_17f": 3,
+    "job_26c": 3,
+    "job_29c": 3,
+    "job_9d": 3
+  },
+  "blocks": 5,
+  "cpu": [
+    2
+  ],
+  "partitions": 1,
+  "seed": 27746003,
+  "suites": [
+    "job"
+  ],
+  "timeout_seconds": 600,
+  "warmups": 1
+}

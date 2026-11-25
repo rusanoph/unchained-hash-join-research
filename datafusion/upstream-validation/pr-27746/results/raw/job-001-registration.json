@@ -1,0 +1,5702 @@
+{
+  "binaries": {
+    "A": "50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0",
+    "B": "ae575d2ea55df360f4259efd6bb6e7c3f02416f4fceea84a059886871e293923"
+  },
+  "config": {
+    "address_space_gib": 10,
+    "arms": [
+      "A",
+      "B"
+    ],
+    "batch_size": 8192,
+    "block_caps": {
+      "job_17a": 3,
+      "job_17b": 3,
+      "job_17c": 3,
+      "job_17d": 3,
+      "job_17e": 3,
+      "job_17f": 3,
+      "job_26c": 3,
+      "job_29c": 3,
+      "job_9d": 3
+    },
+    "blocks": 5,
+    "cpu": [
+      2
+    ],
+    "data": {
+      "job": "/recorded/hashman-data-df/job-001"
+    },
+    "partitions": 1,
+    "seed": 27746003,
+    "suites": [
+      "job"
+    ],
+    "timeout_seconds": 600,
+    "warmups": 1
+  },
+  "driver_sha256": "6a555d2c1265722a45c823dc3df26f134b9e644d36b72b384c4a65d4352081e2",
+  "environment": {
+    "affinity": [
+      2
+    ],
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+    "kernel": "6.18.58.1-microsoft-standard-WSL2",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "thp": "always [madvise] never"
+  },
+  "inputs": {
+    "job": {
+      "aka_name.parquet": "1ee5907d549071b14d3c2ea0595119f7609d0979827071e0fd7a5c659c48bab4",
+      "aka_title.parquet": "25e13a564d4229e55d566bd6a1fc61ad7941ae738d95e1eeb1849a484d4f636f",
+      "cast_info.parquet": "3c1fa5dd75199da39e62273209b4874cc17233a6103ca48fd164e389fa3eee87",
+      "char_name.parquet": "cdc10c1cd62dc242b8362314967cea3855aeababa357b51454dfca2e453fc7e5",
+      "comp_cast_type.parquet": "ec8d6bad8e8cb1cceb114af591c58779b93a810e3daf025aaaf461df9da77379",
+      "company_name.parquet": "564ec6013a39e374a75d1f13868a7e03df13a124274957af3afd170ded9b85a9",
+      "company_type.parquet": "d4059fbdcdb66db4d3a79705ae517250f7044e75e74531fb2447defbe5dd23e8",
+      "complete_cast.parquet": "7d22c66bdc073f4fe96d8141bf3a0a186f6b8276473293c53b0954b0986e35de",
+      "info_type.parquet": "767e1ed32858b35f98b14c65389d0418b5e59c9af7227fdbd560f5ae9a38d32b",
+      "keyword.parquet": "3b19281b516e9ffbe4b691a59ab501c1f17f667d36d203ffa37a4acec95ce606",
+      "kind_type.parquet": "211e5e6c4413c6dc4efcce8bd0ca63a4839e93bfc03de0732a300dfd25bd752b",
+      "link_type.parquet": "281b21e68c49ee987acc2faa7d11d783ff019e4fe4ae8ddc57d5a2a63a51e0d9",
+      "movie_companies.parquet": "08c752d8ad0d2d160c02701e00cde3f6178570de84a6c58726241c1633b9ddf3",
+      "movie_info.parquet": "972fac8ae91c1fb52785275234da5b4a2fbc24fa129f8405f2e067273b62d9c9",
+      "movie_info_idx.parquet": "c07a65b03e6e9d78a3777a53c18e8e9596b11d01968c8b1e4c71f56021c35dc3",
+      "movie_keyword.parquet": "2fc33d9388b28b4009c3fb43a02fc3b01b53b59517d9e365070f2e0dc8ea8f0a",
+      "movie_link.parquet": "e6e2d567fd4f02b69737d27ca2d9e5def5ad1607fb74d5eecd49df2bf922c69f",
+      "name.parquet": "19cbca8a6f80c87178fed855f300b319b80d24539232751774e4001cc1c18ddc",
+      "person_info.parquet": "abebf18fdc6c7a45296181b8ad29b0ade7c135ee99968552e1b442095e3eb510",
+      "role_type.parquet": "5c936f7eb6c26c16c80858acb35fa28cc05d94fc666ec6914ce3192ce00612b0",
+      "title.parquet": "0383c06679152d413b69ee8539d41fa5f0f2b604b7cd84512fa3fe9f3f72db2a"
+    }
+  },
+  "queries": {
+    "job_10a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_10a",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS uncredited_voiced_character,\n       MIN(t.title) AS russian_movie\nFROM char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     company_type AS ct,\n     movie_companies AS mc,\n     role_type AS rt,\n     title AS t\nWHERE ci.note LIKE '%(voice)%'\n  AND ci.note LIKE '%(uncredited)%'\n  AND cn.country_code = '[ru]'\n  AND rt.role = 'actor'\n  AND t.production_year > 2005\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND chn.id = ci.person_role_id\n  AND rt.id = ci.role_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_10b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_10b",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS character,\n       MIN(t.title) AS russian_mov_with_actor_producer\nFROM char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     company_type AS ct,\n     movie_companies AS mc,\n     role_type AS rt,\n     title AS t\nWHERE ci.note LIKE '%(producer)%'\n  AND cn.country_code = '[ru]'\n  AND rt.role = 'actor'\n  AND t.production_year > 2010\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND chn.id = ci.person_role_id\n  AND rt.id = ci.role_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_10c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_10c",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS character,\n       MIN(t.title) AS movie_with_american_producer\nFROM char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     company_type AS ct,\n     movie_companies AS mc,\n     role_type AS rt,\n     title AS t\nWHERE ci.note LIKE '%(producer)%'\n  AND cn.country_code = '[us]'\n  AND t.production_year > 1990\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND chn.id = ci.person_role_id\n  AND rt.id = ci.role_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_11a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_11a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS from_company,\n       MIN(lt.link) AS movie_link_type,\n       MIN(t.title) AS non_polish_sequel_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND t.production_year BETWEEN 1950 AND 2000\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_11b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_11b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS from_company,\n       MIN(lt.link) AS movie_link_type,\n       MIN(t.title) AS sequel_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follows%'\n  AND mc.note IS NULL\n  AND t.production_year = 1998\n  AND t.title LIKE '%Money%'\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_11c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_11c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS from_company,\n       MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_based_on_book\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '20th Century Fox%'\n       OR cn.name LIKE 'Twentieth Century Fox%')\n  AND ct.kind != 'production companies'\n  AND ct.kind IS NOT NULL\n  AND k.keyword IN ('sequel',\n                    'revenge',\n                    'based-on-novel')\n  AND mc.note IS NOT NULL\n  AND t.production_year > 1950\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_12a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_12a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS drama_horror_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND ct.kind = 'production companies'\n  AND it1.info = 'genres'\n  AND it2.info = 'rating'\n  AND mi.info IN ('Drama',\n                  'Horror')\n  AND mi_idx.info > '8.0'\n  AND t.production_year BETWEEN 2005 AND 2008\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mi.info_type_id = it1.id\n  AND mi_idx.info_type_id = it2.id\n  AND t.id = mc.movie_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id;",
+      "suite": "job"
+    },
+    "job_12b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_12b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS budget,\n       MIN(t.title) AS unsuccsessful_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE cn.country_code ='[us]'\n  AND ct.kind IS NOT NULL\n  AND (ct.kind ='production companies'\n       OR ct.kind = 'distributors')\n  AND it1.info ='budget'\n  AND it2.info ='bottom 10 rank'\n  AND t.production_year >2000\n  AND (t.title LIKE 'Birdemic%'\n       OR t.title LIKE '%Movie%')\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mi.info_type_id = it1.id\n  AND mi_idx.info_type_id = it2.id\n  AND t.id = mc.movie_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id;",
+      "suite": "job"
+    },
+    "job_12c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_12c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS mainstream_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND ct.kind = 'production companies'\n  AND it1.info = 'genres'\n  AND it2.info = 'rating'\n  AND mi.info IN ('Drama',\n                  'Horror',\n                  'Western',\n                  'Family')\n  AND mi_idx.info > '7.0'\n  AND t.production_year BETWEEN 2000 AND 2010\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mi.info_type_id = it1.id\n  AND mi_idx.info_type_id = it2.id\n  AND t.id = mc.movie_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id;",
+      "suite": "job"
+    },
+    "job_13a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_13a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS release_date,\n       MIN(miidx.info) AS rating,\n       MIN(t.title) AS german_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it,\n     info_type AS it2,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS miidx,\n     title AS t\nWHERE cn.country_code ='[de]'\n  AND ct.kind ='production companies'\n  AND it.info ='rating'\n  AND it2.info ='release dates'\n  AND kt.kind ='movie'\n  AND mi.movie_id = t.id\n  AND it2.id = mi.info_type_id\n  AND kt.id = t.kind_id\n  AND mc.movie_id = t.id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id\n  AND miidx.movie_id = t.id\n  AND it.id = miidx.info_type_id\n  AND mi.movie_id = miidx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND miidx.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_14a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_14a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS northern_dark_movie\nFROM info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind = 'movie'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '8.5'\n  AND t.production_year > 2010\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_14b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_14b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS western_dark_production\nFROM info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title')\n  AND kt.kind = 'movie'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info > '6.0'\n  AND t.production_year > 2010\n  AND (t.title LIKE '%murder%'\n       OR t.title LIKE '%Murder%'\n       OR t.title LIKE '%Mord%')\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_14c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_14c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS north_european_dark_production\nFROM info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IS NOT NULL\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Danish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '8.5'\n  AND t.production_year > 2005\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_15a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_15a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS release_date,\n       MIN(t.title) AS internet_movie\nFROM aka_title AS at,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND mc.note LIKE '%(200%)%'\n  AND mc.note LIKE '%(worldwide)%'\n  AND mi.note LIKE '%internet%'\n  AND mi.info LIKE 'USA:% 200%'\n  AND t.production_year > 2000\n  AND t.id = at.movie_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = at.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = at.movie_id\n  AND mc.movie_id = at.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_15b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_15b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS release_date,\n       MIN(t.title) AS youtube_movie\nFROM aka_title AS at,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND cn.name = 'YouTube'\n  AND it1.info = 'release dates'\n  AND mc.note LIKE '%(200%)%'\n  AND mc.note LIKE '%(worldwide)%'\n  AND mi.note LIKE '%internet%'\n  AND mi.info LIKE 'USA:% 200%'\n  AND t.production_year BETWEEN 2005 AND 2010\n  AND t.id = at.movie_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = at.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = at.movie_id\n  AND mc.movie_id = at.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_15c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_15c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS release_date,\n       MIN(t.title) AS modern_american_internet_movie\nFROM aka_title AS at,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND mi.note LIKE '%internet%'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'USA:% 199%'\n       OR mi.info LIKE 'USA:% 200%')\n  AND t.production_year > 1990\n  AND t.id = at.movie_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = at.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = at.movie_id\n  AND mc.movie_id = at.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_15d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_15d",
+      "mode": "prune",
+      "sql": "SELECT MIN(at.title) AS aka_title,\n       MIN(t.title) AS internet_movie_title\nFROM aka_title AS at,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND mi.note LIKE '%internet%'\n  AND t.production_year > 1990\n  AND t.id = at.movie_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = at.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = at.movie_id\n  AND mc.movie_id = at.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id;",
+      "suite": "job"
+    },
+    "job_17a": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17a",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_american_movie,\n       MIN(n.name) AS a1\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cn.country_code ='[us]'\n  AND k.keyword ='character-name-in-title'\n  AND n.name LIKE 'B%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_17b": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17b",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie,\n       MIN(n.name) AS a1\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword ='character-name-in-title'\n  AND n.name LIKE 'Z%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_17c": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17c",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie,\n       MIN(n.name) AS a1\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword ='character-name-in-title'\n  AND n.name LIKE 'X%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_17d": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17d",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword ='character-name-in-title'\n  AND n.name LIKE '%Bert%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_17e": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17e",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cn.country_code ='[us]'\n  AND k.keyword ='character-name-in-title'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_17f": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17f",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword ='character-name-in-title'\n  AND n.name LIKE '%B%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_18a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_18a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(t.title) AS movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(producer)',\n                  '(executive producer)')\n  AND it1.info = 'budget'\n  AND it2.info = 'votes'\n  AND n.gender = 'm'\n  AND n.name LIKE '%Tim%'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_18b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_18b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(t.title) AS movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'rating'\n  AND mi.info IN ('Horror',\n                  'Thriller')\n  AND mi.note IS NULL\n  AND mi_idx.info > '8.0'\n  AND n.gender IS NOT NULL\n  AND n.gender = 'f'\n  AND t.production_year BETWEEN 2008 AND 2014\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_18c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_18c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(t.title) AS movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND mi.info IN ('Horror',\n                  'Action',\n                  'Sci-Fi',\n                  'Thriller',\n                  'Crime',\n                  'War')\n  AND n.gender = 'm'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_19a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_19a",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS voiced_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND mc.note IS NOT NULL\n  AND (mc.note LIKE '%(USA)%'\n       OR mc.note LIKE '%(worldwide)%')\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%200%'\n       OR mi.info LIKE 'USA:%200%')\n  AND n.gender ='f'\n  AND n.name LIKE '%Ang%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2005 AND 2009\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id;",
+      "suite": "job"
+    },
+    "job_19b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_19b",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS kung_fu_panda\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note = '(voice)'\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND mc.note LIKE '%(200%)%'\n  AND (mc.note LIKE '%(USA)%'\n       OR mc.note LIKE '%(worldwide)%')\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%2007%'\n       OR mi.info LIKE 'USA:%2008%')\n  AND n.gender ='f'\n  AND n.name LIKE '%Angel%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2007 AND 2008\n  AND t.title LIKE '%Kung%Fu%Panda%'\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id;",
+      "suite": "job"
+    },
+    "job_19c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_19c",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS jap_engl_voiced_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%200%'\n       OR mi.info LIKE 'USA:%200%')\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND t.production_year > 2000\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id;",
+      "suite": "job"
+    },
+    "job_19d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_19d",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS jap_engl_voiced_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND n.gender ='f'\n  AND rt.role ='actress'\n  AND t.production_year > 2000\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id;",
+      "suite": "job"
+    },
+    "job_1a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_1a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'top 250 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND (mc.note LIKE '%(co-production)%'\n       OR mc.note LIKE '%(presents)%')\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_1b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_1b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'bottom 10 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND t.production_year BETWEEN 2005 AND 2010\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_1c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_1c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'top 250 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND (mc.note LIKE '%(co-production)%')\n  AND t.production_year >2010\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_1d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_1d",
+      "mode": "prune",
+      "sql": "SELECT MIN(mc.note) AS production_note,\n       MIN(t.title) AS movie_title,\n       MIN(t.production_year) AS movie_year\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info_idx AS mi_idx,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND it.info = 'bottom 10 rank'\n  AND mc.note NOT LIKE '%(as Metro-Goldwyn-Mayer Pictures)%'\n  AND t.production_year >2000\n  AND ct.id = mc.company_type_id\n  AND t.id = mc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_20a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_20a",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS complete_downey_ironman_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     keyword AS k,\n     kind_type AS kt,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name NOT LIKE '%Sherlock%'\n  AND (chn.name LIKE '%Tony%Stark%'\n       OR chn.name LIKE '%Iron%Man%')\n  AND k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND kt.kind = 'movie'\n  AND t.production_year > 1950\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_20b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_20b",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS complete_downey_ironman_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     keyword AS k,\n     kind_type AS kt,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name NOT LIKE '%Sherlock%'\n  AND (chn.name LIKE '%Tony%Stark%'\n       OR chn.name LIKE '%Iron%Man%')\n  AND k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND kt.kind = 'movie'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_20c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_20c",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS cast_member,\n       MIN(t.title) AS complete_dynamic_hero_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     keyword AS k,\n     kind_type AS kt,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name IS NOT NULL\n  AND (chn.name LIKE '%man%'\n       OR chn.name LIKE '%Man%')\n  AND k.keyword IN ('superhero',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence',\n                    'magnet',\n                    'web',\n                    'claw',\n                    'laser')\n  AND kt.kind = 'movie'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_21a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_21a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS company_name,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS western_follow_up\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German')\n  AND t.production_year BETWEEN 1950 AND 2000\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id;",
+      "suite": "job"
+    },
+    "job_21b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_21b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS company_name,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS german_follow_up\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Germany',\n                  'German')\n  AND t.production_year BETWEEN 2000 AND 2010\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id;",
+      "suite": "job"
+    },
+    "job_21c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_21c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS company_name,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS western_follow_up\nFROM company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'English')\n  AND t.production_year BETWEEN 1950 AND 2010\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id;",
+      "suite": "job"
+    },
+    "job_22a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_22a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS western_violent_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mc.note NOT LIKE '%(USA)%'\n  AND mc.note LIKE '%(200%)%'\n  AND mi.info IN ('Germany',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '7.0'\n  AND t.production_year > 2008\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id;",
+      "suite": "job"
+    },
+    "job_22b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_22b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS western_violent_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mc.note NOT LIKE '%(USA)%'\n  AND mc.note LIKE '%(200%)%'\n  AND mi.info IN ('Germany',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '7.0'\n  AND t.production_year > 2009\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id;",
+      "suite": "job"
+    },
+    "job_23a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_23a",
+      "mode": "prune",
+      "sql": "SELECT MIN(kt.kind) AS movie_kind,\n       MIN(t.title) AS complete_us_internet_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'complete+verified'\n  AND cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND kt.kind IN ('movie')\n  AND mi.note LIKE '%internet%'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'USA:% 199%'\n       OR mi.info LIKE 'USA:% 200%')\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id\n  AND cct1.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_23b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_23b",
+      "mode": "prune",
+      "sql": "SELECT MIN(kt.kind) AS movie_kind,\n       MIN(t.title) AS complete_nerdy_internet_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'complete+verified'\n  AND cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND k.keyword IN ('nerd',\n                    'loner',\n                    'alienation',\n                    'dignity')\n  AND kt.kind IN ('movie')\n  AND mi.note LIKE '%internet%'\n  AND mi.info LIKE 'USA:% 200%'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id\n  AND cct1.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_23c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_23c",
+      "mode": "prune",
+      "sql": "SELECT MIN(kt.kind) AS movie_kind,\n       MIN(t.title) AS complete_us_internet_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'complete+verified'\n  AND cn.country_code = '[us]'\n  AND it1.info = 'release dates'\n  AND kt.kind IN ('movie',\n                  'tv movie',\n                  'video movie',\n                  'video game')\n  AND mi.note LIKE '%internet%'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'USA:% 199%'\n       OR mi.info LIKE 'USA:% 200%')\n  AND t.production_year > 1990\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND cn.id = mc.company_id\n  AND ct.id = mc.company_type_id\n  AND cct1.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_24b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_24b",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS voiced_char_name,\n       MIN(n.name) AS voicing_actress_name,\n       MIN(t.title) AS kung_fu_panda\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND cn.name = 'DreamWorks Animation'\n  AND it.info = 'release dates'\n  AND k.keyword IN ('hero',\n                    'martial-arts',\n                    'hand-to-hand-combat',\n                    'computer-animated-movie')\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%201%'\n       OR mi.info LIKE 'USA:%201%')\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND t.production_year > 2010\n  AND t.title LIKE 'Kung Fu Panda%'\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mk.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_25a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_25a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS male_writer,\n       MIN(t.title) AS violent_movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity')\n  AND mi.info = 'Horror'\n  AND n.gender = 'm'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_25b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_25b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS male_writer,\n       MIN(t.title) AS violent_movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity')\n  AND mi.info = 'Horror'\n  AND n.gender = 'm'\n  AND t.production_year > 2010\n  AND t.title LIKE 'Vampire%'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_25c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_25c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS male_writer,\n       MIN(t.title) AS violent_movie_title\nFROM cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Action',\n                  'Sci-Fi',\n                  'Thriller',\n                  'Crime',\n                  'War')\n  AND n.gender = 'm'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_26a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_26a",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS character_name,\n       MIN(mi_idx.info) AS rating,\n       MIN(n.name) AS playing_actor,\n       MIN(t.title) AS complete_hero_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name IS NOT NULL\n  AND (chn.name LIKE '%man%'\n       OR chn.name LIKE '%Man%')\n  AND it2.info = 'rating'\n  AND k.keyword IN ('superhero',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence',\n                    'magnet',\n                    'web',\n                    'claw',\n                    'laser')\n  AND kt.kind = 'movie'\n  AND mi_idx.info > '7.0'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND cc.movie_id = mi_idx.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_26b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_26b",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS character_name,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS complete_hero_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name IS NOT NULL\n  AND (chn.name LIKE '%man%'\n       OR chn.name LIKE '%Man%')\n  AND it2.info = 'rating'\n  AND k.keyword IN ('superhero',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'fight')\n  AND kt.kind = 'movie'\n  AND mi_idx.info > '8.0'\n  AND t.production_year > 2005\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND cc.movie_id = mi_idx.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_26c": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_26c",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS character_name,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS complete_hero_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE '%complete%'\n  AND chn.name IS NOT NULL\n  AND (chn.name LIKE '%man%'\n       OR chn.name LIKE '%Man%')\n  AND it2.info = 'rating'\n  AND k.keyword IN ('superhero',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence',\n                    'magnet',\n                    'web',\n                    'claw',\n                    'laser')\n  AND kt.kind = 'movie'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = cc.movie_id\n  AND t.id = mi_idx.movie_id\n  AND mk.movie_id = ci.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND cc.movie_id = mi_idx.movie_id\n  AND chn.id = ci.person_role_id\n  AND n.id = ci.person_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND it2.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_27a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_27a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS producing_company,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS complete_western_sequel\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cct1.kind IN ('cast',\n                    'crew')\n  AND cct2.kind = 'complete'\n  AND cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Sweden',\n                  'Germany',\n                  'Swedish',\n                  'German')\n  AND t.production_year BETWEEN 1950 AND 2000\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND t.id = cc.movie_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ml.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = cc.movie_id;",
+      "suite": "job"
+    },
+    "job_27b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_27b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS producing_company,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS complete_western_sequel\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cct1.kind IN ('cast',\n                    'crew')\n  AND cct2.kind = 'complete'\n  AND cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Sweden',\n                  'Germany',\n                  'Swedish',\n                  'German')\n  AND t.production_year = 1998\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND t.id = cc.movie_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ml.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = cc.movie_id;",
+      "suite": "job"
+    },
+    "job_27c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_27c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS producing_company,\n       MIN(lt.link) AS link_type,\n       MIN(t.title) AS complete_western_sequel\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     keyword AS k,\n     link_type AS lt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind LIKE 'complete%'\n  AND cn.country_code !='[pl]'\n  AND (cn.name LIKE '%Film%'\n       OR cn.name LIKE '%Warner%')\n  AND ct.kind ='production companies'\n  AND k.keyword ='sequel'\n  AND lt.link LIKE '%follow%'\n  AND mc.note IS NULL\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'English')\n  AND t.production_year BETWEEN 1950 AND 2010\n  AND lt.id = ml.link_type_id\n  AND ml.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_type_id = ct.id\n  AND mc.company_id = cn.id\n  AND mi.movie_id = t.id\n  AND t.id = cc.movie_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id\n  AND ml.movie_id = mk.movie_id\n  AND ml.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND ml.movie_id = mi.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ml.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = cc.movie_id;",
+      "suite": "job"
+    },
+    "job_28a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_28a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS complete_euro_dark_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'crew'\n  AND cct2.kind != 'complete+verified'\n  AND cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mc.note NOT LIKE '%(USA)%'\n  AND mc.note LIKE '%(200%)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Danish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '8.5'\n  AND t.production_year > 2000\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_28b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_28b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS complete_euro_dark_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'crew'\n  AND cct2.kind != 'complete+verified'\n  AND cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mc.note NOT LIKE '%(USA)%'\n  AND mc.note LIKE '%(200%)%'\n  AND mi.info IN ('Sweden',\n                  'Germany',\n                  'Swedish',\n                  'German')\n  AND mi_idx.info > '6.5'\n  AND t.production_year > 2005\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_28c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_28c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS complete_euro_dark_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind = 'complete'\n  AND cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mc.note NOT LIKE '%(USA)%'\n  AND mc.note LIKE '%(200%)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Danish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '8.5'\n  AND t.production_year > 2005\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = cc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_29a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_29a",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS voiced_char,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS voiced_animation\nFROM aka_name AS an,\n     complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     info_type AS it3,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     name AS n,\n     person_info AS pi,\n     role_type AS rt,\n     title AS t\nWHERE cct1.kind ='cast'\n  AND cct2.kind ='complete+verified'\n  AND chn.name = 'Queen'\n  AND ci.note IN ('(voice)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND it3.info = 'trivia'\n  AND k.keyword = 'computer-animation'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%200%'\n       OR mi.info LIKE 'USA:%200%')\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND t.title = 'Shrek 2'\n  AND t.production_year BETWEEN 2000 AND 2010\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mk.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id\n  AND n.id = pi.person_id\n  AND ci.person_id = pi.person_id\n  AND it3.id = pi.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_29b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_29b",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS voiced_char,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS voiced_animation\nFROM aka_name AS an,\n     complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     info_type AS it3,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     name AS n,\n     person_info AS pi,\n     role_type AS rt,\n     title AS t\nWHERE cct1.kind ='cast'\n  AND cct2.kind ='complete+verified'\n  AND chn.name = 'Queen'\n  AND ci.note IN ('(voice)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND it3.info = 'height'\n  AND k.keyword = 'computer-animation'\n  AND mi.info LIKE 'USA:%200%'\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND t.title = 'Shrek 2'\n  AND t.production_year BETWEEN 2000 AND 2005\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mk.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id\n  AND n.id = pi.person_id\n  AND ci.person_id = pi.person_id\n  AND it3.id = pi.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_29c": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_29c",
+      "mode": "prune",
+      "sql": "SELECT MIN(chn.name) AS voiced_char,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS voiced_animation\nFROM aka_name AS an,\n     complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     info_type AS it,\n     info_type AS it3,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     name AS n,\n     person_info AS pi,\n     role_type AS rt,\n     title AS t\nWHERE cct1.kind ='cast'\n  AND cct2.kind ='complete+verified'\n  AND ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND it.info = 'release dates'\n  AND it3.info = 'trivia'\n  AND k.keyword = 'computer-animation'\n  AND mi.info IS NOT NULL\n  AND (mi.info LIKE 'Japan:%200%'\n       OR mi.info LIKE 'USA:%200%')\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2000 AND 2010\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND mc.movie_id = ci.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND mc.movie_id = mk.movie_id\n  AND mc.movie_id = cc.movie_id\n  AND mi.movie_id = ci.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND cn.id = mc.company_id\n  AND it.id = mi.info_type_id\n  AND n.id = ci.person_id\n  AND rt.id = ci.role_id\n  AND n.id = an.person_id\n  AND ci.person_id = an.person_id\n  AND chn.id = ci.person_role_id\n  AND n.id = pi.person_id\n  AND ci.person_id = pi.person_id\n  AND it3.id = pi.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_2a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_2a",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[de]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_2b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_2b",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[nl]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_2c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_2c",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[sm]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_2d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_2d",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[us]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_30a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_30a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS complete_violent_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind IN ('cast',\n                    'crew')\n  AND cct2.kind ='complete+verified'\n  AND ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Thriller')\n  AND n.gender = 'm'\n  AND t.production_year > 2000\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_30b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_30b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS complete_gore_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind IN ('cast',\n                    'crew')\n  AND cct2.kind ='complete+verified'\n  AND ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Thriller')\n  AND n.gender = 'm'\n  AND t.production_year > 2000\n  AND (t.title LIKE '%Freddy%'\n       OR t.title LIKE '%Jason%'\n       OR t.title LIKE 'Saw%')\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_30c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_30c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS complete_violent_movie\nFROM complete_cast AS cc,\n     comp_cast_type AS cct1,\n     comp_cast_type AS cct2,\n     cast_info AS ci,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE cct1.kind = 'cast'\n  AND cct2.kind ='complete+verified'\n  AND ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Action',\n                  'Sci-Fi',\n                  'Thriller',\n                  'Crime',\n                  'War')\n  AND n.gender = 'm'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = cc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = cc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = cc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = cc.movie_id\n  AND mk.movie_id = cc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cct1.id = cc.subject_id\n  AND cct2.id = cc.status_id;",
+      "suite": "job"
+    },
+    "job_31a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_31a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS violent_liongate_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND cn.name LIKE 'Lionsgate%'\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Thriller')\n  AND n.gender = 'm'\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cn.id = mc.company_id;",
+      "suite": "job"
+    },
+    "job_31b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_31b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS violent_liongate_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND cn.name LIKE 'Lionsgate%'\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mc.note LIKE '%(Blu-ray)%'\n  AND mi.info IN ('Horror',\n                  'Thriller')\n  AND n.gender = 'm'\n  AND t.production_year > 2000\n  AND (t.title LIKE '%Freddy%'\n       OR t.title LIKE '%Jason%'\n       OR t.title LIKE 'Saw%')\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cn.id = mc.company_id;",
+      "suite": "job"
+    },
+    "job_31c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_31c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi.info) AS movie_budget,\n       MIN(mi_idx.info) AS movie_votes,\n       MIN(n.name) AS writer,\n       MIN(t.title) AS violent_liongate_movie\nFROM cast_info AS ci,\n     company_name AS cn,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE ci.note IN ('(writer)',\n                  '(head writer)',\n                  '(written by)',\n                  '(story)',\n                  '(story editor)')\n  AND cn.name LIKE 'Lionsgate%'\n  AND it1.info = 'genres'\n  AND it2.info = 'votes'\n  AND k.keyword IN ('murder',\n                    'violence',\n                    'blood',\n                    'gore',\n                    'death',\n                    'female-nudity',\n                    'hospital')\n  AND mi.info IN ('Horror',\n                  'Action',\n                  'Sci-Fi',\n                  'Thriller',\n                  'Crime',\n                  'War')\n  AND t.id = mi.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = ci.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mi.movie_id\n  AND ci.movie_id = mi_idx.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mk.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mi_idx.movie_id = mk.movie_id\n  AND mi_idx.movie_id = mc.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND n.id = ci.person_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND k.id = mk.keyword_id\n  AND cn.id = mc.company_id;",
+      "suite": "job"
+    },
+    "job_32a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_32a",
+      "mode": "prune",
+      "sql": "SELECT MIN(lt.link) AS link_type,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM keyword AS k,\n     link_type AS lt,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE k.keyword ='10,000-mile-club'\n  AND mk.keyword_id = k.id\n  AND t1.id = mk.movie_id\n  AND ml.movie_id = t1.id\n  AND ml.linked_movie_id = t2.id\n  AND lt.id = ml.link_type_id\n  AND mk.movie_id = t1.id;",
+      "suite": "job"
+    },
+    "job_32b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_32b",
+      "mode": "prune",
+      "sql": "SELECT MIN(lt.link) AS link_type,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM keyword AS k,\n     link_type AS lt,\n     movie_keyword AS mk,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE k.keyword ='character-name-in-title'\n  AND mk.keyword_id = k.id\n  AND t1.id = mk.movie_id\n  AND ml.movie_id = t1.id\n  AND ml.linked_movie_id = t2.id\n  AND lt.id = ml.link_type_id\n  AND mk.movie_id = t1.id;",
+      "suite": "job"
+    },
+    "job_33a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_33a",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn1.name) AS first_company,\n       MIN(cn2.name) AS second_company,\n       MIN(mi_idx1.info) AS first_rating,\n       MIN(mi_idx2.info) AS second_rating,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM company_name AS cn1,\n     company_name AS cn2,\n     info_type AS it1,\n     info_type AS it2,\n     kind_type AS kt1,\n     kind_type AS kt2,\n     link_type AS lt,\n     movie_companies AS mc1,\n     movie_companies AS mc2,\n     movie_info_idx AS mi_idx1,\n     movie_info_idx AS mi_idx2,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE cn1.country_code = '[us]'\n  AND it1.info = 'rating'\n  AND it2.info = 'rating'\n  AND kt1.kind IN ('tv series')\n  AND kt2.kind IN ('tv series')\n  AND lt.link IN ('sequel',\n                  'follows',\n                  'followed by')\n  AND mi_idx2.info < '3.0'\n  AND t2.production_year BETWEEN 2005 AND 2008\n  AND lt.id = ml.link_type_id\n  AND t1.id = ml.movie_id\n  AND t2.id = ml.linked_movie_id\n  AND it1.id = mi_idx1.info_type_id\n  AND t1.id = mi_idx1.movie_id\n  AND kt1.id = t1.kind_id\n  AND cn1.id = mc1.company_id\n  AND t1.id = mc1.movie_id\n  AND ml.movie_id = mi_idx1.movie_id\n  AND ml.movie_id = mc1.movie_id\n  AND mi_idx1.movie_id = mc1.movie_id\n  AND it2.id = mi_idx2.info_type_id\n  AND t2.id = mi_idx2.movie_id\n  AND kt2.id = t2.kind_id\n  AND cn2.id = mc2.company_id\n  AND t2.id = mc2.movie_id\n  AND ml.linked_movie_id = mi_idx2.movie_id\n  AND ml.linked_movie_id = mc2.movie_id\n  AND mi_idx2.movie_id = mc2.movie_id;",
+      "suite": "job"
+    },
+    "job_33b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_33b",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn1.name) AS first_company,\n       MIN(cn2.name) AS second_company,\n       MIN(mi_idx1.info) AS first_rating,\n       MIN(mi_idx2.info) AS second_rating,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM company_name AS cn1,\n     company_name AS cn2,\n     info_type AS it1,\n     info_type AS it2,\n     kind_type AS kt1,\n     kind_type AS kt2,\n     link_type AS lt,\n     movie_companies AS mc1,\n     movie_companies AS mc2,\n     movie_info_idx AS mi_idx1,\n     movie_info_idx AS mi_idx2,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE cn1.country_code = '[nl]'\n  AND it1.info = 'rating'\n  AND it2.info = 'rating'\n  AND kt1.kind IN ('tv series')\n  AND kt2.kind IN ('tv series')\n  AND lt.link LIKE '%follow%'\n  AND mi_idx2.info < '3.0'\n  AND t2.production_year = 2007\n  AND lt.id = ml.link_type_id\n  AND t1.id = ml.movie_id\n  AND t2.id = ml.linked_movie_id\n  AND it1.id = mi_idx1.info_type_id\n  AND t1.id = mi_idx1.movie_id\n  AND kt1.id = t1.kind_id\n  AND cn1.id = mc1.company_id\n  AND t1.id = mc1.movie_id\n  AND ml.movie_id = mi_idx1.movie_id\n  AND ml.movie_id = mc1.movie_id\n  AND mi_idx1.movie_id = mc1.movie_id\n  AND it2.id = mi_idx2.info_type_id\n  AND t2.id = mi_idx2.movie_id\n  AND kt2.id = t2.kind_id\n  AND cn2.id = mc2.company_id\n  AND t2.id = mc2.movie_id\n  AND ml.linked_movie_id = mi_idx2.movie_id\n  AND ml.linked_movie_id = mc2.movie_id\n  AND mi_idx2.movie_id = mc2.movie_id;",
+      "suite": "job"
+    },
+    "job_33c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_33c",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn1.name) AS first_company,\n       MIN(cn2.name) AS second_company,\n       MIN(mi_idx1.info) AS first_rating,\n       MIN(mi_idx2.info) AS second_rating,\n       MIN(t1.title) AS first_movie,\n       MIN(t2.title) AS second_movie\nFROM company_name AS cn1,\n     company_name AS cn2,\n     info_type AS it1,\n     info_type AS it2,\n     kind_type AS kt1,\n     kind_type AS kt2,\n     link_type AS lt,\n     movie_companies AS mc1,\n     movie_companies AS mc2,\n     movie_info_idx AS mi_idx1,\n     movie_info_idx AS mi_idx2,\n     movie_link AS ml,\n     title AS t1,\n     title AS t2\nWHERE cn1.country_code != '[us]'\n  AND it1.info = 'rating'\n  AND it2.info = 'rating'\n  AND kt1.kind IN ('tv series',\n                   'episode')\n  AND kt2.kind IN ('tv series',\n                   'episode')\n  AND lt.link IN ('sequel',\n                  'follows',\n                  'followed by')\n  AND mi_idx2.info < '3.5'\n  AND t2.production_year BETWEEN 2000 AND 2010\n  AND lt.id = ml.link_type_id\n  AND t1.id = ml.movie_id\n  AND t2.id = ml.linked_movie_id\n  AND it1.id = mi_idx1.info_type_id\n  AND t1.id = mi_idx1.movie_id\n  AND kt1.id = t1.kind_id\n  AND cn1.id = mc1.company_id\n  AND t1.id = mc1.movie_id\n  AND ml.movie_id = mi_idx1.movie_id\n  AND ml.movie_id = mc1.movie_id\n  AND mi_idx1.movie_id = mc1.movie_id\n  AND it2.id = mi_idx2.info_type_id\n  AND t2.id = mi_idx2.movie_id\n  AND kt2.id = t2.kind_id\n  AND cn2.id = mc2.company_id\n  AND t2.id = mc2.movie_id\n  AND ml.linked_movie_id = mi_idx2.movie_id\n  AND ml.linked_movie_id = mc2.movie_id\n  AND mi_idx2.movie_id = mc2.movie_id;",
+      "suite": "job"
+    },
+    "job_3a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_3a",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM keyword AS k,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE k.keyword LIKE '%sequel%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German')\n  AND t.production_year > 2005\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_3b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_3b",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM keyword AS k,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE k.keyword LIKE '%sequel%'\n  AND mi.info IN ('Bulgaria')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_3c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_3c",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM keyword AS k,\n     movie_info AS mi,\n     movie_keyword AS mk,\n     title AS t\nWHERE k.keyword LIKE '%sequel%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND t.production_year > 1990\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND k.id = mk.keyword_id;",
+      "suite": "job"
+    },
+    "job_4a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_4a",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS movie_title\nFROM info_type AS it,\n     keyword AS k,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it.info ='rating'\n  AND k.keyword LIKE '%sequel%'\n  AND mi_idx.info > '5.0'\n  AND t.production_year > 2005\n  AND t.id = mi_idx.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_4b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_4b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS movie_title\nFROM info_type AS it,\n     keyword AS k,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it.info ='rating'\n  AND k.keyword LIKE '%sequel%'\n  AND mi_idx.info > '9.0'\n  AND t.production_year > 2010\n  AND t.id = mi_idx.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_4c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_4c",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS movie_title\nFROM info_type AS it,\n     keyword AS k,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it.info ='rating'\n  AND k.keyword LIKE '%sequel%'\n  AND mi_idx.info > '2.0'\n  AND t.production_year > 1990\n  AND t.id = mi_idx.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_5a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_5a",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS typical_european_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note LIKE '%(theatrical)%'\n  AND mc.note LIKE '%(France)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German')\n  AND t.production_year > 2005\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id;",
+      "suite": "job"
+    },
+    "job_5b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_5b",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS american_vhs_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note LIKE '%(VHS)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mc.note LIKE '%(1994)%'\n  AND mi.info IN ('USA',\n                  'America')\n  AND t.production_year > 2010\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id;",
+      "suite": "job"
+    },
+    "job_5c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_5c",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS american_movie\nFROM company_type AS ct,\n     info_type AS it,\n     movie_companies AS mc,\n     movie_info AS mi,\n     title AS t\nWHERE ct.kind = 'production companies'\n  AND mc.note NOT LIKE '%(TV)%'\n  AND mc.note LIKE '%(USA)%'\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Denish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND t.production_year > 1990\n  AND t.id = mi.movie_id\n  AND t.id = mc.movie_id\n  AND mc.movie_id = mi.movie_id\n  AND ct.id = mc.company_type_id\n  AND it.id = mi.info_type_id;",
+      "suite": "job"
+    },
+    "job_6a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6a",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS marvel_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword = 'marvel-cinematic-universe'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2010\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_6b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6b",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS hero_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2014\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_6c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6c",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS marvel_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword = 'marvel-cinematic-universe'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2014\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_6d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6d",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS hero_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2000\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_6e": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6e",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS marvel_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword = 'marvel-cinematic-universe'\n  AND n.name LIKE '%Downey%Robert%'\n  AND t.production_year > 2000\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_6f": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_6f",
+      "mode": "prune",
+      "sql": "SELECT MIN(k.keyword) AS movie_keyword,\n       MIN(n.name) AS actor_name,\n       MIN(t.title) AS hero_movie\nFROM cast_info AS ci,\n     keyword AS k,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword IN ('superhero',\n                    'sequel',\n                    'second-part',\n                    'marvel-comics',\n                    'based-on-comic',\n                    'tv-special',\n                    'fight',\n                    'violence')\n  AND t.production_year > 2000\n  AND k.id = mk.keyword_id\n  AND t.id = mk.movie_id\n  AND t.id = ci.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND n.id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_7a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_7a",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS of_person,\n       MIN(t.title) AS biography_movie\nFROM aka_name AS an,\n     cast_info AS ci,\n     info_type AS it,\n     link_type AS lt,\n     movie_link AS ml,\n     name AS n,\n     person_info AS pi,\n     title AS t\nWHERE an.name LIKE '%a%'\n  AND it.info ='mini biography'\n  AND lt.link ='features'\n  AND n.name_pcode_cf BETWEEN 'A' AND 'F'\n  AND (n.gender='m'\n       OR (n.gender = 'f'\n           AND n.name LIKE 'B%'))\n  AND pi.note ='Volker Boehm'\n  AND t.production_year BETWEEN 1980 AND 1995\n  AND n.id = an.person_id\n  AND n.id = pi.person_id\n  AND ci.person_id = n.id\n  AND t.id = ci.movie_id\n  AND ml.linked_movie_id = t.id\n  AND lt.id = ml.link_type_id\n  AND it.id = pi.info_type_id\n  AND pi.person_id = an.person_id\n  AND pi.person_id = ci.person_id\n  AND an.person_id = ci.person_id\n  AND ci.movie_id = ml.linked_movie_id;",
+      "suite": "job"
+    },
+    "job_7b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_7b",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS of_person,\n       MIN(t.title) AS biography_movie\nFROM aka_name AS an,\n     cast_info AS ci,\n     info_type AS it,\n     link_type AS lt,\n     movie_link AS ml,\n     name AS n,\n     person_info AS pi,\n     title AS t\nWHERE an.name LIKE '%a%'\n  AND it.info ='mini biography'\n  AND lt.link ='features'\n  AND n.name_pcode_cf LIKE 'D%'\n  AND n.gender='m'\n  AND pi.note ='Volker Boehm'\n  AND t.production_year BETWEEN 1980 AND 1984\n  AND n.id = an.person_id\n  AND n.id = pi.person_id\n  AND ci.person_id = n.id\n  AND t.id = ci.movie_id\n  AND ml.linked_movie_id = t.id\n  AND lt.id = ml.link_type_id\n  AND it.id = pi.info_type_id\n  AND pi.person_id = an.person_id\n  AND pi.person_id = ci.person_id\n  AND an.person_id = ci.person_id\n  AND ci.movie_id = ml.linked_movie_id;",
+      "suite": "job"
+    },
+    "job_7c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_7c",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS cast_member_name,\n       MIN(pi.info) AS cast_member_info\nFROM aka_name AS an,\n     cast_info AS ci,\n     info_type AS it,\n     link_type AS lt,\n     movie_link AS ml,\n     name AS n,\n     person_info AS pi,\n     title AS t\nWHERE an.name IS NOT NULL\n  AND (an.name LIKE '%a%'\n       OR an.name LIKE 'A%')\n  AND it.info ='mini biography'\n  AND lt.link IN ('references',\n                  'referenced in',\n                  'features',\n                  'featured in')\n  AND n.name_pcode_cf BETWEEN 'A' AND 'F'\n  AND (n.gender='m'\n       OR (n.gender = 'f'\n           AND n.name LIKE 'A%'))\n  AND pi.note IS NOT NULL\n  AND t.production_year BETWEEN 1980 AND 2010\n  AND n.id = an.person_id\n  AND n.id = pi.person_id\n  AND ci.person_id = n.id\n  AND t.id = ci.movie_id\n  AND ml.linked_movie_id = t.id\n  AND lt.id = ml.link_type_id\n  AND it.id = pi.info_type_id\n  AND pi.person_id = an.person_id\n  AND pi.person_id = ci.person_id\n  AND an.person_id = ci.person_id\n  AND ci.movie_id = ml.linked_movie_id;",
+      "suite": "job"
+    },
+    "job_8a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_8a",
+      "mode": "prune",
+      "sql": "SELECT MIN(an1.name) AS actress_pseudonym,\n       MIN(t.title) AS japanese_movie_dubbed\nFROM aka_name AS an1,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n1,\n     role_type AS rt,\n     title AS t\nWHERE ci.note ='(voice: English version)'\n  AND cn.country_code ='[jp]'\n  AND mc.note LIKE '%(Japan)%'\n  AND mc.note NOT LIKE '%(USA)%'\n  AND n1.name LIKE '%Yo%'\n  AND n1.name NOT LIKE '%Yu%'\n  AND rt.role ='actress'\n  AND an1.person_id = n1.id\n  AND n1.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND an1.person_id = ci.person_id\n  AND ci.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_8b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_8b",
+      "mode": "prune",
+      "sql": "SELECT MIN(an.name) AS acress_pseudonym,\n       MIN(t.title) AS japanese_anime_movie\nFROM aka_name AS an,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note ='(voice: English version)'\n  AND cn.country_code ='[jp]'\n  AND mc.note LIKE '%(Japan)%'\n  AND mc.note NOT LIKE '%(USA)%'\n  AND (mc.note LIKE '%(2006)%'\n       OR mc.note LIKE '%(2007)%')\n  AND n.name LIKE '%Yo%'\n  AND n.name NOT LIKE '%Yu%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2006 AND 2007\n  AND (t.title LIKE 'One Piece%'\n       OR t.title LIKE 'Dragon Ball Z%')\n  AND an.person_id = n.id\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND an.person_id = ci.person_id\n  AND ci.movie_id = mc.movie_id;",
+      "suite": "job"
+    },
+    "job_9a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_9a",
+      "mode": "prune",
+      "sql": "SELECT MIN(an.name) AS alternative_name,\n       MIN(chn.name) AS character_name,\n       MIN(t.title) AS movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND mc.note IS NOT NULL\n  AND (mc.note LIKE '%(USA)%'\n       OR mc.note LIKE '%(worldwide)%')\n  AND n.gender ='f'\n  AND n.name LIKE '%Ang%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2005 AND 2015\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND n.id = ci.person_id\n  AND chn.id = ci.person_role_id\n  AND an.person_id = n.id\n  AND an.person_id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_9b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_9b",
+      "mode": "prune",
+      "sql": "SELECT MIN(an.name) AS alternative_name,\n       MIN(chn.name) AS voiced_character,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS american_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note = '(voice)'\n  AND cn.country_code ='[us]'\n  AND mc.note LIKE '%(200%)%'\n  AND (mc.note LIKE '%(USA)%'\n       OR mc.note LIKE '%(worldwide)%')\n  AND n.gender ='f'\n  AND n.name LIKE '%Angel%'\n  AND rt.role ='actress'\n  AND t.production_year BETWEEN 2007 AND 2010\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND n.id = ci.person_id\n  AND chn.id = ci.person_role_id\n  AND an.person_id = n.id\n  AND an.person_id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_9c": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_9c",
+      "mode": "prune",
+      "sql": "SELECT MIN(an.name) AS alternative_name,\n       MIN(chn.name) AS voiced_character_name,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS american_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND n.gender ='f'\n  AND n.name LIKE '%An%'\n  AND rt.role ='actress'\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND n.id = ci.person_id\n  AND chn.id = ci.person_role_id\n  AND an.person_id = n.id\n  AND an.person_id = ci.person_id;",
+      "suite": "job"
+    },
+    "job_9d": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_9d",
+      "mode": "prune",
+      "sql": "SELECT MIN(an.name) AS alternative_name,\n       MIN(chn.name) AS voiced_char_name,\n       MIN(n.name) AS voicing_actress,\n       MIN(t.title) AS american_movie\nFROM aka_name AS an,\n     char_name AS chn,\n     cast_info AS ci,\n     company_name AS cn,\n     movie_companies AS mc,\n     name AS n,\n     role_type AS rt,\n     title AS t\nWHERE ci.note IN ('(voice)',\n                  '(voice: Japanese version)',\n                  '(voice) (uncredited)',\n                  '(voice: English version)')\n  AND cn.country_code ='[us]'\n  AND n.gender ='f'\n  AND rt.role ='actress'\n  AND ci.movie_id = t.id\n  AND t.id = mc.movie_id\n  AND ci.movie_id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.role_id = rt.id\n  AND n.id = ci.person_id\n  AND chn.id = ci.person_role_id\n  AND an.person_id = n.id\n  AND an.person_id = ci.person_id;",
+      "suite": "job"
+    }
+  },
+  "slots": [
+    [
+      0,
+      "job_1a",
+      "A"
+    ],
+    [
+      0,
+      "job_1a",
+      "B"
+    ],
+    [
+      0,
+      "job_28b",
+      "A"
+    ],
+    [
+      0,
+      "job_28b",
+      "B"
+    ],
+    [
+      0,
+      "job_31c",
+      "B"
+    ],
+    [
+      0,
+      "job_31c",
+      "A"
+    ],
+    [
+      0,
+      "job_7b",
+      "A"
+    ],
+    [
+      0,
+      "job_7b",
+      "B"
+    ],
+    [
+      0,
+      "job_33b",
+      "B"
+    ],
+    [
+      0,
+      "job_33b",
+      "A"
+    ],
+    [
+      0,
+      "job_25c",
+      "B"
+    ],
+    [
+      0,
+      "job_25c",
+      "A"
+    ],
+    [
+      0,
+      "job_10a",
+      "A"
+    ],
+    [
+      0,
+      "job_10a",
+      "B"
+    ],
+    [
+      0,
+      "job_33a",
+      "B"
+    ],
+    [
+      0,
+      "job_33a",
+      "A"
+    ],
+    [
+      0,
+      "job_9d",
+      "B"
+    ],
+    [
+      0,
+      "job_9d",
+      "A"
+    ],
+    [
+      0,
+      "job_15c",
+      "A"
+    ],
+    [
+      0,
+      "job_15c",
+      "B"
+    ],
+    [
+      0,
+      "job_32a",
+      "B"
+    ],
+    [
+      0,
+      "job_32a",
+      "A"
+    ],
+    [
+      0,
+      "job_4a",
+      "A"
+    ],
+    [
+      0,
+      "job_4a",
+      "B"
+    ],
+    [
+      0,
+      "job_14a",
+      "B"
+    ],
+    [
+      0,
+      "job_14a",
+      "A"
+    ],
+    [
+      0,
+      "job_20a",
+      "B"
+    ],
+    [
+      0,
+      "job_20a",
+      "A"
+    ],
+    [
+      0,
+      "job_6a",
+      "A"
+    ],
+    [
+      0,
+      "job_6a",
+      "B"
+    ],
+    [
+      0,
+      "job_2b",
+      "B"
+    ],
+    [
+      0,
+      "job_2b",
+      "A"
+    ],
+    [
+      0,
+      "job_23b",
+      "B"
+    ],
+    [
+      0,
+      "job_23b",
+      "A"
+    ],
+    [
+      0,
+      "job_1c",
+      "B"
+    ],
+    [
+      0,
+      "job_1c",
+      "A"
+    ],
+    [
+      0,
+      "job_23a",
+      "A"
+    ],
+    [
+      0,
+      "job_23a",
+      "B"
+    ],
+    [
+      0,
+      "job_30b",
+      "B"
+    ],
+    [
+      0,
+      "job_30b",
+      "A"
+    ],
+    [
+      0,
+      "job_30c",
+      "B"
+    ],
+    [
+      0,
+      "job_30c",
+      "A"
+    ],
+    [
+      0,
+      "job_2d",
+      "A"
+    ],
+    [
+      0,
+      "job_2d",
+      "B"
+    ],
+    [
+      0,
+      "job_21b",
+      "A"
+    ],
+    [
+      0,
+      "job_21b",
+      "B"
+    ],
+    [
+      0,
+      "job_9c",
+      "B"
+    ],
+    [
+      0,
+      "job_9c",
+      "A"
+    ],
+    [
+      0,
+      "job_6b",
+      "B"
+    ],
+    [
+      0,
+      "job_6b",
+      "A"
+    ],
+    [
+      0,
+      "job_10c",
+      "A"
+    ],
+    [
+      0,
+      "job_10c",
+      "B"
+    ],
+    [
+      0,
+      "job_20c",
+      "A"
+    ],
+    [
+      0,
+      "job_20c",
+      "B"
+    ],
+    [
+      0,
+      "job_28a",
+      "A"
+    ],
+    [
+      0,
+      "job_28a",
+      "B"
+    ],
+    [
+      0,
+      "job_2c",
+      "B"
+    ],
+    [
+      0,
+      "job_2c",
+      "A"
+    ],
+    [
+      0,
+      "job_11a",
+      "B"
+    ],
+    [
+      0,
+      "job_11a",
+      "A"
+    ],
+    [
+      0,
+      "job_6c",
+      "A"
+    ],
+    [
+      0,
+      "job_6c",
+      "B"
+    ],
+    [
+      0,
+      "job_3c",
+      "B"
+    ],
+    [
+      0,
+      "job_3c",
+      "A"
+    ],
+    [
+      0,
+      "job_17e",
+      "B"
+    ],
+    [
+      0,
+      "job_17e",
+      "A"
+    ],
+    [
+      0,
+      "job_26c",
+      "B"
+    ],
+    [
+      0,
+      "job_26c",
+      "A"
+    ],
+    [
+      0,
+      "job_27b",
+      "B"
+    ],
+    [
+      0,
+      "job_27b",
+      "A"
+    ],
+    [
+      0,
+      "job_21a",
+      "B"
+    ],
+    [
+      0,
+      "job_21a",
+      "A"
+    ],
+    [
+      0,
+      "job_27a",
+      "B"
+    ],
+    [
+      0,
+      "job_27a",
+      "A"
+    ],
+    [
+      0,
+      "job_29b",
+      "B"
+    ],
+    [
+      0,
+      "job_29b",
+      "A"
+    ],
+    [
+      0,
+      "job_12b",
+      "B"
+    ],
+    [
+      0,
+      "job_12b",
+      "A"
+    ],
+    [
+      0,
+      "job_7c",
+      "A"
+    ],
+    [
+      0,
+      "job_7c",
+      "B"
+    ],
+    [
+      0,
+      "job_20b",
+      "B"
+    ],
+    [
+      0,
+      "job_20b",
+      "A"
+    ],
+    [
+      0,
+      "job_29c",
+      "A"
+    ],
+    [
+      0,
+      "job_29c",
+      "B"
+    ],
+    [
+      0,
+      "job_6f",
+      "A"
+    ],
+    [
+      0,
+      "job_6f",
+      "B"
+    ],
+    [
+      0,
+      "job_5b",
+      "A"
+    ],
+    [
+      0,
+      "job_5b",
+      "B"
+    ],
+    [
+      0,
+      "job_23c",
+      "A"
+    ],
+    [
+      0,
+      "job_23c",
+      "B"
+    ],
+    [
+      0,
+      "job_19c",
+      "B"
+    ],
+    [
+      0,
+      "job_19c",
+      "A"
+    ],
+    [
+      0,
+      "job_12c",
+      "A"
+    ],
+    [
+      0,
+      "job_12c",
+      "B"
+    ],
+    [
+      0,
+      "job_5c",
+      "B"
+    ],
+    [
+      0,
+      "job_5c",
+      "A"
+    ],
+    [
+      0,
+      "job_6d",
+      "B"
+    ],
+    [
+      0,
+      "job_6d",
+      "A"
+    ],
+    [
+      0,
+      "job_26a",
+      "B"
+    ],
+    [
+      0,
+      "job_26a",
+      "A"
+    ],
+    [
+      0,
+      "job_12a",
+      "A"
+    ],
+    [
+      0,
+      "job_12a",
+      "B"
+    ],
+    [
+      0,
+      "job_17b",
+      "A"
+    ],
+    [
+      0,
+      "job_17b",
+      "B"
+    ],
+    [
+      0,
+      "job_8a",
+      "B"
+    ],
+    [
+      0,
+      "job_8a",
+      "A"
+    ],
+    [
+      0,
+      "job_31b",
+      "A"
+    ],
+    [
+      0,
+      "job_31b",
+      "B"
+    ],
+    [
+      0,
+      "job_3a",
+      "A"
+    ],
+    [
+      0,
+      "job_3a",
+      "B"
+    ],
+    [
+      0,
+      "job_11c",
+      "B"
+    ],
+    [
+      0,
+      "job_11c",
+      "A"
+    ],
+    [
+      0,
+      "job_15a",
+      "A"
+    ],
+    [
+      0,
+      "job_15a",
+      "B"
+    ],
+    [
+      0,
+      "job_3b",
+      "B"
+    ],
+    [
+      0,
+      "job_3b",
+      "A"
+    ],
+    [
+      0,
+      "job_7a",
+      "A"
+    ],
+    [
+      0,
+      "job_7a",
+      "B"
+    ],
+    [
+      0,
+      "job_19d",
+      "B"
+    ],
+    [
+      0,
+      "job_19d",
+      "A"
+    ],
+    [
+      0,
+      "job_6e",
+      "A"
+    ],
+    [
+      0,
+      "job_6e",
+      "B"
+    ],
+    [
+      0,
+      "job_21c",
+      "B"
+    ],
+    [
+      0,
+      "job_21c",
+      "A"
+    ],
+    [
+      0,
+      "job_11b",
+      "B"
+    ],
+    [
+      0,
+      "job_11b",
+      "A"
+    ],
+    [
+      0,
+      "job_28c",
+      "B"
+    ],
+    [
+      0,
+      "job_28c",
+      "A"
+    ],
+    [
+      0,
+      "job_13a",
+      "A"
+    ],
+    [
+      0,
+      "job_13a",
+      "B"
+    ],
+    [
+      0,
+      "job_4c",
+      "B"
+    ],
+    [
+      0,
+      "job_4c",
+      "A"
+    ],
+    [
+      0,
+      "job_29a",
+      "A"
+    ],
+    [
+      0,
+      "job_29a",
+      "B"
+    ],
+    [
+      0,
+      "job_19a",
+      "A"
+    ],
+    [
+      0,
+      "job_19a",
+      "B"
+    ],
+    [
+      0,
+      "job_14c",
+      "B"
+    ],
+    [
+      0,
+      "job_14c",
+      "A"
+    ],
+    [
+      0,
+      "job_14b",
+      "A"
+    ],
+    [
+      0,
+      "job_14b",
+      "B"
+    ],
+    [
+      0,
+      "job_25a",
+      "A"
+    ],
+    [
+      0,
+      "job_25a",
+      "B"
+    ],
+    [
+      0,
+      "job_9b",
+      "B"
+    ],
+    [
+      0,
+      "job_9b",
+      "A"
+    ],
+    [
+      0,
+      "job_17c",
+      "A"
+    ],
+    [
+      0,
+      "job_17c",
+      "B"
+    ],
+    [
+      0,
+      "job_4b",
+      "A"
+    ],
+    [
+      0,
+      "job_4b",
+      "B"
+    ],
+    [
+      0,
+      "job_26b",
+      "B"
+    ],
+    [
+      0,
+      "job_26b",
+      "A"
+    ],
+    [
+      0,
+      "job_10b",
+      "A"
+    ],
+    [
+      0,
+      "job_10b",
+      "B"
+    ],
+    [
+      0,
+      "job_2a",
+      "A"
+    ],
+    [
+      0,
+      "job_2a",
+      "B"
+    ],
+    [
+      0,
+      "job_17f",
+      "B"
+    ],
+    [
+      0,
+      "job_17f",
+      "A"
+    ],
+    [
+      0,
+      "job_1b",
+      "A"
+    ],
+    [
+      0,
+      "job_1b",
+      "B"
+    ],
+    [
+      0,
+      "job_17d",
+      "B"
+    ],
+    [
+      0,
+      "job_17d",
+      "A"
+    ],
+    [
+      0,
+      "job_9a",
+      "B"
+    ],
+    [
+      0,
+      "job_9a",
+      "A"
+    ],
+    [
+      0,
+      "job_30a",
+      "B"
+    ],
+    [
+      0,
+      "job_30a",
+      "A"
+    ],
+    [
+      0,
+      "job_1d",
+      "B"
+    ],
+    [
+      0,
+      "job_1d",
+      "A"
+    ],
+    [
+      0,
+      "job_25b",
+      "B"
+    ],
+    [
+      0,
+      "job_25b",
+      "A"
+    ],
+    [
+      0,
+      "job_18a",
+      "A"
+    ],
+    [
+      0,
+      "job_18a",
+      "B"
+    ],
+    [
+      0,
+      "job_27c",
+      "B"
+    ],
+    [
+      0,
+      "job_27c",
+      "A"
+    ],
+    [
+      0,
+      "job_22b",
+      "B"
+    ],
+    [
+      0,
+      "job_22b",
+      "A"
+    ],
+    [
+      0,
+      "job_24b",
+      "A"
+    ],
+    [
+      0,
+      "job_24b",
+      "B"
+    ],
+    [
+      0,
+      "job_8b",
+      "B"
+    ],
+    [
+      0,
+      "job_8b",
+      "A"
+    ],
+    [
+      0,
+      "job_31a",
+      "B"
+    ],
+    [
+      0,
+      "job_31a",
+      "A"
+    ],
+    [
+      0,
+      "job_18c",
+      "A"
+    ],
+    [
+      0,
+      "job_18c",
+      "B"
+    ],
+    [
+      0,
+      "job_19b",
+      "A"
+    ],
+    [
+      0,
+      "job_19b",
+      "B"
+    ],
+    [
+      0,
+      "job_17a",
+      "B"
+    ],
+    [
+      0,
+      "job_17a",
+      "A"
+    ],
+    [
+      0,
+      "job_15b",
+      "A"
+    ],
+    [
+      0,
+      "job_15b",
+      "B"
+    ],
+    [
+      0,
+      "job_22a",
+      "A"
+    ],
+    [
+      0,
+      "job_22a",
+      "B"
+    ],
+    [
+      0,
+      "job_18b",
+      "B"
+    ],
+    [
+      0,
+      "job_18b",
+      "A"
+    ],
+    [
+      0,
+      "job_33c",
+      "B"
+    ],
+    [
+      0,
+      "job_33c",
+      "A"
+    ],
+    [
+      0,
+      "job_32b",
+      "B"
+    ],
+    [
+      0,
+      "job_32b",
+      "A"
+    ],
+    [
+      0,
+      "job_5a",
+      "A"
+    ],
+    [
+      0,
+      "job_5a",
+      "B"
+    ],
+    [
+      0,
+      "job_15d",
+      "A"
+    ],
+    [
+      0,
+      "job_15d",
+      "B"
+    ],
+    [
+      1,
+      "job_30c",
+      "A"
+    ],
+    [
+      1,
+      "job_30c",
+      "B"
+    ],
+    [
+      1,
+      "job_2d",
+      "B"
+    ],
+    [
+      1,
+      "job_2d",
+      "A"
+    ],
+    [
+      1,
+      "job_17e",
+      "A"
+    ],
+    [
+      1,
+      "job_17e",
+      "B"
+    ],
+    [
+      1,
+      "job_21c",
+      "A"
+    ],
+    [
+      1,
+      "job_21c",
+      "B"
+    ],
+    [
+      1,
+      "job_5b",
+      "B"
+    ],
+    [
+      1,
+      "job_5b",
+      "A"
+    ],
+    [
+      1,
+      "job_1a",
+      "B"
+    ],
+    [
+      1,
+      "job_1a",
+      "A"
+    ],
+    [
+      1,
+      "job_12b",
+      "A"
+    ],
+    [
+      1,
+      "job_12b",
+      "B"
+    ],
+    [
+      1,
+      "job_22a",
+      "B"
+    ],
+    [
+      1,
+      "job_22a",
+      "A"
+    ],
+    [
+      1,
+      "job_17a",
+      "A"
+    ],
+    [
+      1,
+      "job_17a",
+      "B"
+    ],
+    [
+      1,
+      "job_1d",
+      "A"
+    ],
+    [
+      1,
+      "job_1d",
+      "B"
+    ],
+    [
+      1,
+      "job_20c",
+      "B"
+    ],
+    [
+      1,
+      "job_20c",
+      "A"
+    ],
+    [
+      1,
+      "job_30b",
+      "A"
+    ],
+    [
+      1,
+      "job_30b",
+      "B"
+    ],
+    [
+      1,
+      "job_5a",
+      "B"
+    ],
+    [
+      1,
+      "job_5a",
+      "A"
+    ],
+    [
+      1,
+      "job_30a",
+      "A"
+    ],
+    [
+      1,
+      "job_30a",
+      "B"
+    ],
+    [
+      1,
+      "job_6b",
+      "A"
+    ],
+    [
+      1,
+      "job_6b",
+      "B"
+    ],
+    [
+      1,
+      "job_9d",
+      "A"
+    ],
+    [
+      1,
+      "job_9d",
+      "B"
+    ],
+    [
+      1,
+      "job_27a",
+      "A"
+    ],
+    [
+      1,
+      "job_27a",
+      "B"
+    ],
+    [
+      1,
+      "job_15d",
+      "B"
+    ],
+    [
+      1,
+      "job_15d",
+      "A"
+    ],
+    [
+      1,
+      "job_6f",
+      "B"
+    ],
+    [
+      1,
+      "job_6f",
+      "A"
+    ],
+    [
+      1,
+      "job_10a",
+      "B"
+    ],
+    [
+      1,
+      "job_10a",
+      "A"
+    ],
+    [
+      1,
+      "job_8b",
+      "A"
+    ],
+    [
+      1,
+      "job_8b",
+      "B"
+    ],
+    [
+      1,
+      "job_26a",
+      "A"
+    ],
+    [
+      1,
+      "job_26a",
+      "B"
+    ],
+    [
+      1,
+      "job_6e",
+      "B"
+    ],
+    [
+      1,
+      "job_6e",
+      "A"
+    ],
+    [
+      1,
+      "job_28a",
+      "B"
+    ],
+    [
+      1,
+      "job_28a",
+      "A"
+    ],
+    [
+      1,
+      "job_17d",
+      "A"
+    ],
+    [
+      1,
+      "job_17d",
+      "B"
+    ],
+    [
+      1,
+      "job_5c",
+      "A"
+    ],
+    [
+      1,
+      "job_5c",
+      "B"
+    ],
+    [
+      1,
+      "job_22b",
+      "A"
+    ],
+    [
+      1,
+      "job_22b",
+      "B"
+    ],
+    [
+      1,
+      "job_20b",
+      "A"
+    ],
+    [
+      1,
+      "job_20b",
+      "B"
+    ],
+    [
+      1,
+      "job_32a",
+      "A"
+    ],
+    [
+      1,
+      "job_32a",
+      "B"
+    ],
+    [
+      1,
+      "job_28c",
+      "A"
+    ],
+    [
+      1,
+      "job_28c",
+      "B"
+    ],
+    [
+      1,
+      "job_17f",
+      "A"
+    ],
+    [
+      1,
+      "job_17f",
+      "B"
+    ],
+    [
+      1,
+      "job_4c",
+      "A"
+    ],
+    [
+      1,
+      "job_4c",
+      "B"
+    ],
+    [
+      1,
+      "job_7b",
+      "B"
+    ],
+    [
+      1,
+      "job_7b",
+      "A"
+    ],
+    [
+      1,
+      "job_6d",
+      "A"
+    ],
+    [
+      1,
+      "job_6d",
+      "B"
+    ],
+    [
+      1,
+      "job_15c",
+      "B"
+    ],
+    [
+      1,
+      "job_15c",
+      "A"
+    ],
+    [
+      1,
+      "job_19c",
+      "A"
+    ],
+    [
+      1,
+      "job_19c",
+      "B"
+    ],
+    [
+      1,
+      "job_18b",
+      "A"
+    ],
+    [
+      1,
+      "job_18b",
+      "B"
+    ],
+    [
+      1,
+      "job_2c",
+      "A"
+    ],
+    [
+      1,
+      "job_2c",
+      "B"
+    ],
+    [
+      1,
+      "job_25b",
+      "A"
+    ],
+    [
+      1,
+      "job_25b",
+      "B"
+    ],
+    [
+      1,
+      "job_11c",
+      "A"
+    ],
+    [
+      1,
+      "job_11c",
+      "B"
+    ],
+    [
+      1,
+      "job_25c",
+      "A"
+    ],
+    [
+      1,
+      "job_25c",
+      "B"
+    ],
+    [
+      1,
+      "job_31c",
+      "A"
+    ],
+    [
+      1,
+      "job_31c",
+      "B"
+    ],
+    [
+      1,
+      "job_29c",
+      "B"
+    ],
+    [
+      1,
+      "job_29c",
+      "A"
+    ],
+    [
+      1,
+      "job_18a",
+      "B"
+    ],
+    [
+      1,
+      "job_18a",
+      "A"
+    ],
+    [
+      1,
+      "job_33b",
+      "A"
+    ],
+    [
+      1,
+      "job_33b",
+      "B"
+    ],
+    [
+      1,
+      "job_17c",
+      "B"
+    ],
+    [
+      1,
+      "job_17c",
+      "A"
+    ],
+    [
+      1,
+      "job_7a",
+      "B"
+    ],
+    [
+      1,
+      "job_7a",
+      "A"
+    ],
+    [
+      1,
+      "job_12c",
+      "B"
+    ],
+    [
+      1,
+      "job_12c",
+      "A"
+    ],
+    [
+      1,
+      "job_14b",
+      "B"
+    ],
+    [
+      1,
+      "job_14b",
+      "A"
+    ],
+    [
+      1,
+      "job_2b",
+      "A"
+    ],
+    [
+      1,
+      "job_2b",
+      "B"
+    ],
+    [
+      1,
+      "job_10b",
+      "B"
+    ],
+    [
+      1,
+      "job_10b",
+      "A"
+    ],
+    [
+      1,
+      "job_33a",
+      "A"
+    ],
+    [
+      1,
+      "job_33a",
+      "B"
+    ],
+    [
+      1,
+      "job_23b",
+      "A"
+    ],
+    [
+      1,
+      "job_23b",
+      "B"
+    ],
+    [
+      1,
+      "job_26b",
+      "A"
+    ],
+    [
+      1,
+      "job_26b",
+      "B"
+    ],
+    [
+      1,
+      "job_2a",
+      "B"
+    ],
+    [
+      1,
+      "job_2a",
+      "A"
+    ],
+    [
+      1,
+      "job_11a",
+      "A"
+    ],
+    [
+      1,
+      "job_11a",
+      "B"
+    ],
+    [
+      1,
+      "job_33c",
+      "A"
+    ],
+    [
+      1,
+      "job_33c",
+      "B"
+    ],
+    [
+      1,
+      "job_15a",
+      "B"
+    ],
+    [
+      1,
+      "job_15a",
+      "A"
+    ],
+    [
+      1,
+      "job_28b",
+      "B"
+    ],
+    [
+      1,
+      "job_28b",
+      "A"
+    ],
+    [
+      1,
+      "job_21b",
+      "B"
+    ],
+    [
+      1,
+      "job_21b",
+      "A"
+    ],
+    [
+      1,
+      "job_27b",
+      "A"
+    ],
+    [
+      1,
+      "job_27b",
+      "B"
+    ],
+    [
+      1,
+      "job_3c",
+      "A"
+    ],
+    [
+      1,
+      "job_3c",
+      "B"
+    ],
+    [
+      1,
+      "job_11b",
+      "A"
+    ],
+    [
+      1,
+      "job_11b",
+      "B"
+    ],
+    [
+      1,
+      "job_18c",
+      "B"
+    ],
+    [
+      1,
+      "job_18c",
+      "A"
+    ],
+    [
+      1,
+      "job_31a",
+      "A"
+    ],
+    [
+      1,
+      "job_31a",
+      "B"
+    ],
+    [
+      1,
+      "job_3a",
+      "B"
+    ],
+    [
+      1,
+      "job_3a",
+      "A"
+    ],
+    [
+      1,
+      "job_29b",
+      "A"
+    ],
+    [
+      1,
+      "job_29b",
+      "B"
+    ],
+    [
+      1,
+      "job_9b",
+      "A"
+    ],
+    [
+      1,
+      "job_9b",
+      "B"
+    ],
+    [
+      1,
+      "job_4b",
+      "B"
+    ],
+    [
+      1,
+      "job_4b",
+      "A"
+    ],
+    [
+      1,
+      "job_10c",
+      "B"
+    ],
+    [
+      1,
+      "job_10c",
+      "A"
+    ],
+    [
+      1,
+      "job_26c",
+      "A"
+    ],
+    [
+      1,
+      "job_26c",
+      "B"
+    ],
+    [
+      1,
+      "job_25a",
+      "B"
+    ],
+    [
+      1,
+      "job_25a",
+      "A"
+    ],
+    [
+      1,
+      "job_23c",
+      "B"
+    ],
+    [
+      1,
+      "job_23c",
+      "A"
+    ],
+    [
+      1,
+      "job_19d",
+      "A"
+    ],
+    [
+      1,
+      "job_19d",
+      "B"
+    ],
+    [
+      1,
+      "job_23a",
+      "B"
+    ],
+    [
+      1,
+      "job_23a",
+      "A"
+    ],
+    [
+      1,
+      "job_12a",
+      "B"
+    ],
+    [
+      1,
+      "job_12a",
+      "A"
+    ],
+    [
+      1,
+      "job_6c",
+      "B"
+    ],
+    [
+      1,
+      "job_6c",
+      "A"
+    ],
+    [
+      1,
+      "job_17b",
+      "B"
+    ],
+    [
+      1,
+      "job_17b",
+      "A"
+    ],
+    [
+      1,
+      "job_29a",
+      "B"
+    ],
+    [
+      1,
+      "job_29a",
+      "A"
+    ],
+    [
+      1,
+      "job_20a",
+      "A"
+    ],
+    [
+      1,
+      "job_20a",
+      "B"
+    ],
+    [
+      1,
+      "job_21a",
+      "A"
+    ],
+    [
+      1,
+      "job_21a",
+      "B"
+    ],
+    [
+      1,
+      "job_14c",
+      "A"
+    ],
+    [
+      1,
+      "job_14c",
+      "B"
+    ],
+    [
+      1,
+      "job_4a",
+      "B"
+    ],
+    [
+      1,
+      "job_4a",
+      "A"
+    ],
+    [
+      1,
+      "job_1c",
+      "A"
+    ],
+    [
+      1,
+      "job_1c",
+      "B"
+    ],
+    [
+      1,
+      "job_7c",
+      "B"
+    ],
+    [
+      1,
+      "job_7c",
+      "A"
+    ],
+    [
+      1,
+      "job_19b",
+      "B"
+    ],
+    [
+      1,
+      "job_19b",
+      "A"
+    ],
+    [
+      1,
+      "job_14a",
+      "A"
+    ],
+    [
+      1,
+      "job_14a",
+      "B"
+    ],
+    [
+      1,
+      "job_31b",
+      "B"
+    ],
+    [
+      1,
+      "job_31b",
+      "A"
+    ],
+    [
+      1,
+      "job_9a",
+      "A"
+    ],
+    [
+      1,
+      "job_9a",
+      "B"
+    ],
+    [
+      1,
+      "job_13a",
+      "B"
+    ],
+    [
+      1,
+      "job_13a",
+      "A"
+    ],
+    [
+      1,
+      "job_19a",
+      "B"
+    ],
+    [
+      1,
+      "job_19a",
+      "A"
+    ],
+    [
+      1,
+      "job_3b",
+      "A"
+    ],
+    [
+      1,
+      "job_3b",
+      "B"
+    ],
+    [
+      1,
+      "job_8a",
+      "A"
+    ],
+    [
+      1,
+      "job_8a",
+      "B"
+    ],
+    [
+      1,
+      "job_24b",
+      "B"
+    ],
+    [
+      1,
+      "job_24b",
+      "A"
+    ],
+    [
+      1,
+      "job_6a",
+      "B"
+    ],
+    [
+      1,
+      "job_6a",
+      "A"
+    ],
+    [
+      1,
+      "job_1b",
+      "B"
+    ],
+    [
+      1,
+      "job_1b",
+      "A"
+    ],
+    [
+      1,
+      "job_32b",
+      "A"
+    ],
+    [
+      1,
+      "job_32b",
+      "B"
+    ],
+    [
+      1,
+      "job_9c",
+      "A"
+    ],
+    [
+      1,
+      "job_9c",
+      "B"
+    ],
+    [
+      1,
+      "job_15b",
+      "B"
+    ],
+    [
+      1,
+      "job_15b",
+      "A"
+    ],
+    [
+      1,
+      "job_27c",
+      "A"
+    ],
+    [
+      1,
+      "job_27c",
+      "B"
+    ],
+    [
+      2,
+      "job_19d",
+      "B"
+    ],
+    [
+      2,
+      "job_19d",
+      "A"
+    ],
+    [
+      2,
+      "job_27c",
+      "B"
+    ],
+    [
+      2,
+      "job_27c",
+      "A"
+    ],
+    [
+      2,
+      "job_29a",
+      "A"
+    ],
+    [
+      2,
+      "job_29a",
+      "B"
+    ],
+    [
+      2,
+      "job_7a",
+      "A"
+    ],
+    [
+      2,
+      "job_7a",
+      "B"
+    ],
+    [
+      2,
+      "job_33b",
+      "B"
+    ],
+    [
+      2,
+      "job_33b",
+      "A"
+    ],
+    [
+      2,
+      "job_15b",
+      "A"
+    ],
+    [
+      2,
+      "job_15b",
+      "B"
+    ],
+    [
+      2,
+      "job_17f",
+      "B"
+    ],
+    [
+      2,
+      "job_17f",
+      "A"
+    ],
+    [
+      2,
+      "job_2c",
+      "B"
+    ],
+    [
+      2,
+      "job_2c",
+      "A"
+    ],
+    [
+      2,
+      "job_9a",
+      "B"
+    ],
+    [
+      2,
+      "job_9a",
+      "A"
+    ],
+    [
+      2,
+      "job_28a",
+      "A"
+    ],
+    [
+      2,
+      "job_28a",
+      "B"
+    ],
+    [
+      2,
+      "job_5b",
+      "A"
+    ],
+    [
+      2,
+      "job_5b",
+      "B"
+    ],
+    [
+      2,
+      "job_12a",
+      "A"
+    ],
+    [
+      2,
+      "job_12a",
+      "B"
+    ],
+    [
+      2,
+      "job_15d",
+      "A"
+    ],
+    [
+      2,
+      "job_15d",
+      "B"
+    ],
+    [
+      2,
+      "job_8a",
+      "B"
+    ],
+    [
+      2,
+      "job_8a",
+      "A"
+    ],
+    [
+      2,
+      "job_6b",
+      "B"
+    ],
+    [
+      2,
+      "job_6b",
+      "A"
+    ],
+    [
+      2,
+      "job_17c",
+      "A"
+    ],
+    [
+      2,
+      "job_17c",
+      "B"
+    ],
+    [
+      2,
+      "job_5a",
+      "A"
+    ],
+    [
+      2,
+      "job_5a",
+      "B"
+    ],
+    [
+      2,
+      "job_3b",
+      "B"
+    ],
+    [
+      2,
+      "job_3b",
+      "A"
+    ],
+    [
+      2,
+      "job_7c",
+      "A"
+    ],
+    [
+      2,
+      "job_7c",
+      "B"
+    ],
+    [
+      2,
+      "job_31b",
+      "A"
+    ],
+    [
+      2,
+      "job_31b",
+      "B"
+    ],
+    [
+      2,
+      "job_1a",
+      "A"
+    ],
+    [
+      2,
+      "job_1a",
+      "B"
+    ],
+    [
+      2,
+      "job_9c",
+      "B"
+    ],
+    [
+      2,
+      "job_9c",
+      "A"
+    ],
+    [
+      2,
+      "job_2d",
+      "A"
+    ],
+    [
+      2,
+      "job_2d",
+      "B"
+    ],
+    [
+      2,
+      "job_19a",
+      "A"
+    ],
+    [
+      2,
+      "job_19a",
+      "B"
+    ],
+    [
+      2,
+      "job_28c",
+      "B"
+    ],
+    [
+      2,
+      "job_28c",
+      "A"
+    ],
+    [
+      2,
+      "job_26c",
+      "B"
+    ],
+    [
+      2,
+      "job_26c",
+      "A"
+    ],
+    [
+      2,
+      "job_18a",
+      "A"
+    ],
+    [
+      2,
+      "job_18a",
+      "B"
+    ],
+    [
+      2,
+      "job_4c",
+      "B"
+    ],
+    [
+      2,
+      "job_4c",
+      "A"
+    ],
+    [
+      2,
+      "job_31c",
+      "B"
+    ],
+    [
+      2,
+      "job_31c",
+      "A"
+    ],
+    [
+      2,
+      "job_6d",
+      "B"
+    ],
+    [
+      2,
+      "job_6d",
+      "A"
+    ],
+    [
+      2,
+      "job_3c",
+      "B"
+    ],
+    [
+      2,
+      "job_3c",
+      "A"
+    ],
+    [
+      2,
+      "job_4b",
+      "A"
+    ],
+    [
+      2,
+      "job_4b",
+      "B"
+    ],
+    [
+      2,
+      "job_2a",
+      "A"
+    ],
+    [
+      2,
+      "job_2a",
+      "B"
+    ],
+    [
+      2,
+      "job_24b",
+      "A"
+    ],
+    [
+      2,
+      "job_24b",
+      "B"
+    ],
+    [
+      2,
+      "job_14c",
+      "B"
+    ],
+    [
+      2,
+      "job_14c",
+      "A"
+    ],
+    [
+      2,
+      "job_29c",
+      "A"
+    ],
+    [
+      2,
+      "job_29c",
+      "B"
+    ],
+    [
+      2,
+      "job_21a",
+      "B"
+    ],
+    [
+      2,
+      "job_21a",
+      "A"
+    ],
+    [
+      2,
+      "job_8b",
+      "B"
+    ],
+    [
+      2,
+      "job_8b",
+      "A"
+    ],
+    [
+      2,
+      "job_19c",
+      "B"
+    ],
+    [
+      2,
+      "job_19c",
+      "A"
+    ],
+    [
+      2,
+      "job_5c",
+      "B"
+    ],
+    [
+      2,
+      "job_5c",
+      "A"
+    ],
+    [
+      2,
+      "job_13a",
+      "A"
+    ],
+    [
+      2,
+      "job_13a",
+      "B"
+    ],
+    [
+      2,
+      "job_17d",
+      "B"
+    ],
+    [
+      2,
+      "job_17d",
+      "A"
+    ],
+    [
+      2,
+      "job_25c",
+      "B"
+    ],
+    [
+      2,
+      "job_25c",
+      "A"
+    ],
+    [
+      2,
+      "job_32b",
+      "B"
+    ],
+    [
+      2,
+      "job_32b",
+      "A"
+    ],
+    [
+      2,
+      "job_1d",
+      "B"
+    ],
+    [
+      2,
+      "job_1d",
+      "A"
+    ],
+    [
+      2,
+      "job_26b",
+      "B"
+    ],
+    [
+      2,
+      "job_26b",
+      "A"
+    ],
+    [
+      2,
+      "job_15c",
+      "A"
+    ],
+    [
+      2,
+      "job_15c",
+      "B"
+    ],
+    [
+      2,
+      "job_23b",
+      "B"
+    ],
+    [
+      2,
+      "job_23b",
+      "A"
+    ],
+    [
+      2,
+      "job_14b",
+      "A"
+    ],
+    [
+      2,
+      "job_14b",
+      "B"
+    ],
+    [
+      2,
+      "job_10c",
+      "A"
+    ],
+    [
+      2,
+      "job_10c",
+      "B"
+    ],
+    [
+      2,
+      "job_11a",
+      "B"
+    ],
+    [
+      2,
+      "job_11a",
+      "A"
+    ],
+    [
+      2,
+      "job_6f",
+      "A"
+    ],
+    [
+      2,
+      "job_6f",
+      "B"
+    ],
+    [
+      2,
+      "job_17e",
+      "B"
+    ],
+    [
+      2,
+      "job_17e",
+      "A"
+    ],
+    [
+      2,
+      "job_27b",
+      "B"
+    ],
+    [
+      2,
+      "job_27b",
+      "A"
+    ],
+    [
+      2,
+      "job_2b",
+      "B"
+    ],
+    [
+      2,
+      "job_2b",
+      "A"
+    ],
+    [
+      2,
+      "job_11b",
+      "B"
+    ],
+    [
+      2,
+      "job_11b",
+      "A"
+    ],
+    [
+      2,
+      "job_22a",
+      "A"
+    ],
+    [
+      2,
+      "job_22a",
+      "B"
+    ],
+    [
+      2,
+      "job_18b",
+      "B"
+    ],
+    [
+      2,
+      "job_18b",
+      "A"
+    ],
+    [
+      2,
+      "job_20c",
+      "A"
+    ],
+    [
+      2,
+      "job_20c",
+      "B"
+    ],
+    [
+      2,
+      "job_25b",
+      "B"
+    ],
+    [
+      2,
+      "job_25b",
+      "A"
+    ],
+    [
+      2,
+      "job_18c",
+      "A"
+    ],
+    [
+      2,
+      "job_18c",
+      "B"
+    ],
+    [
+      2,
+      "job_33c",
+      "B"
+    ],
+    [
+      2,
+      "job_33c",
+      "A"
+    ],
+    [
+      2,
+      "job_6c",
+      "A"
+    ],
+    [
+      2,
+      "job_6c",
+      "B"
+    ],
+    [
+      2,
+      "job_6a",
+      "A"
+    ],
+    [
+      2,
+      "job_6a",
+      "B"
+    ],
+    [
+      2,
+      "job_27a",
+      "B"
+    ],
+    [
+      2,
+      "job_27a",
+      "A"
+    ],
+    [
+      2,
+      "job_28b",
+      "A"
+    ],
+    [
+      2,
+      "job_28b",
+      "B"
+    ],
+    [
+      2,
+      "job_21c",
+      "B"
+    ],
+    [
+      2,
+      "job_21c",
+      "A"
+    ],
+    [
+      2,
+      "job_26a",
+      "B"
+    ],
+    [
+      2,
+      "job_26a",
+      "A"
+    ],
+    [
+      2,
+      "job_25a",
+      "A"
+    ],
+    [
+      2,
+      "job_25a",
+      "B"
+    ],
+    [
+      2,
+      "job_11c",
+      "B"
+    ],
+    [
+      2,
+      "job_11c",
+      "A"
+    ],
+    [
+      2,
+      "job_3a",
+      "A"
+    ],
+    [
+      2,
+      "job_3a",
+      "B"
+    ],
+    [
+      2,
+      "job_20b",
+      "B"
+    ],
+    [
+      2,
+      "job_20b",
+      "A"
+    ],
+    [
+      2,
+      "job_19b",
+      "A"
+    ],
+    [
+      2,
+      "job_19b",
+      "B"
+    ],
+    [
+      2,
+      "job_29b",
+      "B"
+    ],
+    [
+      2,
+      "job_29b",
+      "A"
+    ],
+    [
+      2,
+      "job_10a",
+      "A"
+    ],
+    [
+      2,
+      "job_10a",
+      "B"
+    ],
+    [
+      2,
+      "job_12c",
+      "A"
+    ],
+    [
+      2,
+      "job_12c",
+      "B"
+    ],
+    [
+      2,
+      "job_12b",
+      "B"
+    ],
+    [
+      2,
+      "job_12b",
+      "A"
+    ],
+    [
+      2,
+      "job_21b",
+      "A"
+    ],
+    [
+      2,
+      "job_21b",
+      "B"
+    ],
+    [
+      2,
+      "job_10b",
+      "A"
+    ],
+    [
+      2,
+      "job_10b",
+      "B"
+    ],
+    [
+      2,
+      "job_4a",
+      "A"
+    ],
+    [
+      2,
+      "job_4a",
+      "B"
+    ],
+    [
+      2,
+      "job_33a",
+      "B"
+    ],
+    [
+      2,
+      "job_33a",
+      "A"
+    ],
+    [
+      2,
+      "job_17b",
+      "A"
+    ],
+    [
+      2,
+      "job_17b",
+      "B"
+    ],
+    [
+      2,
+      "job_23a",
+      "A"
+    ],
+    [
+      2,
+      "job_23a",
+      "B"
+    ],
+    [
+      2,
+      "job_30b",
+      "B"
+    ],
+    [
+      2,
+      "job_30b",
+      "A"
+    ],
+    [
+      2,
+      "job_9d",
+      "B"
+    ],
+    [
+      2,
+      "job_9d",
+      "A"
+    ],
+    [
+      2,
+      "job_6e",
+      "A"
+    ],
+    [
+      2,
+      "job_6e",
+      "B"
+    ],
+    [
+      2,
+      "job_14a",
+      "B"
+    ],
+    [
+      2,
+      "job_14a",
+      "A"
+    ],
+    [
+      2,
+      "job_32a",
+      "B"
+    ],
+    [
+      2,
+      "job_32a",
+      "A"
+    ],
+    [
+      2,
+      "job_22b",
+      "B"
+    ],
+    [
+      2,
+      "job_22b",
+      "A"
+    ],
+    [
+      2,
+      "job_15a",
+      "A"
+    ],
+    [
+      2,
+      "job_15a",
+      "B"
+    ],
+    [
+      2,
+      "job_20a",
+      "B"
+    ],
+    [
+      2,
+      "job_20a",
+      "A"
+    ],
+    [
+      2,
+      "job_9b",
+      "B"
+    ],
+    [
+      2,
+      "job_9b",
+      "A"
+    ],
+    [
+      2,
+      "job_7b",
+      "A"
+    ],
+    [
+      2,
+      "job_7b",
+      "B"
+    ],
+    [
+      2,
+      "job_30a",
+      "B"
+    ],
+    [
+      2,
+      "job_30a",
+      "A"
+    ],
+    [
+      2,
+      "job_30c",
+      "B"
+    ],
+    [
+      2,
+      "job_30c",
+      "A"
+    ],
+    [
+      2,
+      "job_31a",
+      "B"
+    ],
+    [
+      2,
+      "job_31a",
+      "A"
+    ],
+    [
+      2,
+      "job_17a",
+      "B"
+    ],
+    [
+      2,
+      "job_17a",
+      "A"
+    ],
+    [
+      2,
+      "job_1b",
+      "A"
+    ],
+    [
+      2,
+      "job_1b",
+      "B"
+    ],
+    [
+      2,
+      "job_23c",
+      "A"
+    ],
+    [
+      2,
+      "job_23c",
+      "B"
+    ],
+    [
+      2,
+      "job_1c",
+      "B"
+    ],
+    [
+      2,
+      "job_1c",
+      "A"
+    ],
+    [
+      3,
+      "job_30c",
+      "A"
+    ],
+    [
+      3,
+      "job_30c",
+      "B"
+    ],
+    [
+      3,
+      "job_23b",
+      "A"
+    ],
+    [
+      3,
+      "job_23b",
+      "B"
+    ],
+    [
+      3,
+      "job_15d",
+      "B"
+    ],
+    [
+      3,
+      "job_15d",
+      "A"
+    ],
+    [
+      3,
+      "job_21b",
+      "B"
+    ],
+    [
+      3,
+      "job_21b",
+      "A"
+    ],
+    [
+      3,
+      "job_18c",
+      "B"
+    ],
+    [
+      3,
+      "job_18c",
+      "A"
+    ],
+    [
+      3,
+      "job_30a",
+      "A"
+    ],
+    [
+      3,
+      "job_30a",
+      "B"
+    ],
+    [
+      3,
+      "job_19a",
+      "B"
+    ],
+    [
+      3,
+      "job_19a",
+      "A"
+    ],
+    [
+      3,
+      "job_18b",
+      "A"
+    ],
+    [
+      3,
+      "job_18b",
+      "B"
+    ],
+    [
+      3,
+      "job_33a",
+      "A"
+    ],
+    [
+      3,
+      "job_33a",
+      "B"
+    ],
+    [
+      3,
+      "job_3a",
+      "B"
+    ],
+    [
+      3,
+      "job_3a",
+      "A"
+    ],
+    [
+      3,
+      "job_5a",
+      "B"
+    ],
+    [
+      3,
+      "job_5a",
+      "A"
+    ],
+    [
+      3,
+      "job_1a",
+      "B"
+    ],
+    [
+      3,
+      "job_1a",
+      "A"
+    ],
+    [
+      3,
+      "job_2a",
+      "B"
+    ],
+    [
+      3,
+      "job_2a",
+      "A"
+    ],
+    [
+      3,
+      "job_23c",
+      "B"
+    ],
+    [
+      3,
+      "job_23c",
+      "A"
+    ],
+    [
+      3,
+      "job_25a",
+      "B"
+    ],
+    [
+      3,
+      "job_25a",
+      "A"
+    ],
+    [
+      3,
+      "job_18a",
+      "B"
+    ],
+    [
+      3,
+      "job_18a",
+      "A"
+    ],
+    [
+      3,
+      "job_7a",
+      "B"
+    ],
+    [
+      3,
+      "job_7a",
+      "A"
+    ],
+    [
+      3,
+      "job_24b",
+      "B"
+    ],
+    [
+      3,
+      "job_24b",
+      "A"
+    ],
+    [
+      3,
+      "job_21a",
+      "A"
+    ],
+    [
+      3,
+      "job_21a",
+      "B"
+    ],
+    [
+      3,
+      "job_6b",
+      "A"
+    ],
+    [
+      3,
+      "job_6b",
+      "B"
+    ],
+    [
+      3,
+      "job_8b",
+      "A"
+    ],
+    [
+      3,
+      "job_8b",
+      "B"
+    ],
+    [
+      3,
+      "job_1d",
+      "A"
+    ],
+    [
+      3,
+      "job_1d",
+      "B"
+    ],
+    [
+      3,
+      "job_28c",
+      "A"
+    ],
+    [
+      3,
+      "job_28c",
+      "B"
+    ],
+    [
+      3,
+      "job_27c",
+      "A"
+    ],
+    [
+      3,
+      "job_27c",
+      "B"
+    ],
+    [
+      3,
+      "job_33c",
+      "A"
+    ],
+    [
+      3,
+      "job_33c",
+      "B"
+    ],
+    [
+      3,
+      "job_19c",
+      "A"
+    ],
+    [
+      3,
+      "job_19c",
+      "B"
+    ],
+    [
+      3,
+      "job_31c",
+      "A"
+    ],
+    [
+      3,
+      "job_31c",
+      "B"
+    ],
+    [
+      3,
+      "job_15c",
+      "B"
+    ],
+    [
+      3,
+      "job_15c",
+      "A"
+    ],
+    [
+      3,
+      "job_14c",
+      "A"
+    ],
+    [
+      3,
+      "job_14c",
+      "B"
+    ],
+    [
+      3,
+      "job_9a",
+      "A"
+    ],
+    [
+      3,
+      "job_9a",
+      "B"
+    ],
+    [
+      3,
+      "job_29b",
+      "A"
+    ],
+    [
+      3,
+      "job_29b",
+      "B"
+    ],
+    [
+      3,
+      "job_19d",
+      "A"
+    ],
+    [
+      3,
+      "job_19d",
+      "B"
+    ],
+    [
+      3,
+      "job_6a",
+      "B"
+    ],
+    [
+      3,
+      "job_6a",
+      "A"
+    ],
+    [
+      3,
+      "job_10c",
+      "B"
+    ],
+    [
+      3,
+      "job_10c",
+      "A"
+    ],
+    [
+      3,
+      "job_25b",
+      "A"
+    ],
+    [
+      3,
+      "job_25b",
+      "B"
+    ],
+    [
+      3,
+      "job_3b",
+      "A"
+    ],
+    [
+      3,
+      "job_3b",
+      "B"
+    ],
+    [
+      3,
+      "job_20b",
+      "A"
+    ],
+    [
+      3,
+      "job_20b",
+      "B"
+    ],
+    [
+      3,
+      "job_22a",
+      "B"
+    ],
+    [
+      3,
+      "job_22a",
+      "A"
+    ],
+    [
+      3,
+      "job_30b",
+      "A"
+    ],
+    [
+      3,
+      "job_30b",
+      "B"
+    ],
+    [
+      3,
+      "job_11c",
+      "A"
+    ],
+    [
+      3,
+      "job_11c",
+      "B"
+    ],
+    [
+      3,
+      "job_27a",
+      "A"
+    ],
+    [
+      3,
+      "job_27a",
+      "B"
+    ],
+    [
+      3,
+      "job_9b",
+      "A"
+    ],
+    [
+      3,
+      "job_9b",
+      "B"
+    ],
+    [
+      3,
+      "job_28a",
+      "B"
+    ],
+    [
+      3,
+      "job_28a",
+      "A"
+    ],
+    [
+      3,
+      "job_1c",
+      "A"
+    ],
+    [
+      3,
+      "job_1c",
+      "B"
+    ],
+    [
+      3,
+      "job_26b",
+      "A"
+    ],
+    [
+      3,
+      "job_26b",
+      "B"
+    ],
+    [
+      3,
+      "job_4a",
+      "B"
+    ],
+    [
+      3,
+      "job_4a",
+      "A"
+    ],
+    [
+      3,
+      "job_20a",
+      "A"
+    ],
+    [
+      3,
+      "job_20a",
+      "B"
+    ],
+    [
+      3,
+      "job_11b",
+      "A"
+    ],
+    [
+      3,
+      "job_11b",
+      "B"
+    ],
+    [
+      3,
+      "job_6e",
+      "B"
+    ],
+    [
+      3,
+      "job_6e",
+      "A"
+    ],
+    [
+      3,
+      "job_22b",
+      "A"
+    ],
+    [
+      3,
+      "job_22b",
+      "B"
+    ],
+    [
+      3,
+      "job_21c",
+      "A"
+    ],
+    [
+      3,
+      "job_21c",
+      "B"
+    ],
+    [
+      3,
+      "job_15a",
+      "B"
+    ],
+    [
+      3,
+      "job_15a",
+      "A"
+    ],
+    [
+      3,
+      "job_8a",
+      "A"
+    ],
+    [
+      3,
+      "job_8a",
+      "B"
+    ],
+    [
+      3,
+      "job_1b",
+      "B"
+    ],
+    [
+      3,
+      "job_1b",
+      "A"
+    ],
+    [
+      3,
+      "job_14a",
+      "A"
+    ],
+    [
+      3,
+      "job_14a",
+      "B"
+    ],
+    [
+      3,
+      "job_5c",
+      "A"
+    ],
+    [
+      3,
+      "job_5c",
+      "B"
+    ],
+    [
+      3,
+      "job_7b",
+      "B"
+    ],
+    [
+      3,
+      "job_7b",
+      "A"
+    ],
+    [
+      3,
+      "job_10b",
+      "B"
+    ],
+    [
+      3,
+      "job_10b",
+      "A"
+    ],
+    [
+      3,
+      "job_26a",
+      "A"
+    ],
+    [
+      3,
+      "job_26a",
+      "B"
+    ],
+    [
+      3,
+      "job_27b",
+      "A"
+    ],
+    [
+      3,
+      "job_27b",
+      "B"
+    ],
+    [
+      3,
+      "job_2d",
+      "B"
+    ],
+    [
+      3,
+      "job_2d",
+      "A"
+    ],
+    [
+      3,
+      "job_14b",
+      "B"
+    ],
+    [
+      3,
+      "job_14b",
+      "A"
+    ],
+    [
+      3,
+      "job_2b",
+      "A"
+    ],
+    [
+      3,
+      "job_2b",
+      "B"
+    ],
+    [
+      3,
+      "job_29a",
+      "B"
+    ],
+    [
+      3,
+      "job_29a",
+      "A"
+    ],
+    [
+      3,
+      "job_4b",
+      "B"
+    ],
+    [
+      3,
+      "job_4b",
+      "A"
+    ],
+    [
+      3,
+      "job_15b",
+      "B"
+    ],
+    [
+      3,
+      "job_15b",
+      "A"
+    ],
+    [
+      3,
+      "job_12a",
+      "B"
+    ],
+    [
+      3,
+      "job_12a",
+      "A"
+    ],
+    [
+      3,
+      "job_10a",
+      "B"
+    ],
+    [
+      3,
+      "job_10a",
+      "A"
+    ],
+    [
+      3,
+      "job_6f",
+      "B"
+    ],
+    [
+      3,
+      "job_6f",
+      "A"
+    ],
+    [
+      3,
+      "job_6c",
+      "B"
+    ],
+    [
+      3,
+      "job_6c",
+      "A"
+    ],
+    [
+      3,
+      "job_3c",
+      "A"
+    ],
+    [
+      3,
+      "job_3c",
+      "B"
+    ],
+    [
+      3,
+      "job_23a",
+      "B"
+    ],
+    [
+      3,
+      "job_23a",
+      "A"
+    ],
+    [
+      3,
+      "job_7c",
+      "B"
+    ],
+    [
+      3,
+      "job_7c",
+      "A"
+    ],
+    [
+      3,
+      "job_25c",
+      "A"
+    ],
+    [
+      3,
+      "job_25c",
+      "B"
+    ],
+    [
+      3,
+      "job_12c",
+      "B"
+    ],
+    [
+      3,
+      "job_12c",
+      "A"
+    ],
+    [
+      3,
+      "job_28b",
+      "B"
+    ],
+    [
+      3,
+      "job_28b",
+      "A"
+    ],
+    [
+      3,
+      "job_9c",
+      "A"
+    ],
+    [
+      3,
+      "job_9c",
+      "B"
+    ],
+    [
+      3,
+      "job_11a",
+      "A"
+    ],
+    [
+      3,
+      "job_11a",
+      "B"
+    ],
+    [
+      3,
+      "job_6d",
+      "A"
+    ],
+    [
+      3,
+      "job_6d",
+      "B"
+    ],
+    [
+      3,
+      "job_31a",
+      "A"
+    ],
+    [
+      3,
+      "job_31a",
+      "B"
+    ],
+    [
+      3,
+      "job_2c",
+      "A"
+    ],
+    [
+      3,
+      "job_2c",
+      "B"
+    ],
+    [
+      3,
+      "job_5b",
+      "B"
+    ],
+    [
+      3,
+      "job_5b",
+      "A"
+    ],
+    [
+      3,
+      "job_32b",
+      "A"
+    ],
+    [
+      3,
+      "job_32b",
+      "B"
+    ],
+    [
+      3,
+      "job_32a",
+      "A"
+    ],
+    [
+      3,
+      "job_32a",
+      "B"
+    ],
+    [
+      3,
+      "job_12b",
+      "A"
+    ],
+    [
+      3,
+      "job_12b",
+      "B"
+    ],
+    [
+      3,
+      "job_20c",
+      "B"
+    ],
+    [
+      3,
+      "job_20c",
+      "A"
+    ],
+    [
+      3,
+      "job_19b",
+      "B"
+    ],
+    [
+      3,
+      "job_19b",
+      "A"
+    ],
+    [
+      3,
+      "job_33b",
+      "A"
+    ],
+    [
+      3,
+      "job_33b",
+      "B"
+    ],
+    [
+      3,
+      "job_13a",
+      "B"
+    ],
+    [
+      3,
+      "job_13a",
+      "A"
+    ],
+    [
+      3,
+      "job_4c",
+      "A"
+    ],
+    [
+      3,
+      "job_4c",
+      "B"
+    ],
+    [
+      3,
+      "job_31b",
+      "B"
+    ],
+    [
+      3,
+      "job_31b",
+      "A"
+    ],
+    [
+      4,
+      "job_2a",
+      "A"
+    ],
+    [
+      4,
+      "job_2a",
+      "B"
+    ],
+    [
+      4,
+      "job_24b",
+      "A"
+    ],
+    [
+      4,
+      "job_24b",
+      "B"
+    ],
+    [
+      4,
+      "job_18a",
+      "A"
+    ],
+    [
+      4,
+      "job_18a",
+      "B"
+    ],
+    [
+      4,
+      "job_15c",
+      "A"
+    ],
+    [
+      4,
+      "job_15c",
+      "B"
+    ],
+    [
+      4,
+      "job_3c",
+      "B"
+    ],
+    [
+      4,
+      "job_3c",
+      "A"
+    ],
+    [
+      4,
+      "job_10c",
+      "A"
+    ],
+    [
+      4,
+      "job_10c",
+      "B"
+    ],
+    [
+      4,
+      "job_11c",
+      "B"
+    ],
+    [
+      4,
+      "job_11c",
+      "A"
+    ],
+    [
+      4,
+      "job_22b",
+      "B"
+    ],
+    [
+      4,
+      "job_22b",
+      "A"
+    ],
+    [
+      4,
+      "job_2c",
+      "B"
+    ],
+    [
+      4,
+      "job_2c",
+      "A"
+    ],
+    [
+      4,
+      "job_6e",
+      "A"
+    ],
+    [
+      4,
+      "job_6e",
+      "B"
+    ],
+    [
+      4,
+      "job_15b",
+      "A"
+    ],
+    [
+      4,
+      "job_15b",
+      "B"
+    ],
+    [
+      4,
+      "job_30c",
+      "B"
+    ],
+    [
+      4,
+      "job_30c",
+      "A"
+    ],
+    [
+      4,
+      "job_1c",
+      "B"
+    ],
+    [
+      4,
+      "job_1c",
+      "A"
+    ],
+    [
+      4,
+      "job_13a",
+      "A"
+    ],
+    [
+      4,
+      "job_13a",
+      "B"
+    ],
+    [
+      4,
+      "job_4c",
+      "B"
+    ],
+    [
+      4,
+      "job_4c",
+      "A"
+    ],
+    [
+      4,
+      "job_12a",
+      "A"
+    ],
+    [
+      4,
+      "job_12a",
+      "B"
+    ],
+    [
+      4,
+      "job_18c",
+      "A"
+    ],
+    [
+      4,
+      "job_18c",
+      "B"
+    ],
+    [
+      4,
+      "job_11a",
+      "B"
+    ],
+    [
+      4,
+      "job_11a",
+      "A"
+    ],
+    [
+      4,
+      "job_6d",
+      "B"
+    ],
+    [
+      4,
+      "job_6d",
+      "A"
+    ],
+    [
+      4,
+      "job_10a",
+      "A"
+    ],
+    [
+      4,
+      "job_10a",
+      "B"
+    ],
+    [
+      4,
+      "job_28a",
+      "A"
+    ],
+    [
+      4,
+      "job_28a",
+      "B"
+    ],
+    [
+      4,
+      "job_33c",
+      "B"
+    ],
+    [
+      4,
+      "job_33c",
+      "A"
+    ],
+    [
+      4,
+      "job_5c",
+      "B"
+    ],
+    [
+      4,
+      "job_5c",
+      "A"
+    ],
+    [
+      4,
+      "job_22a",
+      "A"
+    ],
+    [
+      4,
+      "job_22a",
+      "B"
+    ],
+    [
+      4,
+      "job_27c",
+      "B"
+    ],
+    [
+      4,
+      "job_27c",
+      "A"
+    ],
+    [
+      4,
+      "job_9c",
+      "B"
+    ],
+    [
+      4,
+      "job_9c",
+      "A"
+    ],
+    [
+      4,
+      "job_4a",
+      "A"
+    ],
+    [
+      4,
+      "job_4a",
+      "B"
+    ],
+    [
+      4,
+      "job_12c",
+      "A"
+    ],
+    [
+      4,
+      "job_12c",
+      "B"
+    ],
+    [
+      4,
+      "job_7b",
+      "A"
+    ],
+    [
+      4,
+      "job_7b",
+      "B"
+    ],
+    [
+      4,
+      "job_15d",
+      "A"
+    ],
+    [
+      4,
+      "job_15d",
+      "B"
+    ],
+    [
+      4,
+      "job_9b",
+      "B"
+    ],
+    [
+      4,
+      "job_9b",
+      "A"
+    ],
+    [
+      4,
+      "job_20c",
+      "A"
+    ],
+    [
+      4,
+      "job_20c",
+      "B"
+    ],
+    [
+      4,
+      "job_18b",
+      "B"
+    ],
+    [
+      4,
+      "job_18b",
+      "A"
+    ],
+    [
+      4,
+      "job_4b",
+      "A"
+    ],
+    [
+      4,
+      "job_4b",
+      "B"
+    ],
+    [
+      4,
+      "job_6a",
+      "A"
+    ],
+    [
+      4,
+      "job_6a",
+      "B"
+    ],
+    [
+      4,
+      "job_6f",
+      "A"
+    ],
+    [
+      4,
+      "job_6f",
+      "B"
+    ],
+    [
+      4,
+      "job_25c",
+      "B"
+    ],
+    [
+      4,
+      "job_25c",
+      "A"
+    ],
+    [
+      4,
+      "job_5b",
+      "A"
+    ],
+    [
+      4,
+      "job_5b",
+      "B"
+    ],
+    [
+      4,
+      "job_23b",
+      "B"
+    ],
+    [
+      4,
+      "job_23b",
+      "A"
+    ],
+    [
+      4,
+      "job_20b",
+      "B"
+    ],
+    [
+      4,
+      "job_20b",
+      "A"
+    ],
+    [
+      4,
+      "job_31c",
+      "B"
+    ],
+    [
+      4,
+      "job_31c",
+      "A"
+    ],
+    [
+      4,
+      "job_32a",
+      "B"
+    ],
+    [
+      4,
+      "job_32a",
+      "A"
+    ],
+    [
+      4,
+      "job_14b",
+      "A"
+    ],
+    [
+      4,
+      "job_14b",
+      "B"
+    ],
+    [
+      4,
+      "job_25a",
+      "A"
+    ],
+    [
+      4,
+      "job_25a",
+      "B"
+    ],
+    [
+      4,
+      "job_19d",
+      "B"
+    ],
+    [
+      4,
+      "job_19d",
+      "A"
+    ],
+    [
+      4,
+      "job_33a",
+      "B"
+    ],
+    [
+      4,
+      "job_33a",
+      "A"
+    ],
+    [
+      4,
+      "job_21a",
+      "B"
+    ],
+    [
+      4,
+      "job_21a",
+      "A"
+    ],
+    [
+      4,
+      "job_7a",
+      "A"
+    ],
+    [
+      4,
+      "job_7a",
+      "B"
+    ],
+    [
+      4,
+      "job_1b",
+      "A"
+    ],
+    [
+      4,
+      "job_1b",
+      "B"
+    ],
+    [
+      4,
+      "job_19c",
+      "B"
+    ],
+    [
+      4,
+      "job_19c",
+      "A"
+    ],
+    [
+      4,
+      "job_12b",
+      "B"
+    ],
+    [
+      4,
+      "job_12b",
+      "A"
+    ],
+    [
+      4,
+      "job_21b",
+      "A"
+    ],
+    [
+      4,
+      "job_21b",
+      "B"
+    ],
+    [
+      4,
+      "job_2b",
+      "B"
+    ],
+    [
+      4,
+      "job_2b",
+      "A"
+    ],
+    [
+      4,
+      "job_31b",
+      "A"
+    ],
+    [
+      4,
+      "job_31b",
+      "B"
+    ],
+    [
+      4,
+      "job_6b",
+      "B"
+    ],
+    [
+      4,
+      "job_6b",
+      "A"
+    ],
+    [
+      4,
+      "job_26a",
+      "B"
+    ],
+    [
+      4,
+      "job_26a",
+      "A"
+    ],
+    [
+      4,
+      "job_10b",
+      "A"
+    ],
+    [
+      4,
+      "job_10b",
+      "B"
+    ],
+    [
+      4,
+      "job_26b",
+      "B"
+    ],
+    [
+      4,
+      "job_26b",
+      "A"
+    ],
+    [
+      4,
+      "job_27a",
+      "B"
+    ],
+    [
+      4,
+      "job_27a",
+      "A"
+    ],
+    [
+      4,
+      "job_14a",
+      "B"
+    ],
+    [
+      4,
+      "job_14a",
+      "A"
+    ],
+    [
+      4,
+      "job_25b",
+      "B"
+    ],
+    [
+      4,
+      "job_25b",
+      "A"
+    ],
+    [
+      4,
+      "job_30a",
+      "B"
+    ],
+    [
+      4,
+      "job_30a",
+      "A"
+    ],
+    [
+      4,
+      "job_23a",
+      "A"
+    ],
+    [
+      4,
+      "job_23a",
+      "B"
+    ],
+    [
+      4,
+      "job_2d",
+      "A"
+    ],
+    [
+      4,
+      "job_2d",
+      "B"
+    ],
+    [
+      4,
+      "job_7c",
+      "A"
+    ],
+    [
+      4,
+      "job_7c",
+      "B"
+    ],
+    [
+      4,
+      "job_11b",
+      "B"
+    ],
+    [
+      4,
+      "job_11b",
+      "A"
+    ],
+    [
+      4,
+      "job_29a",
+      "A"
+    ],
+    [
+      4,
+      "job_29a",
+      "B"
+    ],
+    [
+      4,
+      "job_1d",
+      "B"
+    ],
+    [
+      4,
+      "job_1d",
+      "A"
+    ],
+    [
+      4,
+      "job_5a",
+      "A"
+    ],
+    [
+      4,
+      "job_5a",
+      "B"
+    ],
+    [
+      4,
+      "job_8a",
+      "B"
+    ],
+    [
+      4,
+      "job_8a",
+      "A"
+    ],
+    [
+      4,
+      "job_33b",
+      "B"
+    ],
+    [
+      4,
+      "job_33b",
+      "A"
+    ],
+    [
+      4,
+      "job_28c",
+      "B"
+    ],
+    [
+      4,
+      "job_28c",
+      "A"
+    ],
+    [
+      4,
+      "job_21c",
+      "B"
+    ],
+    [
+      4,
+      "job_21c",
+      "A"
+    ],
+    [
+      4,
+      "job_9a",
+      "B"
+    ],
+    [
+      4,
+      "job_9a",
+      "A"
+    ],
+    [
+      4,
+      "job_27b",
+      "B"
+    ],
+    [
+      4,
+      "job_27b",
+      "A"
+    ],
+    [
+      4,
+      "job_20a",
+      "B"
+    ],
+    [
+      4,
+      "job_20a",
+      "A"
+    ],
+    [
+      4,
+      "job_32b",
+      "B"
+    ],
+    [
+      4,
+      "job_32b",
+      "A"
+    ],
+    [
+      4,
+      "job_1a",
+      "A"
+    ],
+    [
+      4,
+      "job_1a",
+      "B"
+    ],
+    [
+      4,
+      "job_15a",
+      "A"
+    ],
+    [
+      4,
+      "job_15a",
+      "B"
+    ],
+    [
+      4,
+      "job_28b",
+      "A"
+    ],
+    [
+      4,
+      "job_28b",
+      "B"
+    ],
+    [
+      4,
+      "job_31a",
+      "B"
+    ],
+    [
+      4,
+      "job_31a",
+      "A"
+    ],
+    [
+      4,
+      "job_19b",
+      "A"
+    ],
+    [
+      4,
+      "job_19b",
+      "B"
+    ],
+    [
+      4,
+      "job_29b",
+      "B"
+    ],
+    [
+      4,
+      "job_29b",
+      "A"
+    ],
+    [
+      4,
+      "job_8b",
+      "B"
+    ],
+    [
+      4,
+      "job_8b",
+      "A"
+    ],
+    [
+      4,
+      "job_23c",
+      "A"
+    ],
+    [
+      4,
+      "job_23c",
+      "B"
+    ],
+    [
+      4,
+      "job_30b",
+      "B"
+    ],
+    [
+      4,
+      "job_30b",
+      "A"
+    ],
+    [
+      4,
+      "job_3a",
+      "A"
+    ],
+    [
+      4,
+      "job_3a",
+      "B"
+    ],
+    [
+      4,
+      "job_6c",
+      "A"
+    ],
+    [
+      4,
+      "job_6c",
+      "B"
+    ],
+    [
+      4,
+      "job_14c",
+      "B"
+    ],
+    [
+      4,
+      "job_14c",
+      "A"
+    ],
+    [
+      4,
+      "job_3b",
+      "B"
+    ],
+    [
+      4,
+      "job_3b",
+      "A"
+    ],
+    [
+      4,
+      "job_19a",
+      "A"
+    ],
+    [
+      4,
+      "job_19a",
+      "B"
+    ]
+  ]
+}
