@@ -12,7 +12,7 @@ jobs:
   cpp-core:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Build and test with ASan and UBSan
         run: |
           cmake -S duckdb -B duckdb/build/core -DCMAKE_BUILD_TYPE=Debug -DUNCHAINED_BENCHMARKS=OFF
@@ -24,15 +24,15 @@ jobs:
   rust-core:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - run: rustup toolchain install 1.97.0 --profile minimal
       - run: cargo +1.97.0 test --manifest-path datafusion/core/Cargo.toml --offline
 
   research-paper:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
       - name: Install build dependencies
