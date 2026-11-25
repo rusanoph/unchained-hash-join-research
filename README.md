@@ -3,6 +3,7 @@
 [![Paper DOI](https://img.shields.io/badge/Paper_DOI-10.5281%2Fzenodo.24519118-blue)](https://doi.org/10.5281/zenodo.24519118)
 [![Dataset DOI](https://img.shields.io/badge/Dataset_DOI-10.5281%2Fzenodo.24519430-teal)](https://doi.org/10.5281/zenodo.24519430)
 [![Verify research artifacts](https://github.com/rusanoph/unchained-hash-join-research/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/rusanoph/unchained-hash-join-research/actions/workflows/verify.yml)
+[![DuckDB Library](https://img.shields.io/badge/DuckDB-Library-FFF000?logo=duckdb&logoColor=black)](https://duckdb.org/library/when-contiguous-hash-joins-pay-off/)
 
 When does the cost of building contiguous ranges pay off in a hash join?
 This study integrates the layout into DuckDB 1.5.6 and Apache DataFusion 55.2.0
@@ -54,7 +55,9 @@ graph workload. [Threshold measurements](datafusion/docs/results.md#lowering-the
 - **[DuckDB](duckdb/README.md)** contains the C++ core, the v17 engine
   patch, and a SQL worker. The smoke test checks result rows against
   SQLite and confirms the experimental path and native fallback.
-  [Measurements and per-query evidence](duckdb/docs/results.md)
+  [Measurements and per-query evidence](duckdb/docs/results.md) ·
+  [DuckDB Library listing](https://duckdb.org/library/when-contiguous-hash-joins-pay-off/) ·
+  [Research discussion](https://github.com/duckdb/duckdb/discussions/29367)
 - **[DataFusion](datafusion/README.md)** contains the Rust CSR core,
   the v10b engine patch, and a SQL worker. The smoke test checks both
   CSR layouts and the small-build fallback. The Enron example runs
