@@ -21,3 +21,5 @@ All 1,918 main observations succeeded with equal outputs and plan text. SNAP mat
 ```sh
 python3 scripts/verify_evidence.py
 ```
+
+[GitHub Actions workflow](https://github.com/rusanoph/unchained-hash-join-research/blob/a29ad9a091f57171171923c99c334045afd171b6/.github/workflows/verify-upstream-validation.yml).

@@ -26,15 +26,29 @@ Use DuckDB 1.5.6 (`069cc9f9b5`). The smoke prepares Enron from the SHA-checked S
 
 ## C. Full campaign
 
-### Acquire and prepare inputs
+Choose one input scenario, then run the shared execution block in the same Bash session. Each scenario uses a separate scratch root because the official hj driver stages SF10 symlinks there and its correctness driver writes to a fixed run directory inside that root.
+
+### Exact replay
+
+Supply the original historical Parquet files. Place the original graph, holdout, JOB and SF10 files in the four directories created below, using the filenames and SHA-256 digests in the [input receipt](workloads/input-receipt.json) and the [official hj registration](results/raw/hj-official-sf10-002-registration.json). The runners enforce the historical Parquet digests by default. Use Fresh reproduction if you only have the source archives.
+
+```bash
+root="$(mktemp -d "$HOME/df-pr27746-exact.XXXXXX")"
+run_id=exact-001
+input_flags=()
+mkdir -p "$root/data"/{graphs,holdout,job,sf10}
+```
+
+### Fresh reproduction
 
 The [receipt](workloads/input-receipt.json) pins the recorded archive and Parquet identities. SNAP acquisition, normalization and exports are implemented below by `prepare_inputs.py`. Original graphs retain every non-comment edge, use Int32 columns and create a second copy ordered by `hash(src,dst)`. Holdout keeps one orientation for Enron and HepPh via `src <= dst`, preserves Amazon direction and applies the recorded shuffle with `hash(src,dst,20261118),src,dst`. It checks the expected edge count for each holdout graph. Use single-threaded DuckDB 1.5.6 for these recipes.
 
 JOB acquisition uses the pinned CWI IMDb archive from the [benchmark site](https://event.cwi.nl/da/job/). The recovered recipe uses its `schematext.sql` and imports CSV with comma delimiter, double quote and backslash escape. The historical first load was interactive. Exact ingestion order and loader settings are unverified. The export uses ZSTD and 122,880-row groups. The archived SQL is already available in [historical.json](workloads/historical.json). SF10 uses DuckDB's matching-version TPC-H extension and `dbgen(sf=10)`, followed by the same export. Existing DuckDB snapshots can be used with `--database`. Recorded SF10 file digests are in the [hj registration](results/raw/hj-official-sf10-002-registration.json).
 
-```sh
-root="$HOME/df-pr27746-full"
-mkdir -p "$root"
+```bash
+root="$(mktemp -d "$HOME/df-pr27746-fresh.XXXXXX")"
+run_id=fresh-001
+input_flags=(--regenerated-inputs)
 duckdb="$(command -v duckdb)"
 "$duckdb" -c 'INSTALL tpch;'
 for kind in graphs holdout job sf10; do
@@ -43,19 +57,22 @@ for kind in graphs holdout job sf10; do
 done
 ```
 
-The preparation script prints byte identity for each Parquet file. Ties in the original hash order, DuckDB exporter settings, database reload order and compression build can affect row order or bytes. Exact count/sum and legacy fingerprints establish output agreement for the recorded data and measured queries. They alone establish neither full logical dataset equality nor row-order equality for regenerated inputs. Default campaign runners require recorded file digests. Use `--regenerated-inputs` explicitly for a new cohort and report its receipts and correctness separately. For full SNAP cross-checks run `scripts/graph_oracle.py` on the prepared graph directories and compare the query results against the archived oracle.
+The preparation script prints byte identity for each Parquet file. Ties in the original hash order, DuckDB exporter settings, database reload order and compression build can affect row order or bytes. Exact count/sum and legacy fingerprints establish output agreement for the recorded data and measured queries. They alone establish neither full logical dataset equality nor row-order equality for regenerated inputs. The execution block passes `--regenerated-inputs` to the Parquet-backed runners and uses new run IDs. Report the new cohort's input receipts and correctness separately. For full SNAP cross-checks run `scripts/graph_oracle.py` on the prepared graph directories and compare the query results against the archived oracle.
 
 With DuckDB 1.5.6 and the SHA-checked source gzip files, 15 of the 16 regenerated SNAP Parquet files matched the registered bytes. Delivered WebGoogle matched the archive at every one of the 5,105,039 row positions in a single-threaded DuckDB positional join. Both files had 42 row groups. Its regenerated SHA-256 was `6940dd77390cec2f75a969faf915b0631904b85db6370a715b773cd153c454f6`. Use a new timing registration for this file because encoding differences can affect scan cost.
 
-### Execute
+### Execute the selected scenario
 
-```sh
+Keep the variables from the scenario above. For a new cohort, use a fresh scratch root and set a new `run_id`.
+
+```bash
 bash scripts/bootstrap.sh "$root"
 bash scripts/build.sh "$root" A B C
 for case in pilot snap job job-22d; do
-  python3 scripts/run.py "workloads/$case.json" "$root/runs/$case-001" \
+  python3 scripts/run.py "workloads/$case.json" "$root/runs/$case-$run_id" \
     --bin "$root/bin" --graphs "$root/data/graphs" \
-    --holdout "$root/data/holdout" --job "$root/data/job"
+    --holdout "$root/data/holdout" --job "$root/data/job" \
+    "${input_flags[@]}"
 done
 bash scripts/build-memory.sh "$root"
 for limit in unbounded 64mib; do
@@ -63,13 +80,14 @@ for limit in unbounded 64mib; do
     unbounded) python3 scripts/memory_cases.py > "$root/$limit.json" ;;
     64mib) python3 scripts/memory_cases.py --memory-limit-mb 64 > "$root/$limit.json" ;;
   esac
-  python3 scripts/run.py "$root/$limit.json" "$root/runs/memory-$limit-001" \
+  python3 scripts/run.py "$root/$limit.json" "$root/runs/memory-$limit-$run_id" \
     --bin "$root/memory-bin" --graphs "$root" --holdout "$root" --job "$root"
 done
 bash scripts/build-hj.sh "$root"
-python3 scripts/hj_official.py "$root" "$root/data/sf10"
+python3 scripts/hj_official.py "$root" "$root/data/sf10" \
+  --run "hj-official-sf10-$run_id" "${input_flags[@]}"
 python3 scripts/hj_correctness.py "$root" "$root/data/sf10"
-python3 scripts/hj_summary.py "$root/runs/hj-official-sf10-002"
+python3 scripts/hj_summary.py "$root/runs/hj-official-sf10-$run_id"
 ```
 
 The frozen configs preserve originally registered CPU 2, seeds, blocks, warmups and limits. Clone the JSON configs into scratch for adaptive CPU affinity or resource limits, change `cpu`, `address_space_gib`, `timeout_seconds` and optional `memory_limit_mb`, and write to a new run directory. The official hj driver exposes matching flags, including `--run`. Separate target directories prevent cross-arm Cargo reuse. The standalone full campaign recipe has not undergone a fresh-machine end-to-end run. See the [protocol](PROTOCOL.md) for measurement and coverage limits.

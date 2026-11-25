@@ -43,7 +43,7 @@ join scattered 5.54 million build rows for three probe rows.
 
 ## Upstream collaboration
 
-The DataFusion PR #27746 follow-up measures contiguous match storage on SNAP and JOB and independently evaluates the dense counting-sort patch on x86-64. The study includes raw evidence and a dataset-free verifier. [Upstream validation](datafusion/upstream-validation/pr-27746/README.md).
+The [DataFusion PR #27746](https://github.com/apache/datafusion/pull/27746) follow-up measures contiguous match storage on SNAP and JOB and independently evaluates the dense counting-sort patch on x86-64. The study includes raw evidence and a dataset-free verifier. [Upstream validation](datafusion/upstream-validation/pr-27746/README.md).
 
 ## DataFusion follow-up on the auto threshold
 
