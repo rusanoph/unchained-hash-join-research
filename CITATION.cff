@@ -2,6 +2,8 @@ cff-version: 1.2.0
 message: "If you use this repository, please cite the accompanying research report."
 title: "Unchained Hash Join Research"
 type: software
+version: 1.0.0
+date-released: "2026-11-25"
 authors:
   - family-names: Rusanov
     given-names: Maxim
@@ -14,4 +16,4 @@ preferred-citation:
       given-names: Maxim
   year: 2026
   month: 11
-  url: "https://github.com/rusanoph/unchained-hash-join-research/blob/main/paper/article.pdf"
+  url: "https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/article.pdf"

@@ -11,7 +11,7 @@ by probes, and the layout of the payload.
 
 [Paper (PDF)](paper/article.pdf) · [Reproduce an Enron join](datafusion/docs/results.md#run-the-enron-two-hop-query) ·
 [DuckDB implementation](duckdb/README.md) · [DataFusion implementation](datafusion/README.md) ·
-[Cite this work](CITATION.cff)
+[Cite this work](CITATION.cff) · [Release v1.0.0](https://github.com/rusanoph/unchained-hash-join-research/releases/tag/v1.0.0)
 
 ![Linked duplicates versus contiguous ranges of matching keys](paper/figures/layout.png)
 
