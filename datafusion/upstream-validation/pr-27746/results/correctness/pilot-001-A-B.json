@@ -1,0 +1,192 @@
+[
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "enron_file_out_star",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "epinions_p2_sel",
+    "status": "consistent",
+    "suite": "snap"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "hepph_shuffle_p2",
+    "status": "consistent",
+    "suite": "snap_holdout"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 1
+      },
+      "AA": {
+        "pending": 2,
+        "succeeded": 1
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 1
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_2d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_4b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_7a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "smoke_composite_sparse",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "smoke_duplicates_null_residual",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "smoke_low_probe_unique",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 3
+      },
+      "AA": {
+        "succeeded": 3
+      },
+      "B": {
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": true,
+    "id": "wikivote_p2",
+    "status": "consistent",
+    "suite": "snap"
+  }
+]

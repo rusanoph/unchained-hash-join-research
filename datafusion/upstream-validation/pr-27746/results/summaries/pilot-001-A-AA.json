@@ -1,0 +1,433 @@
+{
+  "baseline": "A",
+  "candidate": "AA",
+  "observed_slots": 93,
+  "queries": [
+    {
+      "AA_median_ms": 121.068179,
+      "AA_median_peak_rss_kib": 78100,
+      "A_median_ms": 123.256371,
+      "A_median_peak_rss_kib": 77760,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "enron_file_out_star",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.015403841498943,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9779763415431969,
+        1.022803902914902
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "snap_holdout"
+    },
+    {
+      "AA_median_ms": 7.685644,
+      "AA_median_peak_rss_kib": 80288,
+      "A_median_ms": 5.407043,
+      "A_median_peak_rss_kib": 79580,
+      "correctness": "consistent",
+      "decision": "slower",
+      "id": "epinions_p2_sel",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.7035250396713665,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.683468348381796,
+        0.9419582177465077
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "snap"
+    },
+    {
+      "AA_median_ms": 64.254137,
+      "AA_median_peak_rss_kib": 77136,
+      "A_median_ms": 58.526072,
+      "A_median_peak_rss_kib": 77080,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "hepph_shuffle_p2",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.9527530238208903,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9108529774510862,
+        1.1044861715492205
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "snap_holdout"
+    },
+    {
+      "AA_median_ms": 37433.445976,
+      "AA_median_peak_rss_kib": 5068928,
+      "A_median_ms": 35743.944971,
+      "A_median_peak_rss_kib": 5071572,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_17b",
+      "intended_blocks": 1,
+      "oracle": false,
+      "paired_blocks": 1,
+      "paired_median_ratio": 0.9548665381732901,
+      "plan_relation": "identical",
+      "pointwise_95": null,
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 1
+        },
+        "AA": {
+          "pending": 2,
+          "succeeded": 1
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 1
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "AA_median_ms": 77.92553,
+      "AA_median_peak_rss_kib": 470988,
+      "A_median_ms": 84.357291,
+      "A_median_peak_rss_kib": 471436,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_2d",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.0825372762944314,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.697939301654704,
+        1.1213445540097031
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "AA_median_ms": 25.806531,
+      "AA_median_peak_rss_kib": 299492,
+      "A_median_ms": 30.340576,
+      "A_median_peak_rss_kib": 299376,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_4b",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.1524325991437188,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.1101160422443457,
+        1.4621890481909405
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "AA_median_ms": 354.262181,
+      "AA_median_peak_rss_kib": 2096276,
+      "A_median_ms": 304.499269,
+      "A_median_peak_rss_kib": 2096732,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_7a",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.8595308371344329,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7370560477169156,
+        0.9996828466076028
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "AA_median_ms": 44.94452,
+      "AA_median_peak_rss_kib": 169896,
+      "A_median_ms": 40.703525,
+      "A_median_peak_rss_kib": 169764,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "smoke_composite_sparse",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.8241086000376194,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7702611135031714,
+        1.228228001990009
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "AA_median_ms": 0.509817,
+      "AA_median_peak_rss_kib": 64432,
+      "A_median_ms": 0.539604,
+      "A_median_peak_rss_kib": 64704,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "smoke_duplicates_null_residual",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.8876283204252798,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8873666619750977,
+        1.0584268472804947
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "AA_median_ms": 11.234221,
+      "AA_median_peak_rss_kib": 102080,
+      "A_median_ms": 12.328682,
+      "A_median_peak_rss_kib": 102172,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "smoke_low_probe_unique",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.1273623795079755,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9861065578111735,
+        1.1500089081582872
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "AA_median_ms": 15.907925,
+      "AA_median_peak_rss_kib": 75236,
+      "A_median_ms": 16.161801,
+      "A_median_peak_rss_kib": 75680,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "wikivote_p2",
+      "intended_blocks": 3,
+      "oracle": true,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.0157084864996622,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8855553794261397,
+        1.1250933732714983
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 3
+        },
+        "AA": {
+          "succeeded": 3
+        },
+        "B": {
+          "succeeded": 3
+        }
+      },
+      "suite": "snap"
+    }
+  ],
+  "ratio_margin": 0.05,
+  "status": {
+    "A/succeeded": 31,
+    "AA/succeeded": 31,
+    "B/succeeded": 31
+  },
+  "suites": {
+    "job": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "faster": 1,
+        "inconclusive": 3
+      },
+      "geomean_median_ratio": 1.0109630837544974,
+      "planned_queries": 4,
+      "queries_with_full_pairs": 4,
+      "queries_with_pairs": 4,
+      "reduction_pct": -4.7791702001067415,
+      "shared_block_ids": [
+        0
+      ],
+      "sum_a_ms": 36163.142107,
+      "sum_b_ms": 37891.440218
+    },
+    "smoke": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "inconclusive": 3
+      },
+      "geomean_median_ratio": 1.0170210376636173,
+      "paired_block_sum_median_ratio": 0.890365077462442,
+      "paired_block_sum_pointwise_95": [
+        0.8348585449069926,
+        1.1787186578286222
+      ],
+      "planned_queries": 3,
+      "queries_with_full_pairs": 3,
+      "queries_with_pairs": 3,
+      "reduction_pct": -5.817886201383038,
+      "shared_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "sum_a_ms": 53.571811,
+      "sum_b_ms": 56.688558
+    },
+    "snap": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "inconclusive": 1,
+        "slower": 1
+      },
+      "geomean_median_ratio": 0.8454304576939053,
+      "paired_block_sum_median_ratio": 0.975546443526682,
+      "paired_block_sum_pointwise_95": [
+        0.8316143594840136,
+        0.9969742023775886
+      ],
+      "planned_queries": 2,
+      "queries_with_full_pairs": 2,
+      "queries_with_pairs": 2,
+      "reduction_pct": -9.387267115474529,
+      "shared_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "sum_a_ms": 21.568844,
+      "sum_b_ms": 23.593569
+    },
+    "snap_holdout": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "inconclusive": 2
+      },
+      "geomean_median_ratio": 0.9629723658006742,
+      "paired_block_sum_median_ratio": 0.9993218447174472,
+      "paired_block_sum_pointwise_95": [
+        0.9777482416976285,
+        1.0208733022637337
+      ],
+      "planned_queries": 2,
+      "queries_with_full_pairs": 2,
+      "queries_with_pairs": 2,
+      "reduction_pct": -1.9473129206432738,
+      "shared_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "sum_a_ms": 181.782443,
+      "sum_b_ms": 185.322316
+    }
+  },
+  "total_slots": 93
+}

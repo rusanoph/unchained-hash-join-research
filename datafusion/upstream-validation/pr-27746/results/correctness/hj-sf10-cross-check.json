@@ -1,0 +1,62 @@
+{
+  "2": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 1500000,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  },
+  "23": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 1,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  },
+  "26": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 1,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  },
+  "28": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 1,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  },
+  "4": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 5998253,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  },
+  "5": {
+    "match": true,
+    "row_counts_match_official": true,
+    "rows": 59986052,
+    "statuses": {
+      "A": "succeeded",
+      "B": "succeeded",
+      "C": "succeeded"
+    }
+  }
+}

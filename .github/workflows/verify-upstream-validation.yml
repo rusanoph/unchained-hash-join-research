@@ -1,0 +1,22 @@
+name: Verify upstream validation evidence
+
+on:
+  push:
+    paths: ['datafusion/upstream-validation/**', '.github/workflows/verify-upstream-validation.yml']
+  pull_request:
+    paths: ['datafusion/upstream-validation/**', '.github/workflows/verify-upstream-validation.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    defaults:
+      run:
+        working-directory: datafusion/upstream-validation/pr-27746
+    steps:
+      - uses: actions/checkout@v6
+      - run: python3 scripts/verify_evidence.py

@@ -1,0 +1,104 @@
+[
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      },
+      "C": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "dense_dup100",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      },
+      "C": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "dense_unique",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "resource_exhausted": 5
+      },
+      "B": {
+        "resource_exhausted": 5
+      },
+      "C": {
+        "resource_exhausted": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "general_composite",
+    "status": "unverified",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      },
+      "C": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "mixed_singletons_hot_key",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "resource_exhausted": 5
+      },
+      "C": {
+        "resource_exhausted": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "sparse_int_dup100",
+    "status": "consistent",
+    "suite": "smoke"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "resource_exhausted": 5
+      },
+      "C": {
+        "resource_exhausted": 5
+      }
+    },
+    "exact_oracle": true,
+    "id": "sparse_int_unique",
+    "status": "consistent",
+    "suite": "smoke"
+  }
+]

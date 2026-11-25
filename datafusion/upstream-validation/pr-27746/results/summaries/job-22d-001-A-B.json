@@ -1,0 +1,55 @@
+{
+  "baseline": "A",
+  "candidate": "B",
+  "observed_slots": 2,
+  "queries": [
+    {
+      "A_median_ms": 498.736413,
+      "A_median_peak_rss_kib": 1730252,
+      "B_median_ms": 399.31612,
+      "B_median_peak_rss_kib": 1746384,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_22d",
+      "intended_blocks": 1,
+      "oracle": false,
+      "paired_blocks": 1,
+      "paired_median_ratio": 1.248976407463841,
+      "plan_relation": "identical",
+      "pointwise_95": null,
+      "statuses": {
+        "A": {
+          "succeeded": 1
+        },
+        "B": {
+          "succeeded": 1
+        }
+      },
+      "suite": "job_excluded"
+    }
+  ],
+  "ratio_margin": 0.24,
+  "status": {
+    "A/succeeded": 1,
+    "B/succeeded": 1
+  },
+  "suites": {
+    "job_excluded": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "inconclusive": 1
+      },
+      "geomean_median_ratio": 1.248976407463841,
+      "planned_queries": 1,
+      "queries_with_full_pairs": 1,
+      "queries_with_pairs": 1,
+      "reduction_pct": 19.93443638934781,
+      "shared_block_ids": [
+        0
+      ],
+      "sum_a_ms": 498.736413,
+      "sum_b_ms": 399.31612
+    }
+  },
+  "total_slots": 2
+}

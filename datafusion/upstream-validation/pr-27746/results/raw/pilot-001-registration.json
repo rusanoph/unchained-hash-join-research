@@ -1,0 +1,776 @@
+{
+  "binaries": {
+    "A": "50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0",
+    "AA": "50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0",
+    "B": "ae575d2ea55df360f4259efd6bb6e7c3f02416f4fceea84a059886871e293923"
+  },
+  "config": {
+    "address_space_gib": 10,
+    "arms": [
+      "A",
+      "AA",
+      "B"
+    ],
+    "batch_size": 8192,
+    "block_caps": {
+      "job_17b": 1
+    },
+    "blocks": 3,
+    "cpu": [
+      2
+    ],
+    "custom": [
+      {
+        "id": "smoke_duplicates_null_residual",
+        "oracle": [
+          [
+            "10",
+            "11"
+          ],
+          [
+            "10",
+            "21"
+          ],
+          [
+            "20",
+            "21"
+          ],
+          [
+            "30",
+            null
+          ],
+          [
+            "40",
+            "41"
+          ],
+          [
+            null,
+            "31"
+          ]
+        ],
+        "sql": "SELECT b.v, p.v FROM (VALUES (1, 10), (1, 20), (2, 30), (NULL, 40)) b(k, v) FULL JOIN (VALUES (1, 11), (1, 21), (3, 31), (NULL, 41)) p(k, v) ON b.k IS NOT DISTINCT FROM p.k AND b.v < p.v"
+      },
+      {
+        "id": "smoke_low_probe_unique",
+        "oracle": [
+          [
+            "2",
+            "2000022"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i AS k, i * 2 AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (11), (1000000), (1000001)) p(k) ON b.k = p.k"
+      },
+      {
+        "id": "smoke_composite_sparse",
+        "oracle": [
+          [
+            "67",
+            "33660034"
+          ]
+        ],
+        "settings": [
+          "datafusion.optimizer.join_reordering=false"
+        ],
+        "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, CAST(i % 3 AS VARCHAR) AS s, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+        "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0, '0'), (1, '1'), (10001, '2')) p(k, s) ON b.k = p.k AND b.s = p.s"
+      }
+    ],
+    "data": {
+      "graphs": "/recorded/hashman-data-df/graphs-001",
+      "holdout": "/recorded/workspace/hashman-datafusion-lab/out/snap-holdout-data-002",
+      "job": "/recorded/hashman-data-df/job-001"
+    },
+    "partitions": 1,
+    "queries": [
+      "wikivote_p2",
+      "epinions_p2_sel",
+      "enron_file_out_star",
+      "hepph_shuffle_p2",
+      "job_7a",
+      "job_4b",
+      "job_2d",
+      "job_17b"
+    ],
+    "seed": 27746001,
+    "timeout_seconds": 600,
+    "warmups": 1
+  },
+  "driver_sha256": "6a555d2c1265722a45c823dc3df26f134b9e644d36b72b384c4a65d4352081e2",
+  "environment": {
+    "affinity": [
+      2
+    ],
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+    "kernel": "6.18.58.1-microsoft-standard-WSL2",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "thp": "always [madvise] never"
+  },
+  "inputs": {
+    "graphs": {
+      "astroph.parquet": "663c08d00cda43847dd9eca860447e9dace46dccb7ba06e7ead3d403b9535771",
+      "astroph_sh.parquet": "413913a821bcb08938f5b8422512906257952f07f183431246ad57374dd110ef",
+      "epinions.parquet": "7da1288a3df5711eb250eff051dc83df3bfda088947b4d1e71b8843beca96063",
+      "epinions_sh.parquet": "39e13d18c05cb48c108ae5fdfa93667eed68e9f700ecf691558203fba959bc2e",
+      "slashdot.parquet": "a493fe6179839e76f224b799613b7943fa9565f1ef0bcd1b1db5072f596032de",
+      "slashdot_sh.parquet": "17624b96caadd2e6851fd191e1e71672c82b210f1e884093f48b13500bd70613",
+      "webgoogle.parquet": "94636c8b06cf756812c571b1d433fea9764b2db7946ca6784d50dc1852a8d03a",
+      "webgoogle_sh.parquet": "7c9daae9555c7b8e78570a388d0ebcf3e09513a4ff34c8de24530910282f3639",
+      "wikivote.parquet": "61ca20e4021fc357162980a59132568c39e3a40df2b751ae1f1cbe89651deff2",
+      "wikivote_sh.parquet": "9e0adf8a5205601f177146b187d217dda9800b0d0c7660ab868148d4f2c0da7a"
+    },
+    "holdout": {
+      "amazon_file.parquet": "3c197cabcbf7080876171635676d32bd50f3c15d167cbc7470b0abb3d078cc5e",
+      "amazon_shuffle.parquet": "c0e05f9bf81d3ce9e7e3a252748370429b9662b35d3b3952659190768d20d7bc",
+      "enron_file.parquet": "c16ea0dbcb8e3a029bb73a460f779a88349ef066bd71b285fab9d31f13b5705f",
+      "enron_shuffle.parquet": "b1300749da15c4137b377af3f7ada681bc3711365c92638dd03cd7d0fda4572f",
+      "hepph_file.parquet": "ae545e5de7451639463cc8d75ff10e282d92e39796bfc3e4b68125340a05477c",
+      "hepph_shuffle.parquet": "385051a2ba3e6da2ee59050cd64d6367d2354daab65012f58bda03debdf2bd55"
+    },
+    "job": {
+      "aka_name.parquet": "1ee5907d549071b14d3c2ea0595119f7609d0979827071e0fd7a5c659c48bab4",
+      "aka_title.parquet": "25e13a564d4229e55d566bd6a1fc61ad7941ae738d95e1eeb1849a484d4f636f",
+      "cast_info.parquet": "3c1fa5dd75199da39e62273209b4874cc17233a6103ca48fd164e389fa3eee87",
+      "char_name.parquet": "cdc10c1cd62dc242b8362314967cea3855aeababa357b51454dfca2e453fc7e5",
+      "comp_cast_type.parquet": "ec8d6bad8e8cb1cceb114af591c58779b93a810e3daf025aaaf461df9da77379",
+      "company_name.parquet": "564ec6013a39e374a75d1f13868a7e03df13a124274957af3afd170ded9b85a9",
+      "company_type.parquet": "d4059fbdcdb66db4d3a79705ae517250f7044e75e74531fb2447defbe5dd23e8",
+      "complete_cast.parquet": "7d22c66bdc073f4fe96d8141bf3a0a186f6b8276473293c53b0954b0986e35de",
+      "info_type.parquet": "767e1ed32858b35f98b14c65389d0418b5e59c9af7227fdbd560f5ae9a38d32b",
+      "keyword.parquet": "3b19281b516e9ffbe4b691a59ab501c1f17f667d36d203ffa37a4acec95ce606",
+      "kind_type.parquet": "211e5e6c4413c6dc4efcce8bd0ca63a4839e93bfc03de0732a300dfd25bd752b",
+      "link_type.parquet": "281b21e68c49ee987acc2faa7d11d783ff019e4fe4ae8ddc57d5a2a63a51e0d9",
+      "movie_companies.parquet": "08c752d8ad0d2d160c02701e00cde3f6178570de84a6c58726241c1633b9ddf3",
+      "movie_info.parquet": "972fac8ae91c1fb52785275234da5b4a2fbc24fa129f8405f2e067273b62d9c9",
+      "movie_info_idx.parquet": "c07a65b03e6e9d78a3777a53c18e8e9596b11d01968c8b1e4c71f56021c35dc3",
+      "movie_keyword.parquet": "2fc33d9388b28b4009c3fb43a02fc3b01b53b59517d9e365070f2e0dc8ea8f0a",
+      "movie_link.parquet": "e6e2d567fd4f02b69737d27ca2d9e5def5ad1607fb74d5eecd49df2bf922c69f",
+      "name.parquet": "19cbca8a6f80c87178fed855f300b319b80d24539232751774e4001cc1c18ddc",
+      "person_info.parquet": "abebf18fdc6c7a45296181b8ad29b0ade7c135ee99968552e1b442095e3eb510",
+      "role_type.parquet": "5c936f7eb6c26c16c80858acb35fa28cc05d94fc666ec6914ce3192ce00612b0",
+      "title.parquet": "0383c06679152d413b69ee8539d41fa5f0f2b604b7cd84512fa3fe9f3f72db2a"
+    }
+  },
+  "queries": {
+    "enron_file_out_star": {
+      "archive": "snap-holdout-run-001",
+      "data": "holdout",
+      "id": "enron_file_out_star",
+      "mode": "direct",
+      "oracle": [
+        [
+          "35776927",
+          "629443940576"
+        ]
+      ],
+      "sql": "SELECT count(*), sum(a.dst::BIGINT + b.dst) FROM enron_file a JOIN enron_file b ON a.src = b.src",
+      "suite": "snap_holdout"
+    },
+    "epinions_p2_sel": {
+      "archive": "final-graphs-run-001",
+      "data": "graphs",
+      "id": "epinions_p2_sel",
+      "mode": "mem",
+      "oracle": [
+        [
+          "658453",
+          "9616657120"
+        ]
+      ],
+      "sql": "SELECT count(*), sum(a.src::BIGINT + b.dst) FROM epinions a JOIN epinions b ON a.dst = b.src WHERE a.src % 64 = 0;",
+      "suite": "snap"
+    },
+    "hepph_shuffle_p2": {
+      "archive": "snap-holdout-run-001",
+      "data": "holdout",
+      "id": "hepph_shuffle_p2",
+      "mode": "direct",
+      "oracle": [
+        [
+          "5156647",
+          "442135844251"
+        ]
+      ],
+      "sql": "SELECT count(*), sum(a.src::BIGINT + b.dst) FROM hepph_shuffle a JOIN hepph_shuffle b ON a.dst = b.src",
+      "suite": "snap_holdout"
+    },
+    "job_17b": {
+      "archive": "final-natural-heavy-run-001",
+      "data": "job",
+      "id": "job_17b",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS member_in_charnamed_movie,\n       MIN(n.name) AS a1\nFROM cast_info AS ci,\n     company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     name AS n,\n     title AS t\nWHERE k.keyword ='character-name-in-title'\n  AND n.name LIKE 'Z%'\n  AND n.id = ci.person_id\n  AND ci.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND t.id = mc.movie_id\n  AND mc.company_id = cn.id\n  AND ci.movie_id = mc.movie_id\n  AND ci.movie_id = mk.movie_id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_2d": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_2d",
+      "mode": "prune",
+      "sql": "SELECT MIN(t.title) AS movie_title\nFROM company_name AS cn,\n     keyword AS k,\n     movie_companies AS mc,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code ='[us]'\n  AND k.keyword ='character-name-in-title'\n  AND cn.id = mc.company_id\n  AND mc.movie_id = t.id\n  AND t.id = mk.movie_id\n  AND mk.keyword_id = k.id\n  AND mc.movie_id = mk.movie_id;",
+      "suite": "job"
+    },
+    "job_4b": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_4b",
+      "mode": "prune",
+      "sql": "SELECT MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS movie_title\nFROM info_type AS it,\n     keyword AS k,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE it.info ='rating'\n  AND k.keyword LIKE '%sequel%'\n  AND mi_idx.info > '9.0'\n  AND t.production_year > 2010\n  AND t.id = mi_idx.movie_id\n  AND t.id = mk.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it.id = mi_idx.info_type_id;",
+      "suite": "job"
+    },
+    "job_7a": {
+      "archive": "final-natural-light-run-001",
+      "data": "job",
+      "id": "job_7a",
+      "mode": "prune",
+      "sql": "SELECT MIN(n.name) AS of_person,\n       MIN(t.title) AS biography_movie\nFROM aka_name AS an,\n     cast_info AS ci,\n     info_type AS it,\n     link_type AS lt,\n     movie_link AS ml,\n     name AS n,\n     person_info AS pi,\n     title AS t\nWHERE an.name LIKE '%a%'\n  AND it.info ='mini biography'\n  AND lt.link ='features'\n  AND n.name_pcode_cf BETWEEN 'A' AND 'F'\n  AND (n.gender='m'\n       OR (n.gender = 'f'\n           AND n.name LIKE 'B%'))\n  AND pi.note ='Volker Boehm'\n  AND t.production_year BETWEEN 1980 AND 1995\n  AND n.id = an.person_id\n  AND n.id = pi.person_id\n  AND ci.person_id = n.id\n  AND t.id = ci.movie_id\n  AND ml.linked_movie_id = t.id\n  AND lt.id = ml.link_type_id\n  AND it.id = pi.info_type_id\n  AND pi.person_id = an.person_id\n  AND pi.person_id = ci.person_id\n  AND an.person_id = ci.person_id\n  AND ci.movie_id = ml.linked_movie_id;",
+      "suite": "job"
+    },
+    "smoke_composite_sparse": {
+      "id": "smoke_composite_sparse",
+      "oracle": [
+        [
+          "67",
+          "33660034"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i % 10000 AS k, CAST(i % 3 AS VARCHAR) AS s, i AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (0, '0'), (1, '1'), (10001, '2')) p(k, s) ON b.k = p.k AND b.s = p.s"
+    },
+    "smoke_duplicates_null_residual": {
+      "id": "smoke_duplicates_null_residual",
+      "oracle": [
+        [
+          "10",
+          "11"
+        ],
+        [
+          "10",
+          "21"
+        ],
+        [
+          "20",
+          "21"
+        ],
+        [
+          "30",
+          null
+        ],
+        [
+          "40",
+          "41"
+        ],
+        [
+          null,
+          "31"
+        ]
+      ],
+      "sql": "SELECT b.v, p.v FROM (VALUES (1, 10), (1, 20), (2, 30), (NULL, 40)) b(k, v) FULL JOIN (VALUES (1, 11), (1, 21), (3, 31), (NULL, 41)) p(k, v) ON b.k IS NOT DISTINCT FROM p.k AND b.v < p.v"
+    },
+    "smoke_low_probe_unique": {
+      "id": "smoke_low_probe_unique",
+      "oracle": [
+        [
+          "2",
+          "2000022"
+        ]
+      ],
+      "settings": [
+        "datafusion.optimizer.join_reordering=false"
+      ],
+      "setup": "CREATE TABLE b AS SELECT i AS k, i * 2 AS v FROM generate_series(1, 1000000) AS gen(i)",
+      "sql": "SELECT COUNT(*), SUM(b.v) FROM b JOIN (VALUES (11), (1000000), (1000001)) p(k) ON b.k = p.k"
+    },
+    "wikivote_p2": {
+      "archive": "final-graphs-run-001",
+      "data": "graphs",
+      "id": "wikivote_p2",
+      "mode": "mem",
+      "oracle": [
+        [
+          "4542805",
+          "29913515844"
+        ]
+      ],
+      "sql": "SELECT count(*), sum(a.src::BIGINT + b.dst) FROM wikivote a JOIN wikivote b ON a.dst = b.src;",
+      "suite": "snap"
+    }
+  },
+  "slots": [
+    [
+      0,
+      "enron_file_out_star",
+      "A"
+    ],
+    [
+      0,
+      "enron_file_out_star",
+      "AA"
+    ],
+    [
+      0,
+      "enron_file_out_star",
+      "B"
+    ],
+    [
+      0,
+      "wikivote_p2",
+      "B"
+    ],
+    [
+      0,
+      "wikivote_p2",
+      "A"
+    ],
+    [
+      0,
+      "wikivote_p2",
+      "AA"
+    ],
+    [
+      0,
+      "smoke_composite_sparse",
+      "A"
+    ],
+    [
+      0,
+      "smoke_composite_sparse",
+      "AA"
+    ],
+    [
+      0,
+      "smoke_composite_sparse",
+      "B"
+    ],
+    [
+      0,
+      "epinions_p2_sel",
+      "A"
+    ],
+    [
+      0,
+      "epinions_p2_sel",
+      "AA"
+    ],
+    [
+      0,
+      "epinions_p2_sel",
+      "B"
+    ],
+    [
+      0,
+      "job_17b",
+      "A"
+    ],
+    [
+      0,
+      "job_17b",
+      "AA"
+    ],
+    [
+      0,
+      "job_17b",
+      "B"
+    ],
+    [
+      0,
+      "hepph_shuffle_p2",
+      "B"
+    ],
+    [
+      0,
+      "hepph_shuffle_p2",
+      "A"
+    ],
+    [
+      0,
+      "hepph_shuffle_p2",
+      "AA"
+    ],
+    [
+      0,
+      "smoke_duplicates_null_residual",
+      "B"
+    ],
+    [
+      0,
+      "smoke_duplicates_null_residual",
+      "A"
+    ],
+    [
+      0,
+      "smoke_duplicates_null_residual",
+      "AA"
+    ],
+    [
+      0,
+      "job_4b",
+      "AA"
+    ],
+    [
+      0,
+      "job_4b",
+      "B"
+    ],
+    [
+      0,
+      "job_4b",
+      "A"
+    ],
+    [
+      0,
+      "job_2d",
+      "AA"
+    ],
+    [
+      0,
+      "job_2d",
+      "B"
+    ],
+    [
+      0,
+      "job_2d",
+      "A"
+    ],
+    [
+      0,
+      "smoke_low_probe_unique",
+      "A"
+    ],
+    [
+      0,
+      "smoke_low_probe_unique",
+      "AA"
+    ],
+    [
+      0,
+      "smoke_low_probe_unique",
+      "B"
+    ],
+    [
+      0,
+      "job_7a",
+      "A"
+    ],
+    [
+      0,
+      "job_7a",
+      "AA"
+    ],
+    [
+      0,
+      "job_7a",
+      "B"
+    ],
+    [
+      1,
+      "enron_file_out_star",
+      "AA"
+    ],
+    [
+      1,
+      "enron_file_out_star",
+      "B"
+    ],
+    [
+      1,
+      "enron_file_out_star",
+      "A"
+    ],
+    [
+      1,
+      "smoke_low_probe_unique",
+      "AA"
+    ],
+    [
+      1,
+      "smoke_low_probe_unique",
+      "B"
+    ],
+    [
+      1,
+      "smoke_low_probe_unique",
+      "A"
+    ],
+    [
+      1,
+      "hepph_shuffle_p2",
+      "A"
+    ],
+    [
+      1,
+      "hepph_shuffle_p2",
+      "AA"
+    ],
+    [
+      1,
+      "hepph_shuffle_p2",
+      "B"
+    ],
+    [
+      1,
+      "job_7a",
+      "AA"
+    ],
+    [
+      1,
+      "job_7a",
+      "B"
+    ],
+    [
+      1,
+      "job_7a",
+      "A"
+    ],
+    [
+      1,
+      "job_4b",
+      "B"
+    ],
+    [
+      1,
+      "job_4b",
+      "A"
+    ],
+    [
+      1,
+      "job_4b",
+      "AA"
+    ],
+    [
+      1,
+      "wikivote_p2",
+      "A"
+    ],
+    [
+      1,
+      "wikivote_p2",
+      "AA"
+    ],
+    [
+      1,
+      "wikivote_p2",
+      "B"
+    ],
+    [
+      1,
+      "smoke_composite_sparse",
+      "AA"
+    ],
+    [
+      1,
+      "smoke_composite_sparse",
+      "B"
+    ],
+    [
+      1,
+      "smoke_composite_sparse",
+      "A"
+    ],
+    [
+      1,
+      "job_2d",
+      "B"
+    ],
+    [
+      1,
+      "job_2d",
+      "A"
+    ],
+    [
+      1,
+      "job_2d",
+      "AA"
+    ],
+    [
+      1,
+      "smoke_duplicates_null_residual",
+      "A"
+    ],
+    [
+      1,
+      "smoke_duplicates_null_residual",
+      "AA"
+    ],
+    [
+      1,
+      "smoke_duplicates_null_residual",
+      "B"
+    ],
+    [
+      1,
+      "epinions_p2_sel",
+      "AA"
+    ],
+    [
+      1,
+      "epinions_p2_sel",
+      "B"
+    ],
+    [
+      1,
+      "epinions_p2_sel",
+      "A"
+    ],
+    [
+      2,
+      "wikivote_p2",
+      "AA"
+    ],
+    [
+      2,
+      "wikivote_p2",
+      "B"
+    ],
+    [
+      2,
+      "wikivote_p2",
+      "A"
+    ],
+    [
+      2,
+      "job_4b",
+      "A"
+    ],
+    [
+      2,
+      "job_4b",
+      "AA"
+    ],
+    [
+      2,
+      "job_4b",
+      "B"
+    ],
+    [
+      2,
+      "enron_file_out_star",
+      "B"
+    ],
+    [
+      2,
+      "enron_file_out_star",
+      "A"
+    ],
+    [
+      2,
+      "enron_file_out_star",
+      "AA"
+    ],
+    [
+      2,
+      "job_2d",
+      "A"
+    ],
+    [
+      2,
+      "job_2d",
+      "AA"
+    ],
+    [
+      2,
+      "job_2d",
+      "B"
+    ],
+    [
+      2,
+      "smoke_composite_sparse",
+      "B"
+    ],
+    [
+      2,
+      "smoke_composite_sparse",
+      "A"
+    ],
+    [
+      2,
+      "smoke_composite_sparse",
+      "AA"
+    ],
+    [
+      2,
+      "smoke_low_probe_unique",
+      "B"
+    ],
+    [
+      2,
+      "smoke_low_probe_unique",
+      "A"
+    ],
+    [
+      2,
+      "smoke_low_probe_unique",
+      "AA"
+    ],
+    [
+      2,
+      "hepph_shuffle_p2",
+      "AA"
+    ],
+    [
+      2,
+      "hepph_shuffle_p2",
+      "B"
+    ],
+    [
+      2,
+      "hepph_shuffle_p2",
+      "A"
+    ],
+    [
+      2,
+      "smoke_duplicates_null_residual",
+      "AA"
+    ],
+    [
+      2,
+      "smoke_duplicates_null_residual",
+      "B"
+    ],
+    [
+      2,
+      "smoke_duplicates_null_residual",
+      "A"
+    ],
+    [
+      2,
+      "job_7a",
+      "B"
+    ],
+    [
+      2,
+      "job_7a",
+      "A"
+    ],
+    [
+      2,
+      "job_7a",
+      "AA"
+    ],
+    [
+      2,
+      "epinions_p2_sel",
+      "B"
+    ],
+    [
+      2,
+      "epinions_p2_sel",
+      "A"
+    ],
+    [
+      2,
+      "epinions_p2_sel",
+      "AA"
+    ]
+  ]
+}

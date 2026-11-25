@@ -1,0 +1,1420 @@
+[
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_10a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_10b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_10c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_11a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_11b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_11c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_12a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_12b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_12c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_13a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_14a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_14b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_14c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_15a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_15b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_15c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_15d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17e",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_17f",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_18a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_18b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_18c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_19a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_19b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_19c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_19d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_1a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_1b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_1c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_1d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_20a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_20b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_20c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_21a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_21b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_21c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_22a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_22b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_23a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_23b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_23c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_24b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_25a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_25b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_25c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_26a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_26b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_26c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_27a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_27b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_27c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_28a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_28b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_28c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_29a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_29b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_29c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_2a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_2b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_2c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_2d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_30a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_30b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_30c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_31a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_31b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_31c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_32a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_32b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_33a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_33b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_33c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_3a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_3b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_3c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_4a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_4b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_4c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_5a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_5b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_5c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6d",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6e",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_6f",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_7a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_7b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_7c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_8a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_8b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_9a",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_9b",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "succeeded": 5
+      },
+      "B": {
+        "succeeded": 5
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_9c",
+    "status": "consistent",
+    "suite": "job"
+  },
+  {
+    "arms": {
+      "A": {
+        "pending": 2,
+        "succeeded": 3
+      },
+      "B": {
+        "pending": 2,
+        "succeeded": 3
+      }
+    },
+    "exact_oracle": false,
+    "id": "job_9d",
+    "status": "consistent",
+    "suite": "job"
+  }
+]

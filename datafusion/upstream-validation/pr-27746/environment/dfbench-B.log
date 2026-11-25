@@ -1,0 +1,18 @@
+2f6c665fef63936f08a4aa7a4fb01b87a4d2b009
+13822d4439290235c7918a4c423b7742be9a5cab
+Cargo target directory /recorded/datafusion-upstream-validation/hj-target-B
+rustc 1.97.0 (2d8144b78 2026-07-07)
+binary: rustc
+commit-hash: 2d8144b7880597b6e6d3dfd63a9a9efae3f533d3
+commit-date: 2026-07-07
+host: x86_64-unknown-linux-gnu
+release: 1.97.0
+LLVM version: 22.1.6
+cargo 1.97.0 (c980f4866 2026-06-30)
+   Compiling proc-macro2 v1.0.106
+   Compiling unicode-ident v1.0.24
+   Compiling quote v1.0.47
+   Compiling datafusion-physical-plan v57.0.0-dev (/recorded/datafusion-upstream-validation/source-B/datafusion/physical-plan)
+    Finished `release-nonlto` profile [optimized] target(s) in 8m 07s
+9671ed9d30a7274398116b5a43a07b6506fa052da52ef5e17da4d669f2af97ab  /recorded/datafusion-upstream-validation/hj-bin/dfbench-B
+ee32a9eece99161b2b1ddd3df3ed30bbb48b3e73d7e1077b8caf0458f622d419  Cargo.lock

@@ -1,0 +1,57 @@
+{
+  "config": {
+    "address_space_gib": 10,
+    "batch_size": 8192,
+    "cpu": [
+      2
+    ],
+    "data": {
+      "sf10": "/recorded/hashman-data-df/tpch-sf10-001"
+    },
+    "memory_limit_mb": 8192,
+    "partitions": 1,
+    "settings": [
+      "datafusion.optimizer.join_reordering=false"
+    ],
+    "timeout_seconds": 600,
+    "warmups": 0
+  },
+  "driver_sha256": "bb6034cc70ca653077fc46fd865a7db8543993cdc6f64cad3326f4de03e085b4",
+  "environment": {
+    "affinity": [
+      2
+    ],
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+    "kernel": "6.18.58.1-microsoft-standard-WSL2",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "thp": "always [madvise] never"
+  },
+  "parquet_sha256": {
+    "customer.parquet": "b5e2e21a63587b665df5f7c5eac466ad496a6f4eac0aeda89fc8c7bd48fd1d55",
+    "lineitem.parquet": "057ccbdca99958712fd2642b669a6abdaf7605dbdf69cbc5dbc337deeb5098ce",
+    "nation.parquet": "79a4963190470f076796929a250df354f9b1ae29a3747f111da85a44167a49bf",
+    "orders.parquet": "53f579f7b9094740742752535b3908f8d182ae48d65cfb4f1466dd3e16fa96a5",
+    "part.parquet": "2f5e30006717f419ff3e1bd2a72187e396838577b6b2f00824297b411c950b19",
+    "partsupp.parquet": "7ddb1220cea6aa04d02d9e914038a1ebf100ab2a354ca0e2af695eea4ae08fee",
+    "region.parquet": "b614dc38e824bdf663fde75ed7c4adcd3e68c9281c6e20563ebb5d6a9007bf3a",
+    "supplier.parquet": "40e118290f5bec4d6f62f4e8c1c139528640feada48b22617dbb1d18760d7807"
+  },
+  "queries": [
+    2,
+    4,
+    5,
+    23,
+    26,
+    28
+  ],
+  "source_sha256": "f8f2e4668b16b9b918cdb93682a8bdeb2e282cf69f1eef9c95079088c5bae583",
+  "worker_sha256": {
+    "A": "50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0",
+    "B": "ae575d2ea55df360f4259efd6bb6e7c3f02416f4fceea84a059886871e293923",
+    "C": "d7034900cb21c6d0b8b8455702a19bcab2111de985a675e5e6b10866e269fa72"
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "binaries": {
+    "A": "50f13cf11f30770f9fcefb4c0fff92bc6555b8d8ad8be2f6a4b4f17f43acf7d0",
+    "B": "ae575d2ea55df360f4259efd6bb6e7c3f02416f4fceea84a059886871e293923"
+  },
+  "config": {
+    "address_space_gib": 10,
+    "arms": [
+      "A",
+      "B"
+    ],
+    "batch_size": 8192,
+    "blocks": 1,
+    "cpu": [
+      2
+    ],
+    "data": {
+      "job": "/recorded/hashman-data-df/job-001"
+    },
+    "partitions": 1,
+    "queries": [
+      "job_22d"
+    ],
+    "seed": 27746004,
+    "timeout_seconds": 600,
+    "warmups": 0
+  },
+  "driver_sha256": "6a555d2c1265722a45c823dc3df26f134b9e644d36b72b384c4a65d4352081e2",
+  "environment": {
+    "affinity": [
+      2
+    ],
+    "arch": "x86_64",
+    "cpu": "AMD Ryzen 5 7500F 6-Core Processor",
+    "kernel": "6.18.58.1-microsoft-standard-WSL2",
+    "libc": [
+      "glibc",
+      "2.35"
+    ],
+    "thp": "always [madvise] never"
+  },
+  "inputs": {
+    "job": {
+      "aka_name.parquet": "1ee5907d549071b14d3c2ea0595119f7609d0979827071e0fd7a5c659c48bab4",
+      "aka_title.parquet": "25e13a564d4229e55d566bd6a1fc61ad7941ae738d95e1eeb1849a484d4f636f",
+      "cast_info.parquet": "3c1fa5dd75199da39e62273209b4874cc17233a6103ca48fd164e389fa3eee87",
+      "char_name.parquet": "cdc10c1cd62dc242b8362314967cea3855aeababa357b51454dfca2e453fc7e5",
+      "comp_cast_type.parquet": "ec8d6bad8e8cb1cceb114af591c58779b93a810e3daf025aaaf461df9da77379",
+      "company_name.parquet": "564ec6013a39e374a75d1f13868a7e03df13a124274957af3afd170ded9b85a9",
+      "company_type.parquet": "d4059fbdcdb66db4d3a79705ae517250f7044e75e74531fb2447defbe5dd23e8",
+      "complete_cast.parquet": "7d22c66bdc073f4fe96d8141bf3a0a186f6b8276473293c53b0954b0986e35de",
+      "info_type.parquet": "767e1ed32858b35f98b14c65389d0418b5e59c9af7227fdbd560f5ae9a38d32b",
+      "keyword.parquet": "3b19281b516e9ffbe4b691a59ab501c1f17f667d36d203ffa37a4acec95ce606",
+      "kind_type.parquet": "211e5e6c4413c6dc4efcce8bd0ca63a4839e93bfc03de0732a300dfd25bd752b",
+      "link_type.parquet": "281b21e68c49ee987acc2faa7d11d783ff019e4fe4ae8ddc57d5a2a63a51e0d9",
+      "movie_companies.parquet": "08c752d8ad0d2d160c02701e00cde3f6178570de84a6c58726241c1633b9ddf3",
+      "movie_info.parquet": "972fac8ae91c1fb52785275234da5b4a2fbc24fa129f8405f2e067273b62d9c9",
+      "movie_info_idx.parquet": "c07a65b03e6e9d78a3777a53c18e8e9596b11d01968c8b1e4c71f56021c35dc3",
+      "movie_keyword.parquet": "2fc33d9388b28b4009c3fb43a02fc3b01b53b59517d9e365070f2e0dc8ea8f0a",
+      "movie_link.parquet": "e6e2d567fd4f02b69737d27ca2d9e5def5ad1607fb74d5eecd49df2bf922c69f",
+      "name.parquet": "19cbca8a6f80c87178fed855f300b319b80d24539232751774e4001cc1c18ddc",
+      "person_info.parquet": "abebf18fdc6c7a45296181b8ad29b0ade7c135ee99968552e1b442095e3eb510",
+      "role_type.parquet": "5c936f7eb6c26c16c80858acb35fa28cc05d94fc666ec6914ce3192ce00612b0",
+      "title.parquet": "0383c06679152d413b69ee8539d41fa5f0f2b604b7cd84512fa3fe9f3f72db2a"
+    }
+  },
+  "queries": {
+    "job_22d": {
+      "archive": "job-pass-run-006",
+      "data": "job",
+      "id": "job_22d",
+      "mode": "prune",
+      "sql": "SELECT MIN(cn.name) AS movie_company,\n       MIN(mi_idx.info) AS rating,\n       MIN(t.title) AS western_violent_movie\nFROM company_name AS cn,\n     company_type AS ct,\n     info_type AS it1,\n     info_type AS it2,\n     keyword AS k,\n     kind_type AS kt,\n     movie_companies AS mc,\n     movie_info AS mi,\n     movie_info_idx AS mi_idx,\n     movie_keyword AS mk,\n     title AS t\nWHERE cn.country_code != '[us]'\n  AND it1.info = 'countries'\n  AND it2.info = 'rating'\n  AND k.keyword IN ('murder',\n                    'murder-in-title',\n                    'blood',\n                    'violence')\n  AND kt.kind IN ('movie',\n                  'episode')\n  AND mi.info IN ('Sweden',\n                  'Norway',\n                  'Germany',\n                  'Denmark',\n                  'Swedish',\n                  'Danish',\n                  'Norwegian',\n                  'German',\n                  'USA',\n                  'American')\n  AND mi_idx.info < '8.5'\n  AND t.production_year > 2005\n  AND kt.id = t.kind_id\n  AND t.id = mi.movie_id\n  AND t.id = mk.movie_id\n  AND t.id = mi_idx.movie_id\n  AND t.id = mc.movie_id\n  AND mk.movie_id = mi.movie_id\n  AND mk.movie_id = mi_idx.movie_id\n  AND mk.movie_id = mc.movie_id\n  AND mi.movie_id = mi_idx.movie_id\n  AND mi.movie_id = mc.movie_id\n  AND mc.movie_id = mi_idx.movie_id\n  AND k.id = mk.keyword_id\n  AND it1.id = mi.info_type_id\n  AND it2.id = mi_idx.info_type_id\n  AND ct.id = mc.company_type_id\n  AND cn.id = mc.company_id;",
+      "suite": "job_excluded"
+    }
+  },
+  "slots": [
+    [
+      0,
+      "job_22d",
+      "B"
+    ],
+    [
+      0,
+      "job_22d",
+      "A"
+    ]
+  ]
+}

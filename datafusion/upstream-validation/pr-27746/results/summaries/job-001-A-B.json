@@ -1,0 +1,2758 @@
+{
+  "baseline": "A",
+  "candidate": "B",
+  "observed_slots": 964,
+  "queries": [
+    {
+      "A_median_ms": 401.98424,
+      "A_median_peak_rss_kib": 1899552,
+      "B_median_ms": 428.282483,
+      "B_median_peak_rss_kib": 1923724,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_10a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.953290886753358,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9200068414084577,
+        1.0033208138097118
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 282.179988,
+      "A_median_peak_rss_kib": 1867620,
+      "B_median_ms": 298.195267,
+      "B_median_peak_rss_kib": 1873684,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_10b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9608127246122864,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8810753096604507,
+        0.9872389932442881
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 316.571119,
+      "A_median_peak_rss_kib": 1922944,
+      "B_median_ms": 326.977404,
+      "B_median_peak_rss_kib": 1924412,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_10c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9719003015656913,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9475225399167638,
+        1.4360449301229272
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 92.559756,
+      "A_median_peak_rss_kib": 553344,
+      "B_median_ms": 98.125052,
+      "B_median_peak_rss_kib": 557988,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_11a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9365140596042695,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8549027089494968,
+        0.9964878777421723
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 86.724033,
+      "A_median_peak_rss_kib": 549864,
+      "B_median_ms": 91.070897,
+      "B_median_peak_rss_kib": 559636,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_11b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9522694500307821,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.6174543257596254,
+        1.0669918077327265
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 55.32959,
+      "A_median_peak_rss_kib": 521876,
+      "B_median_ms": 57.457535,
+      "B_median_peak_rss_kib": 521844,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_11c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9692853395548378,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8305124751422243,
+        1.5664742643501055
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 101.219802,
+      "A_median_peak_rss_kib": 1523728,
+      "B_median_ms": 93.634433,
+      "B_median_peak_rss_kib": 1528912,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_12a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.021062189589557,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9707529566341173,
+        1.1062842448140846
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 348.662656,
+      "A_median_peak_rss_kib": 1383096,
+      "B_median_ms": 428.908315,
+      "B_median_peak_rss_kib": 1378388,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_12b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8192260061353505,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7974970777133207,
+        1.245482982896336
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 102.342339,
+      "A_median_peak_rss_kib": 1524460,
+      "B_median_ms": 104.133099,
+      "B_median_peak_rss_kib": 1519816,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_12c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9961057242712041,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8700606610711509,
+        1.4693663412825084
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 149.571922,
+      "A_median_peak_rss_kib": 1394904,
+      "B_median_ms": 196.707004,
+      "B_median_peak_rss_kib": 1406764,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_13a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.7836218081074777,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7032312900342602,
+        1.0077184909159234
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 115.15212,
+      "A_median_peak_rss_kib": 1347212,
+      "B_median_ms": 130.124743,
+      "B_median_peak_rss_kib": 1337496,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_14a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9199428637321206,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8376851281727951,
+        1.0000347435103896
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 148.321429,
+      "A_median_peak_rss_kib": 1341308,
+      "B_median_ms": 150.710542,
+      "B_median_peak_rss_kib": 1340704,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_14b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.034258002434836,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8699509524712753,
+        1.0549089990002158
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 123.195352,
+      "A_median_peak_rss_kib": 1338584,
+      "B_median_ms": 134.671738,
+      "B_median_peak_rss_kib": 1349328,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_14c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9166724572901851,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7891856607731008,
+        0.9973255782606019
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 393.856157,
+      "A_median_peak_rss_kib": 1627376,
+      "B_median_ms": 391.760495,
+      "B_median_peak_rss_kib": 1640208,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_15a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0114331339242937,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9945263150544511,
+        1.1046120289688335
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 393.628199,
+      "A_median_peak_rss_kib": 1802172,
+      "B_median_ms": 390.983553,
+      "B_median_peak_rss_kib": 1801696,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_15b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9919378067013529,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9039788807667284,
+        1.147503675173774
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 588.910138,
+      "A_median_peak_rss_kib": 1662076,
+      "B_median_ms": 583.031753,
+      "B_median_peak_rss_kib": 1674556,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_15c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.037876765360492,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9724587463632939,
+        1.1009252731795367
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 167.19456,
+      "A_median_peak_rss_kib": 1688952,
+      "B_median_ms": 164.508417,
+      "B_median_peak_rss_kib": 1699224,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_15d",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9993319247610291,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9125358414964873,
+        1.1179356345695663
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 12723.716733,
+      "A_median_peak_rss_kib": 2814000,
+      "B_median_ms": 9636.115141,
+      "B_median_peak_rss_kib": 3322468,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_17a",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.3204197487079405,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.193816119320397,
+        1.3566428995423148
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 33902.94837,
+      "A_median_peak_rss_kib": 5068764,
+      "B_median_ms": 22874.395131,
+      "B_median_peak_rss_kib": 6330184,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_17b",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.5000138892642092,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.4761985662369612,
+        1.580590504576958
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 34539.432992,
+      "A_median_peak_rss_kib": 5068804,
+      "B_median_ms": 22094.628251,
+      "B_median_peak_rss_kib": 6328688,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_17c",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.5404121413746614,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.4930161293967397,
+        1.6044809738436234
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 34908.530372,
+      "A_median_peak_rss_kib": 5068644,
+      "B_median_ms": 22994.433926,
+      "B_median_peak_rss_kib": 6330776,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_17d",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.5057722362916228,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.4864601924969345,
+        1.5883348724684574
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 13053.001894,
+      "A_median_peak_rss_kib": 2902176,
+      "B_median_ms": 9751.165991,
+      "B_median_peak_rss_kib": 3411392,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_17e",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.370122096609081,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.3249057977193859,
+        1.4149923394780444
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 35453.30808,
+      "A_median_peak_rss_kib": 5068956,
+      "B_median_ms": 23041.378537,
+      "B_median_peak_rss_kib": 6330676,
+      "correctness": "consistent",
+      "decision": "faster",
+      "id": "job_17f",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.544024208162014,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.5108614674290484,
+        1.6122106443993114
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 687.054293,
+      "A_median_peak_rss_kib": 2912684,
+      "B_median_ms": 773.984974,
+      "B_median_peak_rss_kib": 2919084,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_18a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8646924992393806,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7375726822545525,
+        0.9233454421041513
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 231.638648,
+      "A_median_peak_rss_kib": 2812660,
+      "B_median_ms": 235.527339,
+      "B_median_peak_rss_kib": 2821984,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_18b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9846774772927741,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.948633325059728,
+        1.007611908313077
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 293.359679,
+      "A_median_peak_rss_kib": 2895772,
+      "B_median_ms": 337.303043,
+      "B_median_peak_rss_kib": 2902472,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_18c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8698899595403584,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8066303260213116,
+        0.9018336131642903
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 885.027098,
+      "A_median_peak_rss_kib": 3465964,
+      "B_median_ms": 909.521221,
+      "B_median_peak_rss_kib": 3474292,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_19a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9475320030991692,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.6333043698714685,
+        1.068576471868193
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 750.708382,
+      "A_median_peak_rss_kib": 3353336,
+      "B_median_ms": 742.406594,
+      "B_median_peak_rss_kib": 3356796,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_19b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9969924270365519,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.930504069783416,
+        1.02591046146205
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 958.1056,
+      "A_median_peak_rss_kib": 3649296,
+      "B_median_ms": 1004.389644,
+      "B_median_peak_rss_kib": 3658556,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_19c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.953918238527756,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9303457869378344,
+        0.9822967189752256
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 1690.78439,
+      "A_median_peak_rss_kib": 4139044,
+      "B_median_ms": 1358.382975,
+      "B_median_peak_rss_kib": 4337828,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_19d",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.2229566915766152,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.055192031315816,
+        1.344970353938626
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 57.634903,
+      "A_median_peak_rss_kib": 339216,
+      "B_median_ms": 60.120326,
+      "B_median_peak_rss_kib": 338260,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_1a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9708807830630939,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9082064497374052,
+        0.9819016367387079
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 68.911162,
+      "A_median_peak_rss_kib": 412004,
+      "B_median_ms": 73.138232,
+      "B_median_peak_rss_kib": 414116,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_1b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.956712051776149,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7848198872716524,
+        0.9851248267664452
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 53.563649,
+      "A_median_peak_rss_kib": 370556,
+      "B_median_ms": 55.03533,
+      "B_median_peak_rss_kib": 370608,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_1c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9739983268573058,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9359012472120241,
+        1.1958929988539846
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 89.740495,
+      "A_median_peak_rss_kib": 459764,
+      "B_median_ms": 94.851337,
+      "B_median_peak_rss_kib": 470844,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_1d",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9888154636807631,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8309803050007686,
+        1.4884774738561066
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 537.331582,
+      "A_median_peak_rss_kib": 1246344,
+      "B_median_ms": 538.332621,
+      "B_median_peak_rss_kib": 1244548,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_20a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9912521654904138,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.973043305053534,
+        1.0730844959662063
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 652.619934,
+      "A_median_peak_rss_kib": 1248560,
+      "B_median_ms": 640.775235,
+      "B_median_peak_rss_kib": 1245488,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_20b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.018484951279367,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9866774969935732,
+        1.0853136492384288
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 459.699666,
+      "A_median_peak_rss_kib": 1245992,
+      "B_median_ms": 436.586891,
+      "B_median_peak_rss_kib": 1243792,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_20c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0400413216172408,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0206154076761538,
+        1.1633954030012321
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 117.697051,
+      "A_median_peak_rss_kib": 1746284,
+      "B_median_ms": 109.633583,
+      "B_median_peak_rss_kib": 1755088,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_21a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9778727928649381,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9248460841698097,
+        1.1000971569904057
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 105.530808,
+      "A_median_peak_rss_kib": 1744328,
+      "B_median_ms": 109.235431,
+      "B_median_peak_rss_kib": 1750164,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_21b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9681706387005513,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8556063610017841,
+        0.9738198838452998
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 145.207298,
+      "A_median_peak_rss_kib": 1765908,
+      "B_median_ms": 142.006038,
+      "B_median_peak_rss_kib": 1761032,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_21c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9823293358835911,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9428376241848063,
+        1.1982601981065537
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 237.940511,
+      "A_median_peak_rss_kib": 1889708,
+      "B_median_ms": 223.037142,
+      "B_median_peak_rss_kib": 1898156,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_22a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0737260878105965,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0199239135220455,
+        1.13392657580722
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 245.825315,
+      "A_median_peak_rss_kib": 1889672,
+      "B_median_ms": 226.253311,
+      "B_median_peak_rss_kib": 1904188,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_22b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.1043808757443532,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0707818033091538,
+        1.4242090936737717
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 543.050182,
+      "A_median_peak_rss_kib": 1615420,
+      "B_median_ms": 528.420479,
+      "B_median_peak_rss_kib": 1615176,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_23a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0139149924959665,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0096592583740527,
+        1.1178271074963577
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 349.802424,
+      "A_median_peak_rss_kib": 1614256,
+      "B_median_ms": 330.279086,
+      "B_median_peak_rss_kib": 1615132,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_23b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0280255418419737,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9852866009202895,
+        1.0760147671760112
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 529.907529,
+      "A_median_peak_rss_kib": 1614688,
+      "B_median_ms": 551.115983,
+      "B_median_peak_rss_kib": 1615704,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_23c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9471970518477072,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9229907295058835,
+        1.0361215096271719
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 883.143561,
+      "A_median_peak_rss_kib": 3538320,
+      "B_median_ms": 910.372231,
+      "B_median_peak_rss_kib": 3570840,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_24b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9924993206390109,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.45262558317426516,
+        1.0417436569530936
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 332.292019,
+      "A_median_peak_rss_kib": 3003600,
+      "B_median_ms": 357.242943,
+      "B_median_peak_rss_kib": 3033236,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_25a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.914016855138444,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8732534977034038,
+        0.9412624702288381
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 338.244121,
+      "A_median_peak_rss_kib": 3014612,
+      "B_median_ms": 357.171284,
+      "B_median_peak_rss_kib": 3034528,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_25b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9211701016815227,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8665010518201138,
+        0.9696341884340528
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 367.086712,
+      "A_median_peak_rss_kib": 3010580,
+      "B_median_ms": 405.727522,
+      "B_median_peak_rss_kib": 3032920,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_25c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.906091490411673,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8816101603488027,
+        1.0741150267391153
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 442.81241,
+      "A_median_peak_rss_kib": 1293304,
+      "B_median_ms": 434.894965,
+      "B_median_peak_rss_kib": 1305476,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_26a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0121496533049554,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9279141321692589,
+        1.0182054188647596
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 422.413552,
+      "A_median_peak_rss_kib": 1292676,
+      "B_median_ms": 433.250912,
+      "B_median_peak_rss_kib": 1310296,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_26b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9819191297730798,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9678327578454122,
+        1.062135633507413
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 528.687642,
+      "A_median_peak_rss_kib": 1302324,
+      "B_median_ms": 529.152922,
+      "B_median_peak_rss_kib": 1311748,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_26c",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.9808816284437549,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9347680442365581,
+        1.0501650800220517
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 94.997696,
+      "A_median_peak_rss_kib": 1714652,
+      "B_median_ms": 95.279586,
+      "B_median_peak_rss_kib": 1715400,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_27a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9825171010731788,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.972869775181325,
+        1.0985464135850673
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 82.658644,
+      "A_median_peak_rss_kib": 1715016,
+      "B_median_ms": 82.130585,
+      "B_median_peak_rss_kib": 1715356,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_27b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9657623283701193,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9227011461669737,
+        1.0697908794216033
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 107.892042,
+      "A_median_peak_rss_kib": 1716132,
+      "B_median_ms": 108.692001,
+      "B_median_peak_rss_kib": 1716308,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_27c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0007994977560037,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9232570396075592,
+        1.1103559670778385
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 188.566228,
+      "A_median_peak_rss_kib": 1853836,
+      "B_median_ms": 181.789716,
+      "B_median_peak_rss_kib": 1852380,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_28a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.059384084346166,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9882227222343689,
+        1.0913553037527468
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 156.660555,
+      "A_median_peak_rss_kib": 1850976,
+      "B_median_ms": 155.874648,
+      "B_median_peak_rss_kib": 1851312,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_28b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0014599538449145,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9908080521431604,
+        1.0733906452831252
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 213.036047,
+      "A_median_peak_rss_kib": 1861928,
+      "B_median_ms": 195.943953,
+      "B_median_peak_rss_kib": 1863132,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_28c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0872295048574425,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9425177363009248,
+        1.1175999176730123
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 734.50081,
+      "A_median_peak_rss_kib": 3818292,
+      "B_median_ms": 764.819845,
+      "B_median_peak_rss_kib": 3821784,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_29a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9679876507388482,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9277714187366113,
+        1.0071945336507202
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 545.793509,
+      "A_median_peak_rss_kib": 3817792,
+      "B_median_ms": 551.207486,
+      "B_median_peak_rss_kib": 3825212,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_29b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9876584513585507,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9144273822499576,
+        1.0096437983328839
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 927.066518,
+      "A_median_peak_rss_kib": 3838644,
+      "B_median_ms": 852.085974,
+      "B_median_peak_rss_kib": 3849000,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_29c",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 1.098872923886373,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.043396884532866,
+        1.1513697055644763
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 43.581917,
+      "A_median_peak_rss_kib": 449596,
+      "B_median_ms": 48.756471,
+      "B_median_peak_rss_kib": 451040,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_2a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8867862483320419,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8734369191651883,
+        1.0073882692348395
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 39.271794,
+      "A_median_peak_rss_kib": 446504,
+      "B_median_ms": 41.634588,
+      "B_median_peak_rss_kib": 444816,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_2b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9622354134980272,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9210766659931388,
+        1.0380843989571389
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 10.629757,
+      "A_median_peak_rss_kib": 443464,
+      "B_median_ms": 11.811598,
+      "B_median_peak_rss_kib": 443564,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_2c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.908987880853678,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8608187772753084,
+        0.9262187902262083
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 76.190576,
+      "A_median_peak_rss_kib": 468968,
+      "B_median_ms": 93.855093,
+      "B_median_peak_rss_kib": 476404,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_2d",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8099818693642753,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7126650557739798,
+        0.8284464771712792
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 260.129596,
+      "A_median_peak_rss_kib": 2847744,
+      "B_median_ms": 261.812608,
+      "B_median_peak_rss_kib": 2848640,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_30a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9915151259636816,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9742619088200274,
+        1.0151168750008364
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 327.479276,
+      "A_median_peak_rss_kib": 2848208,
+      "B_median_ms": 320.848321,
+      "B_median_peak_rss_kib": 2859500,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_30b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0113678266814865,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9966567785156027,
+        1.0367895153557636
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 255.074029,
+      "A_median_peak_rss_kib": 2836756,
+      "B_median_ms": 260.135464,
+      "B_median_peak_rss_kib": 2836620,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_30c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9840978052640095,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9594311823678483,
+        1.0434428115250745
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 389.417324,
+      "A_median_peak_rss_kib": 3106440,
+      "B_median_ms": 439.419836,
+      "B_median_peak_rss_kib": 3135460,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_31a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.8864650502913367,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8727352059912079,
+        0.8956781652183703
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 333.939398,
+      "A_median_peak_rss_kib": 2931532,
+      "B_median_ms": 333.58421,
+      "B_median_peak_rss_kib": 2931208,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_31b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0072633002535694,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.990334077862978,
+        1.098856442486321
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 355.310455,
+      "A_median_peak_rss_kib": 2966712,
+      "B_median_ms": 415.72692,
+      "B_median_peak_rss_kib": 2997404,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_31c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.856221846014201,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8264443289963317,
+        0.8940968050289901
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 6.36993,
+      "A_median_peak_rss_kib": 239196,
+      "B_median_ms": 6.599595,
+      "B_median_peak_rss_kib": 240164,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_32a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9773345908973925,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9197395081940639,
+        0.9889236232075757
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 23.858933,
+      "A_median_peak_rss_kib": 400272,
+      "B_median_ms": 25.929424,
+      "B_median_peak_rss_kib": 399320,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_32b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9269100114761768,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9140858204515555,
+        0.945555288848684
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 121.86885,
+      "A_median_peak_rss_kib": 558708,
+      "B_median_ms": 125.887995,
+      "B_median_peak_rss_kib": 571032,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_33a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9314027311942593,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.685214278720839,
+        0.9767835506975765
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 48.241849,
+      "A_median_peak_rss_kib": 460832,
+      "B_median_ms": 52.359013,
+      "B_median_peak_rss_kib": 463596,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_33b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9453229952978678,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.469036104149158,
+        1.1892309062777684
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 185.898852,
+      "A_median_peak_rss_kib": 583240,
+      "B_median_ms": 196.478413,
+      "B_median_peak_rss_kib": 598268,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_33c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9530339173413066,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8347778357212249,
+        0.9771858193907541
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 67.473694,
+      "A_median_peak_rss_kib": 1205368,
+      "B_median_ms": 71.858947,
+      "B_median_peak_rss_kib": 1206036,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_3a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9970119649071002,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8610772718279422,
+        1.0160179948761696
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 42.407102,
+      "A_median_peak_rss_kib": 1200664,
+      "B_median_ms": 43.501365,
+      "B_median_peak_rss_kib": 1200092,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_3b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.974845318072203,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9684663430493048,
+        1.001579317601241
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 67.291694,
+      "A_median_peak_rss_kib": 1216572,
+      "B_median_ms": 73.207406,
+      "B_median_peak_rss_kib": 1223532,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_3c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9593989321677739,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8980173643440512,
+        1.0352960873931252
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 68.054107,
+      "A_median_peak_rss_kib": 319476,
+      "B_median_ms": 66.086648,
+      "B_median_peak_rss_kib": 319464,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_4a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.044988789582301,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9615315599492935,
+        1.119375248083395
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 25.55023,
+      "A_median_peak_rss_kib": 299196,
+      "B_median_ms": 26.993786,
+      "B_median_peak_rss_kib": 297548,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_4b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9633879640159364,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8615426670780104,
+        0.9807112225039706
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 53.452125,
+      "A_median_peak_rss_kib": 325232,
+      "B_median_ms": 52.436442,
+      "B_median_peak_rss_kib": 324920,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_4c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0206422357088312,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.33778474462818664,
+        1.1374424934110863
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 40.960512,
+      "A_median_peak_rss_kib": 1517864,
+      "B_median_ms": 41.137639,
+      "B_median_peak_rss_kib": 1517556,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_5a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0027716709750893,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9299676161443176,
+        1.0423110971306087
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 38.511405,
+      "A_median_peak_rss_kib": 1517484,
+      "B_median_ms": 37.515354,
+      "B_median_peak_rss_kib": 1518156,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_5b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0392463501750315,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9877142922415745,
+        1.108999463092283
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 95.330733,
+      "A_median_peak_rss_kib": 1519748,
+      "B_median_ms": 100.450464,
+      "B_median_peak_rss_kib": 1518784,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_5c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.949032281224704,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.5490681726923177,
+        1.0062275692394147
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 2631.260447,
+      "A_median_peak_rss_kib": 920240,
+      "B_median_ms": 2294.800384,
+      "B_median_peak_rss_kib": 956732,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0943682195427527,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.068433869207243,
+        1.1791908011871592
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 3098.19743,
+      "A_median_peak_rss_kib": 1042188,
+      "B_median_ms": 2976.03598,
+      "B_median_peak_rss_kib": 1057524,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0312629913342266,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9946119240546359,
+        1.1804721021060212
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 2605.537709,
+      "A_median_peak_rss_kib": 919552,
+      "B_median_ms": 2372.62598,
+      "B_median_peak_rss_kib": 956980,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.1447194341350238,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9949866523489033,
+        1.1638669239388502
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 3029.913269,
+      "A_median_peak_rss_kib": 1040008,
+      "B_median_ms": 2980.482788,
+      "B_median_peak_rss_kib": 1057492,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6d",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0289161902069648,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.960048715563801,
+        1.1114392279701812
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 2621.019034,
+      "A_median_peak_rss_kib": 921120,
+      "B_median_ms": 2434.582283,
+      "B_median_peak_rss_kib": 956660,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6e",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0141876422403318,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0003172352971275,
+        1.1950232754460584
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 3103.553391,
+      "A_median_peak_rss_kib": 1181664,
+      "B_median_ms": 3036.262341,
+      "B_median_peak_rss_kib": 1272672,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_6f",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0314299837611398,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0140879055219951,
+        1.0578282106198165
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 288.793318,
+      "A_median_peak_rss_kib": 2096512,
+      "B_median_ms": 373.846046,
+      "B_median_peak_rss_kib": 2100848,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_7a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.7734781374311231,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7303643336321866,
+        0.840442028202538
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 277.4657,
+      "A_median_peak_rss_kib": 2096356,
+      "B_median_ms": 360.384948,
+      "B_median_peak_rss_kib": 2101528,
+      "correctness": "consistent",
+      "decision": "slower",
+      "id": "job_7b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.7636064967316106,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7340516060377126,
+        0.799397862632534
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 359.817614,
+      "A_median_peak_rss_kib": 2220288,
+      "B_median_ms": 475.123825,
+      "B_median_peak_rss_kib": 2228308,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_7c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.7861586197857624,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.7295617937071457,
+        0.9926159162435689
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 165.750337,
+      "A_median_peak_rss_kib": 1665800,
+      "B_median_ms": 160.713407,
+      "B_median_peak_rss_kib": 1665460,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_8a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0286581953471496,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9584380445832844,
+        1.039727945997437
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 180.378839,
+      "A_median_peak_rss_kib": 1673384,
+      "B_median_ms": 176.138786,
+      "B_median_peak_rss_kib": 1672684,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_8b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0048449446833572,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9808923072102758,
+        1.0413560973001414
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 553.557287,
+      "A_median_peak_rss_kib": 2386512,
+      "B_median_ms": 547.912294,
+      "B_median_peak_rss_kib": 2397192,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_9a",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.011388003064281,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9462711118726863,
+        1.031914153399157
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 421.984316,
+      "A_median_peak_rss_kib": 2260692,
+      "B_median_ms": 430.415158,
+      "B_median_peak_rss_kib": 2287572,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_9b",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9733422467775473,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9055047295190671,
+        1.0288040490211148
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 610.63622,
+      "A_median_peak_rss_kib": 2371456,
+      "B_median_ms": 615.620319,
+      "B_median_peak_rss_kib": 2416968,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_9c",
+      "intended_blocks": 5,
+      "oracle": false,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9930850922753265,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9607732305006751,
+        1.0375591861683422
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        }
+      },
+      "suite": "job"
+    },
+    {
+      "A_median_ms": 683.739721,
+      "A_median_peak_rss_kib": 2485580,
+      "B_median_ms": 676.122687,
+      "B_median_peak_rss_kib": 2547428,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "job_9d",
+      "intended_blocks": 3,
+      "oracle": false,
+      "paired_blocks": 3,
+      "paired_median_ratio": 0.9947686328709157,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.95141265606773,
+        1.0413971349631523
+      ],
+      "statuses": {
+        "A": {
+          "pending": 2,
+          "succeeded": 3
+        },
+        "B": {
+          "pending": 2,
+          "succeeded": 3
+        }
+      },
+      "suite": "job"
+    }
+  ],
+  "ratio_margin": 0.24,
+  "status": {
+    "A/succeeded": 482,
+    "B/succeeded": 482
+  },
+  "suites": {
+    "job": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "faster": 5,
+        "inconclusive": 94,
+        "slower": 1
+      },
+      "geomean_median_ratio": 0.9962777973291637,
+      "paired_block_sum_median_ratio": 1.3604535293743438,
+      "paired_block_sum_pointwise_95": [
+        1.3494046013440821,
+        1.3760043804686033
+      ],
+      "planned_queries": 100,
+      "queries_with_full_pairs": 100,
+      "queries_with_pairs": 100,
+      "reduction_pct": 26.2822140110913,
+      "shared_block_ids": [
+        0,
+        1,
+        2
+      ],
+      "sum_a_ms": 208113.233276,
+      "sum_b_ms": 153416.467921
+    }
+  },
+  "total_slots": 964
+}

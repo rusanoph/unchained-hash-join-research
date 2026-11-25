@@ -1,0 +1,266 @@
+diff --git a/datafusion/physical-plan/src/joins/join_index/directory.rs b/datafusion/physical-plan/src/joins/join_index/directory.rs
+index 6ff1580fd..803f3eeb3 100644
+--- a/datafusion/physical-plan/src/joins/join_index/directory.rs
++++ b/datafusion/physical-plan/src/joins/join_index/directory.rs
+@@ -304,22 +304,21 @@ impl<T: RowId> JoinHashIndex<T> {
+         reservation: &MemoryReservation,
+         random_state: &RandomState,
+     ) -> Result<Self> {
+-        let mut groups = MatchedGroupsBuilder::new(keys[0].len(), reservation)?;
+         let valid = matchable_join_keys(keys, null_equality);
+-        let directory = if let Some(range) = dense_range {
++        if let Some(range) = dense_range {
+             let key = match keys {
+                 [key] if ArrayMap::is_supported_type(key.data_type()) => key,
+                 _ => return internal_err!("Dense join index requires one integer key"),
+             };
+-            DenseIntegerDirectory::build(
+-                key,
+-                valid.as_ref(),
+-                range,
+-                reservation,
+-                &mut groups,
+-            )
+-            .map(KeyDirectory::Dense)?
+-        } else if let Some(hash_key) = (keys.len() == 1)
++            let (directory, groups) =
++                DenseIntegerDirectory::build(key, valid.as_ref(), range, reservation)?;
++            return Ok(Self {
++                directory: KeyDirectory::Dense(directory),
++                groups,
++            });
++        }
++        let mut groups = MatchedGroupsBuilder::new(keys[0].len(), reservation)?;
++        let directory = if let Some(hash_key) = (keys.len() == 1)
+             .then(|| integer_hasher(keys[0].data_type()))
+             .flatten()
+         {
+diff --git a/datafusion/physical-plan/src/joins/join_index/directory/dense.rs b/datafusion/physical-plan/src/joins/join_index/directory/dense.rs
+index f40174ab5..a7c4f4bd0 100644
+--- a/datafusion/physical-plan/src/joins/join_index/directory/dense.rs
++++ b/datafusion/physical-plan/src/joins/join_index/directory/dense.rs
+@@ -15,12 +15,28 @@ use num_traits::AsPrimitive;
+ 
+ use super::super::keys::LookupScratch;
+ use super::super::matches::{
+-    JoinHashLookup, MatchHandle, MatchHandleArray, MatchedGroupsBuilder, RowId,
+-    UniqueMatches, bitmap_bytes,
++    JoinHashLookup, MatchHandle, MatchHandleArray, MatchedGroups, RowId, UniqueMatches,
++    bitmap_bytes,
+ };
+ use super::Probe;
+ use crate::joins::array_map::ArrayMap;
+ 
++/// Runs `$body` for each row that `$valid` keeps. Plain loops, unlike
++/// `try_for_each`, let the body inline, and builds without NULL keys get a
++/// separate loop.
++macro_rules! for_each_valid {
++    ($len:expr, $valid:expr, |$row:ident| $body:block) => {
++        match $valid {
++            Some(valid) => {
++                for $row in valid.valid_indices() $body
++            }
++            None => {
++                for $row in 0..$len $body
++            }
++        }
++    };
++}
++
+ /// Direct lookup for a single integer join key in a compact range.
+ ///
+ /// # Overview
+@@ -78,110 +94,123 @@ impl<T: RowId> DenseIntegerDirectory<T> {
+         valid: Option<&NullBuffer>,
+         range: (u64, u64),
+         reservation: &MemoryReservation,
+-        groups: &mut MatchedGroupsBuilder<T>,
+-    ) -> Result<Self> {
++    ) -> Result<(Self, MatchedGroups<T>)> {
+         // Dispatch once per column; the typed build reads values without a copy.
+         downcast_integer_array!(
+-            key_array => {
+-                Self::build_typed(key_array, valid, range, reservation, groups)
+-            }
++            key_array => Self::build_typed(key_array, valid, range, reservation),
+             _ => internal_err!("Dense join index requires an integer key"),
+         )
+     }
+ 
++    /// Counting sort: count each slot's rows, give each repeated key a
++    /// contiguous range, then scatter the row IDs in build order.
++    ///
+     /// See [`Self::build`] for shared argument documentation.
+     fn build_typed<K: ArrowPrimitiveType>(
+         key_array: &PrimitiveArray<K>,
+         valid: Option<&NullBuffer>,
+         (min, max): (u64, u64),
+         reservation: &MemoryReservation,
+-        groups: &mut MatchedGroupsBuilder<T>,
+-    ) -> Result<Self>
++    ) -> Result<(Self, MatchedGroups<T>)>
+     where
+         K::Native: AsPrimitive<u64>,
+     {
+-        // Step 1: Sanity check
+         let range = ArrayMap::calculate_range(min, max);
+         if range >= usize::MAX as u64 {
+             return internal_err!("Dense join index key range is too large");
+         }
+-
+-        // Step 2: update memory reservation
++        // `array_map_key_range` rejects NULL-equal builds with NULL keys.
++        if valid.is_none() && key_array.null_count() > 0 {
++            return internal_err!("Dense join index cannot store NULL keys");
++        }
+         let len = range as usize + 1;
+         let bytes = len
+             .checked_mul(size_of::<T>())
+             .ok_or_else(|| exec_datafusion_err!("Dense join index size overflow"))?;
+         reservation.try_grow(bytes)?;
++        let values = key_array.values();
+ 
+-        // Step 3: initialize flat array directory
+-        let mut dense = Self {
+-            offset: min,
+-            slots: vec![T::default(); len],
+-            is_group: None,
+-            null: None,
+-            distinct: 0,
+-            build_unique: true,
+-        };
+-        let mut group_flags: Option<BooleanBufferBuilder> = None;
++        // Pass 1: count rows per slot. Counts fit `T` because the row count does.
++        let mut slots = vec![T::default(); len];
++        for_each_valid!(values.len(), valid, |row| {
++            let position = values[row].as_().wrapping_sub(min);
++            if position >= len as u64 {
++                return internal_err!("Build key is outside the dense join index range");
++            }
++            let slot = &mut slots[position as usize];
++            *slot = T::usize_as(slot.as_usize() + 1);
++        });
+ 
+-        // Step 4: build the index
+-        for (row, &key) in key_array.values().iter().enumerate() {
+-            if valid.is_some_and(|valid| valid.is_null(row)) {
+-                continue;
++        // Pass 2: give each repeated key a group and a range of `rows`.
++        let (mut distinct, mut num_groups, mut grouped_rows) = (0, 0, 0);
++        for slot in &slots {
++            let count = slot.as_usize();
++            distinct += usize::from(count != 0);
++            if count > 1 {
++                num_groups += 1;
++                grouped_rows += count;
+             }
+-            if key_array.is_null(row) {
+-                match &mut dense.null {
+-                    Some(handle) => groups.add_duplicate(handle, T::from_index(row)),
+-                    slot @ None => {
+-                        *slot = Some(MatchHandle::One(T::from_index(row)));
+-                        dense.distinct += 1;
+-                    }
++        }
++        let mut is_group = None;
++        let mut offsets = Vec::new();
++        let mut rows = Vec::new();
++        if num_groups > 0 {
++            reservation.try_grow(
++                bitmap_bytes(len)
++                    + (num_groups + 1) * size_of::<usize>()
++                    + grouped_rows * size_of::<T>(),
++            )?;
++            // A group's slot holds its next write position until pass 3 ends.
++            let mut flags = BooleanBufferBuilder::new(len);
++            flags.append_n(len, false);
++            offsets.reserve_exact(num_groups + 1);
++            offsets.push(0);
++            for (position, slot) in slots.iter_mut().enumerate() {
++                let count = slot.as_usize();
++                if count > 1 {
++                    let start = offsets[offsets.len() - 1];
++                    *slot = T::usize_as(start);
++                    offsets.push(start + count);
++                    flags.set_bit(position, true);
+                 }
+-                continue;
+             }
++            let flags = flags.finish();
++            rows = vec![T::default(); grouped_rows];
+ 
+-            let key: u64 = key.as_();
+-            let position = key.wrapping_sub(min);
+-            if position >= len as u64 {
+-                return internal_err!("Build key is outside the dense join index range");
+-            }
+-            let position = position as usize;
+-            let slot = dense.slots[position].as_index();
++            // Pass 3: a single row's slot takes its row ID, and a group's row
++            // goes to the slot's write position. Pass 1 checked every position.
++            for_each_valid!(values.len(), valid, |row| {
++                let position = values[row].as_().wrapping_sub(min) as usize;
++                let slot = &mut slots[position];
++                if flags.value(position) {
++                    rows[slot.as_usize()] = T::usize_as(row);
++                    *slot = T::usize_as(slot.as_usize() + 1);
++                } else {
++                    *slot = T::usize_as(row + 1);
++                }
++            });
+ 
+-            if slot == 0 {
+-                dense.slots[position] = T::from_index(row + 1);
+-                dense.distinct += 1;
+-                continue;
++            // Pass 4: replace each group's write position with its group ID.
++            for (group, position) in flags.set_indices().enumerate() {
++                slots[position] = T::usize_as(group + 1);
+             }
+-            // E.g. key 10 at rows 0 and 2: One(0) becomes Group(0) -> [0, 2].
+-            let already_group = group_flags
+-                .as_ref()
+-                .is_some_and(|flags| flags.get_bit(position));
+-            let mut handle = if already_group {
+-                MatchHandle::Group(T::from_index(slot - 1))
+-            } else {
+-                MatchHandle::One(T::from_index(slot - 1))
+-            };
+-            groups.add_duplicate(&mut handle, T::from_index(row));
+-            let MatchHandle::Group(group) = handle else {
+-                unreachable!()
+-            };
+-            // Allocate group flags only when a non-NULL key repeats.
+-            if group_flags.is_none() {
+-                reservation.try_grow(bitmap_bytes(len))?;
+-                let mut flags = BooleanBufferBuilder::new(len);
+-                flags.append_n(len, false);
+-                group_flags = Some(flags);
+-            }
+-            group_flags.as_mut().unwrap().set_bit(position, true);
+-            dense.slots[position] = T::from_index(group.as_index() + 1);
++            is_group = Some(flags);
++        } else {
++            for_each_valid!(values.len(), valid, |row| {
++                let position = values[row].as_().wrapping_sub(min) as usize;
++                slots[position] = T::usize_as(row + 1);
++            });
+         }
+ 
+-        // Step 5: Freeze the group bitmap; without grouped slots it stays None.
+-        dense.is_group = group_flags.map(|mut flags| flags.finish());
+-        // Include NULL groups, which do not appear in the slot bitmap.
+-        dense.build_unique = !groups.has_groups();
+-        Ok(dense)
++        let dense = Self {
++            offset: min,
++            slots,
++            is_group,
++            null: None,
++            distinct,
++            build_unique: num_groups == 0,
++        };
++        Ok((dense, MatchedGroups { offsets, rows }))
+     }
+ 
+     pub(super) fn lookup_batch(

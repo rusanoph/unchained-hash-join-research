@@ -1,0 +1,1577 @@
+{
+  "inputs": {
+    "amazon_file": "3c197cabcbf7080876171635676d32bd50f3c15d167cbc7470b0abb3d078cc5e",
+    "amazon_shuffle": "c0e05f9bf81d3ce9e7e3a252748370429b9662b35d3b3952659190768d20d7bc",
+    "astroph": "663c08d00cda43847dd9eca860447e9dace46dccb7ba06e7ead3d403b9535771",
+    "astroph_sh": "413913a821bcb08938f5b8422512906257952f07f183431246ad57374dd110ef",
+    "enron_file": "c16ea0dbcb8e3a029bb73a460f779a88349ef066bd71b285fab9d31f13b5705f",
+    "enron_shuffle": "b1300749da15c4137b377af3f7ada681bc3711365c92638dd03cd7d0fda4572f",
+    "epinions": "7da1288a3df5711eb250eff051dc83df3bfda088947b4d1e71b8843beca96063",
+    "epinions_sh": "39e13d18c05cb48c108ae5fdfa93667eed68e9f700ecf691558203fba959bc2e",
+    "hepph_file": "ae545e5de7451639463cc8d75ff10e282d92e39796bfc3e4b68125340a05477c",
+    "hepph_shuffle": "385051a2ba3e6da2ee59050cd64d6367d2354daab65012f58bda03debdf2bd55",
+    "slashdot": "a493fe6179839e76f224b799613b7943fa9565f1ef0bcd1b1db5072f596032de",
+    "slashdot_sh": "17624b96caadd2e6851fd191e1e71672c82b210f1e884093f48b13500bd70613",
+    "webgoogle": "94636c8b06cf756812c571b1d433fea9764b2db7946ca6784d50dc1852a8d03a",
+    "webgoogle_sh": "7c9daae9555c7b8e78570a388d0ebcf3e09513a4ff34c8de24530910282f3639",
+    "wikivote": "61ca20e4021fc357162980a59132568c39e3a40df2b751ae1f1cbe89651deff2",
+    "wikivote_sh": "9e0adf8a5205601f177146b187d217dda9800b0d0c7660ab868148d4f2c0da7a"
+  },
+  "queries": {
+    "amazon_file_in_star": {
+      "expected": [
+        [
+          "14357487",
+          "3439841807744"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 262111,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 11.626653504762013,
+        "matches": "14357487",
+        "matching_left_rows": "1234877",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 420,
+        "max_left_key": 262110,
+        "max_right_frequency": 420,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 262111,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 11.626653504762013,
+        "shared_keys": 262111
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "amazon_file"
+    },
+    "amazon_file_out_star": {
+      "expected": [
+        [
+          "6055167",
+          "1303479989940"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999976482,
+        "left_distinct": 257570,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 4.90345759132286,
+        "matches": "6055167",
+        "matching_left_rows": "1234877",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 5,
+        "max_left_key": 262110,
+        "max_right_frequency": 5,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 257570,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 4.90345759132286,
+        "shared_keys": 257570
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "amazon_file"
+    },
+    "amazon_file_p2": {
+      "expected": [
+        [
+          "6021131",
+          "1375145475465"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.6955405275193743,
+        "left_distinct": 262111,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 11.626653504762013,
+        "matches": "6021131",
+        "matching_left_rows": "1220573",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 420,
+        "max_left_key": 262110,
+        "max_right_frequency": 5,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 257570,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 4.90345759132286,
+        "shared_keys": 257570
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "amazon_file"
+    },
+    "amazon_shuffle_in_star": {
+      "expected": [
+        [
+          "14357487",
+          "3439841807744"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 262111,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 11.626653504762013,
+        "matches": "14357487",
+        "matching_left_rows": "1234877",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 420,
+        "max_left_key": 262110,
+        "max_right_frequency": 420,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 262111,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 11.626653504762013,
+        "shared_keys": 262111
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "amazon_shuffle"
+    },
+    "amazon_shuffle_out_star": {
+      "expected": [
+        [
+          "6055167",
+          "1303479989940"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999975825,
+        "left_distinct": 257570,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 4.90345759132286,
+        "matches": "6055167",
+        "matching_left_rows": "1234877",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 5,
+        "max_left_key": 262110,
+        "max_right_frequency": 5,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 257570,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 4.90345759132286,
+        "shared_keys": 257570
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "amazon_shuffle"
+    },
+    "amazon_shuffle_p2": {
+      "expected": [
+        [
+          "6021131",
+          "1375145475465"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.6955405275195123,
+        "left_distinct": 262111,
+        "left_rows": "1234877",
+        "left_size_biased_multiplicity": 11.626653504762013,
+        "matches": "6021131",
+        "matching_left_rows": "1220573",
+        "matching_right_rows": "1234877",
+        "max_left_frequency": 420,
+        "max_left_key": 262110,
+        "max_right_frequency": 5,
+        "max_right_key": 262110,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 257570,
+        "right_rows": "1234877",
+        "right_size_biased_multiplicity": 4.90345759132286,
+        "shared_keys": 257570
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "amazon_shuffle"
+    },
+    "astroph_p2": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "astroph"
+    },
+    "astroph_sh_p2": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "astroph_sh"
+    },
+    "astroph_sh_star_in": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "astroph_sh"
+    },
+    "astroph_sh_star_out": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "astroph_sh"
+    },
+    "astroph_star_in": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "astroph"
+    },
+    "astroph_star_out": {
+      "expected": [
+        [
+          "25901092",
+          "3478959465612"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 18772,
+        "left_rows": "396160",
+        "left_size_biased_multiplicity": 65.38038166397415,
+        "matches": "25901092",
+        "matching_left_rows": "396160",
+        "matching_right_rows": "396160",
+        "max_left_frequency": 504,
+        "max_left_key": 133279,
+        "max_right_frequency": 504,
+        "max_right_key": 133279,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 18772,
+        "right_rows": "396160",
+        "right_size_biased_multiplicity": 65.38038166397415,
+        "shared_keys": 18772
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "astroph"
+    },
+    "astroph_tri": {
+      "expected": [
+        [
+          "8117964",
+          "1637877336954"
+        ]
+      ],
+      "table": "astroph"
+    },
+    "enron_file_in_star": {
+      "expected": [
+        [
+          "3759983",
+          "16522246000"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 35600,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 20.453476290723543,
+        "matches": "3759983",
+        "matching_left_rows": "183831",
+        "matching_right_rows": "183831",
+        "max_left_frequency": 186,
+        "max_left_key": 36691,
+        "max_right_frequency": 186,
+        "max_right_key": 36691,
+        "min_left_key": 1,
+        "min_right_key": 1,
+        "right_distinct": 35600,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 20.453476290723543,
+        "shared_keys": 35600
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "enron_file"
+    },
+    "enron_file_out_star": {
+      "expected": [
+        [
+          "35776927",
+          "629443940576"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 16507,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 194.61857358116967,
+        "matches": "35776927",
+        "matching_left_rows": "183831",
+        "matching_right_rows": "183831",
+        "max_left_frequency": 1375,
+        "max_left_key": 36689,
+        "max_right_frequency": 1375,
+        "max_right_key": 36689,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 16507,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 194.61857358116967,
+        "shared_keys": 16507
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "enron_file"
+    },
+    "enron_file_p2": {
+      "expected": [
+        [
+          "5982269",
+          "58340459753"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.469779308168829,
+        "left_distinct": 35600,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 20.453476290723543,
+        "matches": "5982269",
+        "matching_left_rows": "137077",
+        "matching_right_rows": "182119",
+        "max_left_frequency": 186,
+        "max_left_key": 36691,
+        "max_right_frequency": 1375,
+        "max_right_key": 36689,
+        "min_left_key": 1,
+        "min_right_key": 0,
+        "right_distinct": 16507,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 194.61857358116967,
+        "shared_keys": 15415
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "enron_file"
+    },
+    "enron_shuffle_in_star": {
+      "expected": [
+        [
+          "3759983",
+          "16522246000"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 35600,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 20.453476290723543,
+        "matches": "3759983",
+        "matching_left_rows": "183831",
+        "matching_right_rows": "183831",
+        "max_left_frequency": 186,
+        "max_left_key": 36691,
+        "max_right_frequency": 186,
+        "max_right_key": 36691,
+        "min_left_key": 1,
+        "min_right_key": 1,
+        "right_distinct": 35600,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 20.453476290723543,
+        "shared_keys": 35600
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "enron_shuffle"
+    },
+    "enron_shuffle_out_star": {
+      "expected": [
+        [
+          "35776927",
+          "629443940576"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 16507,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 194.61857358116967,
+        "matches": "35776927",
+        "matching_left_rows": "183831",
+        "matching_right_rows": "183831",
+        "max_left_frequency": 1375,
+        "max_left_key": 36689,
+        "max_right_frequency": 1375,
+        "max_right_key": 36689,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 16507,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 194.61857358116967,
+        "shared_keys": 16507
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "enron_shuffle"
+    },
+    "enron_shuffle_p2": {
+      "expected": [
+        [
+          "5982269",
+          "58340459753"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.4697793081688325,
+        "left_distinct": 35600,
+        "left_rows": "183831",
+        "left_size_biased_multiplicity": 20.453476290723543,
+        "matches": "5982269",
+        "matching_left_rows": "137077",
+        "matching_right_rows": "182119",
+        "max_left_frequency": 186,
+        "max_left_key": 36691,
+        "max_right_frequency": 1375,
+        "max_right_key": 36689,
+        "min_left_key": 1,
+        "min_right_key": 0,
+        "right_distinct": 16507,
+        "right_rows": "183831",
+        "right_size_biased_multiplicity": 194.61857358116967,
+        "shared_keys": 15415
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "enron_shuffle"
+    },
+    "epinions_p2": {
+      "expected": [
+        [
+          "39924100",
+          "570239404103"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.6246027706322353,
+        "left_distinct": 51957,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 175.874429335917,
+        "matches": "39924100",
+        "matching_left_rows": "483889",
+        "matching_right_rows": "474182",
+        "max_left_frequency": 3035,
+        "max_left_key": 75881,
+        "max_right_frequency": 1801,
+        "max_right_key": 75887,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 60341,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 107.63996918463083,
+        "shared_keys": 36419
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "epinions"
+    },
+    "epinions_p2_sel": {
+      "expected": [
+        [
+          "658453",
+          "9616657120"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.3712827652364712,
+        "left_distinct": 4774,
+        "left_rows": "8200",
+        "left_size_biased_multiplicity": 3.9734146341463417,
+        "matches": "658453",
+        "matching_left_rows": "7771",
+        "matching_right_rows": "231158",
+        "max_left_frequency": 55,
+        "max_left_key": 75760,
+        "max_right_frequency": 1801,
+        "max_right_key": 75887,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 60341,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 107.63996918463083,
+        "shared_keys": 4367
+      },
+      "left_key": "dst",
+      "left_predicate": "WHERE src % 64 = 0",
+      "right_key": "src",
+      "table": "epinions"
+    },
+    "epinions_sh_p2": {
+      "expected": [
+        [
+          "39924100",
+          "570239404103"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.6246027706322577,
+        "left_distinct": 51957,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 175.874429335917,
+        "matches": "39924100",
+        "matching_left_rows": "483889",
+        "matching_right_rows": "474182",
+        "max_left_frequency": 3035,
+        "max_left_key": 75881,
+        "max_right_frequency": 1801,
+        "max_right_key": 75887,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 60341,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 107.63996918463083,
+        "shared_keys": 36419
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "epinions_sh"
+    },
+    "epinions_sh_star_in": {
+      "expected": [
+        [
+          "89491417",
+          "1587991664942"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 51957,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 175.874429335917,
+        "matches": "89491417",
+        "matching_left_rows": "508837",
+        "matching_right_rows": "508837",
+        "max_left_frequency": 3035,
+        "max_left_key": 75881,
+        "max_right_frequency": 3035,
+        "max_right_key": 75881,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 51957,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 175.874429335917,
+        "shared_keys": 51957
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "epinions_sh"
+    },
+    "epinions_sh_star_out": {
+      "expected": [
+        [
+          "54771199",
+          "1116707961420"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 60341,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 107.63996918463083,
+        "matches": "54771199",
+        "matching_left_rows": "508837",
+        "matching_right_rows": "508837",
+        "max_left_frequency": 1801,
+        "max_left_key": 75887,
+        "max_right_frequency": 1801,
+        "max_right_key": 75887,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 60341,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 107.63996918463083,
+        "shared_keys": 60341
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "epinions_sh"
+    },
+    "epinions_star_in": {
+      "expected": [
+        [
+          "89491417",
+          "1587991664942"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 51957,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 175.874429335917,
+        "matches": "89491417",
+        "matching_left_rows": "508837",
+        "matching_right_rows": "508837",
+        "max_left_frequency": 3035,
+        "max_left_key": 75881,
+        "max_right_frequency": 3035,
+        "max_right_key": 75881,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 51957,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 175.874429335917,
+        "shared_keys": 51957
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "epinions"
+    },
+    "epinions_star_out": {
+      "expected": [
+        [
+          "54771199",
+          "1116707961420"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 60341,
+        "left_rows": "508837",
+        "left_size_biased_multiplicity": 107.63996918463083,
+        "matches": "54771199",
+        "matching_left_rows": "508837",
+        "matching_right_rows": "508837",
+        "max_left_frequency": 1801,
+        "max_left_key": 75887,
+        "max_right_frequency": 1801,
+        "max_right_key": 75887,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 60341,
+        "right_rows": "508837",
+        "right_size_biased_multiplicity": 107.63996918463083,
+        "shared_keys": 60341
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "epinions"
+    },
+    "epinions_tri": {
+      "expected": [
+        [
+          "2220930",
+          "25532497359"
+        ]
+      ],
+      "table": "epinions"
+    },
+    "hepph_file_in_star": {
+      "expected": [
+        [
+          "10134863",
+          "636451819974"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 9656,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 85.51111617350512,
+        "matches": "10134863",
+        "matching_left_rows": "118521",
+        "matching_right_rows": "118521",
+        "max_left_frequency": 410,
+        "max_left_key": 89208,
+        "max_right_frequency": 410,
+        "max_right_key": 89208,
+        "min_left_key": 107,
+        "min_right_key": 107,
+        "right_distinct": 9656,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 85.51111617350512,
+        "shared_keys": 9656
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "hepph_file"
+    },
+    "hepph_file_out_star": {
+      "expected": [
+        [
+          "10349767",
+          "1113307110042"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 9626,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 87.32433070932578,
+        "matches": "10349767",
+        "matching_left_rows": "118521",
+        "matching_right_rows": "118521",
+        "max_left_frequency": 438,
+        "max_left_key": 89077,
+        "max_right_frequency": 438,
+        "max_right_key": 89077,
+        "min_left_key": 1,
+        "min_right_key": 1,
+        "right_distinct": 9626,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 87.32433070932578,
+        "shared_keys": 9626
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "hepph_file"
+    },
+    "hepph_file_p2": {
+      "expected": [
+        [
+          "5156647",
+          "442135844251"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.4786071666624855,
+        "left_distinct": 9656,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 85.51111617350512,
+        "matches": "5156647",
+        "matching_left_rows": "108993",
+        "matching_right_rows": "109292",
+        "max_left_frequency": 410,
+        "max_left_key": 89208,
+        "max_right_frequency": 438,
+        "max_right_key": 89077,
+        "min_left_key": 107,
+        "min_right_key": 1,
+        "right_distinct": 9626,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 87.32433070932578,
+        "shared_keys": 7274
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "hepph_file"
+    },
+    "hepph_shuffle_in_star": {
+      "expected": [
+        [
+          "10134863",
+          "636451819974"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 9656,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 85.51111617350512,
+        "matches": "10134863",
+        "matching_left_rows": "118521",
+        "matching_right_rows": "118521",
+        "max_left_frequency": 410,
+        "max_left_key": 89208,
+        "max_right_frequency": 410,
+        "max_right_key": 89208,
+        "min_left_key": 107,
+        "min_right_key": 107,
+        "right_distinct": 9656,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 85.51111617350512,
+        "shared_keys": 9656
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "hepph_shuffle"
+    },
+    "hepph_shuffle_out_star": {
+      "expected": [
+        [
+          "10349767",
+          "1113307110042"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 9626,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 87.32433070932578,
+        "matches": "10349767",
+        "matching_left_rows": "118521",
+        "matching_right_rows": "118521",
+        "max_left_frequency": 438,
+        "max_left_key": 89077,
+        "max_right_frequency": 438,
+        "max_right_key": 89077,
+        "min_left_key": 1,
+        "min_right_key": 1,
+        "right_distinct": 9626,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 87.32433070932578,
+        "shared_keys": 9626
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "hepph_shuffle"
+    },
+    "hepph_shuffle_p2": {
+      "expected": [
+        [
+          "5156647",
+          "442135844251"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.4786071666624845,
+        "left_distinct": 9656,
+        "left_rows": "118521",
+        "left_size_biased_multiplicity": 85.51111617350512,
+        "matches": "5156647",
+        "matching_left_rows": "108993",
+        "matching_right_rows": "109292",
+        "max_left_frequency": 410,
+        "max_left_key": 89208,
+        "max_right_frequency": 438,
+        "max_right_key": 89077,
+        "min_left_key": 107,
+        "min_right_key": 1,
+        "right_distinct": 9626,
+        "right_rows": "118521",
+        "right_size_biased_multiplicity": 87.32433070932578,
+        "shared_keys": 7274
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "hepph_shuffle"
+    },
+    "slashdot_p2": {
+      "expected": [
+        [
+          "117126458",
+          "2981163474970"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.8825363956873804,
+        "left_distinct": 82168,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 133.13275569763323,
+        "matches": "117126458",
+        "matching_left_rows": "929572",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2553,
+        "max_left_key": 82167,
+        "max_right_frequency": 2511,
+        "max_right_key": 82166,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 78441,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 129.61739823546282,
+        "shared_keys": 78441
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "slashdot"
+    },
+    "slashdot_p2_sel": {
+      "expected": [
+        [
+          "1807503",
+          "45512547673"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.44204106448127195,
+        "left_distinct": 9472,
+        "left_rows": "14427",
+        "left_size_biased_multiplicity": 3.003327095030152,
+        "matches": "1807503",
+        "matching_left_rows": "14126",
+        "matching_right_rows": "476571",
+        "max_left_frequency": 40,
+        "max_left_key": 82112,
+        "max_right_frequency": 2511,
+        "max_right_key": 82166,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 78441,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 129.61739823546282,
+        "shared_keys": 9250
+      },
+      "left_key": "dst",
+      "left_predicate": "WHERE src % 64 = 0",
+      "right_key": "src",
+      "table": "slashdot"
+    },
+    "slashdot_sh_p2": {
+      "expected": [
+        [
+          "117126458",
+          "2981163474970"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.8825363956873895,
+        "left_distinct": 82168,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 133.13275569763323,
+        "matches": "117126458",
+        "matching_left_rows": "929572",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2553,
+        "max_left_key": 82167,
+        "max_right_frequency": 2511,
+        "max_right_key": 82166,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 78441,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 129.61739823546282,
+        "shared_keys": 78441
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "slashdot_sh"
+    },
+    "slashdot_sh_star_in": {
+      "expected": [
+        [
+          "126271626",
+          "3296468949824"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999993523,
+        "left_distinct": 82168,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 133.13275569763323,
+        "matches": "126271626",
+        "matching_left_rows": "948464",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2553,
+        "max_left_key": 82167,
+        "max_right_frequency": 2553,
+        "max_right_key": 82167,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 82168,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 133.13275569763323,
+        "shared_keys": 82168
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "slashdot_sh"
+    },
+    "slashdot_sh_star_out": {
+      "expected": [
+        [
+          "122937436",
+          "3191580377766"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999991297,
+        "left_distinct": 78441,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 129.61739823546282,
+        "matches": "122937436",
+        "matching_left_rows": "948464",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2511,
+        "max_left_key": 82166,
+        "max_right_frequency": 2511,
+        "max_right_key": 82166,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 78441,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 129.61739823546282,
+        "shared_keys": 78441
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "slashdot_sh"
+    },
+    "slashdot_star_in": {
+      "expected": [
+        [
+          "126271626",
+          "3296468949824"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999993544,
+        "left_distinct": 82168,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 133.13275569763323,
+        "matches": "126271626",
+        "matching_left_rows": "948464",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2553,
+        "max_left_key": 82167,
+        "max_right_frequency": 2553,
+        "max_right_key": 82167,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 82168,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 133.13275569763323,
+        "shared_keys": 82168
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "slashdot"
+    },
+    "slashdot_star_out": {
+      "expected": [
+        [
+          "122937436",
+          "3191580377766"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999991555,
+        "left_distinct": 78441,
+        "left_rows": "948464",
+        "left_size_biased_multiplicity": 129.61739823546282,
+        "matches": "122937436",
+        "matching_left_rows": "948464",
+        "matching_right_rows": "948464",
+        "max_left_frequency": 2511,
+        "max_left_key": 82166,
+        "max_right_frequency": 2511,
+        "max_right_key": 82166,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 78441,
+        "right_rows": "948464",
+        "right_size_biased_multiplicity": 129.61739823546282,
+        "shared_keys": 78441
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "slashdot"
+    },
+    "webgoogle_p2": {
+      "expected": [
+        [
+          "60687836",
+          "56348149385217"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.48197477041821707,
+        "left_distinct": 714545,
+        "left_rows": "5105039",
+        "left_size_biased_multiplicity": 269.8129383536541,
+        "matches": "60687836",
+        "matching_left_rows": "4779314",
+        "matching_right_rows": "4327555",
+        "max_left_frequency": 6326,
+        "max_left_key": 916427,
+        "max_right_frequency": 456,
+        "max_right_key": 916427,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 739454,
+        "right_rows": "5105039",
+        "right_size_biased_multiplicity": 13.287551965812602,
+        "shared_keys": 578286
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "webgoogle"
+    },
+    "webgoogle_p2_sel": {
+      "expected": [
+        [
+          "955108",
+          "888820184938"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.1170547318720296,
+        "left_distinct": 57492,
+        "left_rows": "79975",
+        "left_size_biased_multiplicity": 5.406301969365427,
+        "matches": "955108",
+        "matching_left_rows": "74999",
+        "matching_right_rows": "599508",
+        "max_left_frequency": 93,
+        "max_left_key": 916426,
+        "max_right_frequency": 456,
+        "max_right_key": 916427,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 739454,
+        "right_rows": "5105039",
+        "right_size_biased_multiplicity": 13.287551965812602,
+        "shared_keys": 53388
+      },
+      "left_key": "dst",
+      "left_predicate": "WHERE src % 64 = 0",
+      "right_key": "src",
+      "table": "webgoogle"
+    },
+    "webgoogle_sh_p2": {
+      "expected": [
+        [
+          "60687836",
+          "56348149385217"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.48197477041821624,
+        "left_distinct": 714545,
+        "left_rows": "5105039",
+        "left_size_biased_multiplicity": 269.8129383536541,
+        "matches": "60687836",
+        "matching_left_rows": "4779314",
+        "matching_right_rows": "4327555",
+        "max_left_frequency": 6326,
+        "max_left_key": 916427,
+        "max_right_frequency": 456,
+        "max_right_key": 916427,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 739454,
+        "right_rows": "5105039",
+        "right_size_biased_multiplicity": 13.287551965812602,
+        "shared_keys": 578286
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "webgoogle_sh"
+    },
+    "webgoogle_sh_star_out": {
+      "expected": [
+        [
+          "67833471",
+          "64291046918532"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 739454,
+        "left_rows": "5105039",
+        "left_size_biased_multiplicity": 13.287551965812602,
+        "matches": "67833471",
+        "matching_left_rows": "5105039",
+        "matching_right_rows": "5105039",
+        "max_left_frequency": 456,
+        "max_left_key": 916427,
+        "max_right_frequency": 456,
+        "max_right_key": 916427,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 739454,
+        "right_rows": "5105039",
+        "right_size_biased_multiplicity": 13.287551965812602,
+        "shared_keys": 739454
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "webgoogle_sh"
+    },
+    "webgoogle_star_out": {
+      "expected": [
+        [
+          "67833471",
+          "64291046918532"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 1.0,
+        "left_distinct": 739454,
+        "left_rows": "5105039",
+        "left_size_biased_multiplicity": 13.287551965812602,
+        "matches": "67833471",
+        "matching_left_rows": "5105039",
+        "matching_right_rows": "5105039",
+        "max_left_frequency": 456,
+        "max_left_key": 916427,
+        "max_right_frequency": 456,
+        "max_right_key": 916427,
+        "min_left_key": 0,
+        "min_right_key": 0,
+        "right_distinct": 739454,
+        "right_rows": "5105039",
+        "right_size_biased_multiplicity": 13.287551965812602,
+        "shared_keys": 739454
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "webgoogle"
+    },
+    "wikivote_p2": {
+      "expected": [
+        [
+          "4542805",
+          "29913515844"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.3470859975503692,
+        "left_distinct": 2381,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 83.6525282334674,
+        "matches": "4542805",
+        "matching_left_rows": "72741",
+        "matching_right_rows": "57934",
+        "max_left_frequency": 457,
+        "max_left_key": 8297,
+        "max_right_frequency": 893,
+        "max_right_key": 8274,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 6110,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 137.23076700517896,
+        "shared_keys": 1376
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "wikivote"
+    },
+    "wikivote_p3": {
+      "expected": [
+        [
+          "202699243",
+          "1343314745070"
+        ]
+      ],
+      "table": "wikivote"
+    },
+    "wikivote_sh_p2": {
+      "expected": [
+        [
+          "4542805",
+          "29913515844"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.3470859975503697,
+        "left_distinct": 2381,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 83.6525282334674,
+        "matches": "4542805",
+        "matching_left_rows": "72741",
+        "matching_right_rows": "57934",
+        "max_left_frequency": 457,
+        "max_left_key": 8297,
+        "max_right_frequency": 893,
+        "max_right_key": 8274,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 6110,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 137.23076700517896,
+        "shared_keys": 1376
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "wikivote_sh"
+    },
+    "wikivote_sh_star_in": {
+      "expected": [
+        [
+          "8673847",
+          "52258928932"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999999922,
+        "left_distinct": 2381,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 83.6525282334674,
+        "matches": "8673847",
+        "matching_left_rows": "103689",
+        "matching_right_rows": "103689",
+        "max_left_frequency": 457,
+        "max_left_key": 8297,
+        "max_right_frequency": 457,
+        "max_right_key": 8297,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 2381,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 83.6525282334674,
+        "shared_keys": 2381
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "wikivote_sh"
+    },
+    "wikivote_sh_star_out": {
+      "expected": [
+        [
+          "14229321",
+          "103633177216"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999998544,
+        "left_distinct": 6110,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 137.23076700517896,
+        "matches": "14229321",
+        "matching_left_rows": "103689",
+        "matching_right_rows": "103689",
+        "max_left_frequency": 893,
+        "max_left_key": 8274,
+        "max_right_frequency": 893,
+        "max_right_key": 8274,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 6110,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 137.23076700517896,
+        "shared_keys": 6110
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "wikivote_sh"
+    },
+    "wikivote_star_in": {
+      "expected": [
+        [
+          "8673847",
+          "52258928932"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999999919,
+        "left_distinct": 2381,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 83.6525282334674,
+        "matches": "8673847",
+        "matching_left_rows": "103689",
+        "matching_right_rows": "103689",
+        "max_left_frequency": 457,
+        "max_left_key": 8297,
+        "max_right_frequency": 457,
+        "max_right_key": 8297,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 2381,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 83.6525282334674,
+        "shared_keys": 2381
+      },
+      "left_key": "dst",
+      "left_predicate": "",
+      "right_key": "dst",
+      "table": "wikivote"
+    },
+    "wikivote_star_out": {
+      "expected": [
+        [
+          "14229321",
+          "103633177216"
+        ]
+      ],
+      "frequencies": {
+        "distribution_overlap": 0.9999999999999006,
+        "left_distinct": 6110,
+        "left_rows": "103689",
+        "left_size_biased_multiplicity": 137.23076700517896,
+        "matches": "14229321",
+        "matching_left_rows": "103689",
+        "matching_right_rows": "103689",
+        "max_left_frequency": 893,
+        "max_left_key": 8274,
+        "max_right_frequency": 893,
+        "max_right_key": 8274,
+        "min_left_key": 3,
+        "min_right_key": 3,
+        "right_distinct": 6110,
+        "right_rows": "103689",
+        "right_size_biased_multiplicity": 137.23076700517896,
+        "shared_keys": 6110
+      },
+      "left_key": "src",
+      "left_predicate": "",
+      "right_key": "src",
+      "table": "wikivote"
+    },
+    "wikivote_tri": {
+      "expected": [
+        [
+          "131925",
+          "1193431242"
+        ]
+      ],
+      "table": "wikivote"
+    }
+  }
+}

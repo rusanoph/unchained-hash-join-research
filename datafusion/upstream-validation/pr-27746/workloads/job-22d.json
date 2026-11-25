@@ -1,0 +1,19 @@
+{
+  "address_space_gib": 10,
+  "arms": [
+    "A",
+    "B"
+  ],
+  "batch_size": 8192,
+  "blocks": 1,
+  "cpu": [
+    2
+  ],
+  "partitions": 1,
+  "queries": [
+    "job_22d"
+  ],
+  "seed": 27746004,
+  "timeout_seconds": 600,
+  "warmups": 0
+}

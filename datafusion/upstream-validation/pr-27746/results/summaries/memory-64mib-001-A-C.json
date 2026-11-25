@@ -1,0 +1,192 @@
+{
+  "baseline": "A",
+  "candidate": "C",
+  "observed_slots": 90,
+  "queries": [
+    {
+      "A_median_ms": 12.160418,
+      "A_median_peak_rss_kib": 102232,
+      "C_median_ms": 12.060351,
+      "C_median_peak_rss_kib": 103852,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "dense_dup100",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0094401031841609,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.8860438068035187,
+        1.0369624321254245
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        },
+        "C": {
+          "succeeded": 5
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "A_median_ms": 12.106967,
+      "A_median_peak_rss_kib": 92636,
+      "C_median_ms": 11.885993,
+      "C_median_peak_rss_kib": 94020,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "dense_unique",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 5,
+      "paired_median_ratio": 1.0100798477670314,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        1.0006809640374952,
+        1.1502795514352444
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        },
+        "C": {
+          "succeeded": 5
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "correctness": "unverified",
+      "id": "general_composite",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 0,
+      "statuses": {
+        "A": {
+          "resource_exhausted": 5
+        },
+        "B": {
+          "resource_exhausted": 5
+        },
+        "C": {
+          "resource_exhausted": 5
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "A_median_ms": 12.660772,
+      "A_median_peak_rss_kib": 95288,
+      "C_median_ms": 12.60731,
+      "C_median_peak_rss_kib": 97396,
+      "correctness": "consistent",
+      "decision": "inconclusive",
+      "id": "mixed_singletons_hot_key",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 5,
+      "paired_median_ratio": 0.9903792591161666,
+      "plan_relation": "identical",
+      "pointwise_95": [
+        0.9663131594309416,
+        1.041963828921475
+      ],
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "succeeded": 5
+        },
+        "C": {
+          "succeeded": 5
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "correctness": "consistent",
+      "id": "sparse_int_dup100",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 0,
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "resource_exhausted": 5
+        },
+        "C": {
+          "resource_exhausted": 5
+        }
+      },
+      "suite": "smoke"
+    },
+    {
+      "correctness": "consistent",
+      "id": "sparse_int_unique",
+      "intended_blocks": 5,
+      "oracle": true,
+      "paired_blocks": 0,
+      "statuses": {
+        "A": {
+          "succeeded": 5
+        },
+        "B": {
+          "resource_exhausted": 5
+        },
+        "C": {
+          "resource_exhausted": 5
+        }
+      },
+      "suite": "smoke"
+    }
+  ],
+  "ratio_margin": 0.05,
+  "status": {
+    "A/resource_exhausted": 5,
+    "A/succeeded": 25,
+    "B/resource_exhausted": 15,
+    "B/succeeded": 15,
+    "C/resource_exhausted": 15,
+    "C/succeeded": 15
+  },
+  "suites": {
+    "smoke": {
+      "correctness_mismatches": [],
+      "decisions": {
+        "inconclusive": 3,
+        "unclassified": 3
+      },
+      "geomean_median_ratio": 1.0103582690854644,
+      "paired_block_sum_median_ratio": 1.0116131715183079,
+      "paired_block_sum_pointwise_95": [
+        0.9567576172593542,
+        1.0423127841199626
+      ],
+      "planned_queries": 6,
+      "queries_with_full_pairs": 3,
+      "queries_with_pairs": 3,
+      "reduction_pct": 1.0141394275376414,
+      "shared_block_ids": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "sum_a_ms": 36.928157,
+      "sum_b_ms": 36.553654
+    }
+  },
+  "total_slots": 90
+}

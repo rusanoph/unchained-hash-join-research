@@ -1,0 +1,637 @@
+{
+  "memory-64mib-001": {
+    "dense_dup100": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.14,
+        "median_join_time_ms": 0.032,
+        "median_peak_rss_kib": 102232,
+        "median_pool_peak_bytes": 32060976,
+        "median_statement_wall_ns": 12160418,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 17.97,
+        "median_join_time_ms": 0.04238,
+        "median_peak_rss_kib": 108656,
+        "median_pool_peak_bytes": 34371584,
+        "median_statement_wall_ns": 19100305,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.03,
+        "median_join_time_ms": 0.04678,
+        "median_peak_rss_kib": 103852,
+        "median_pool_peak_bytes": 32060976,
+        "median_statement_wall_ns": 12060351,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "dense_unique": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.02,
+        "median_join_time_ms": 0.026850000000000002,
+        "median_peak_rss_kib": 92636,
+        "median_pool_peak_bytes": 24060976,
+        "median_statement_wall_ns": 12106967,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.31,
+        "median_join_time_ms": 0.027530000000000002,
+        "median_peak_rss_kib": 93688,
+        "median_pool_peak_bytes": 34250296,
+        "median_statement_wall_ns": 12227592,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 10.67,
+        "median_join_time_ms": 0.03041,
+        "median_peak_rss_kib": 94020,
+        "median_pool_peak_bytes": 24060976,
+        "median_statement_wall_ns": 11885993,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "general_composite": {
+      "A": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 37.8 MB for HashJoinInput with 0.0 B already allocated for this reservation - 33.5 MB remain available for the total memory pool: greedy(used: 30.5 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      },
+      "B": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 12.1 MB remain available for the total memory pool: greedy(used: 51.9 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      },
+      "C": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 12.1 MB remain available for the total memory pool: greedy(used: 51.9 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      }
+    },
+    "mixed_singletons_hot_key": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 10.99,
+        "median_join_time_ms": 0.66251,
+        "median_peak_rss_kib": 95288,
+        "median_pool_peak_bytes": 26092592,
+        "median_statement_wall_ns": 12660772,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 12.63,
+        "median_join_time_ms": 0.31664,
+        "median_peak_rss_kib": 97548,
+        "median_pool_peak_bytes": 35375372,
+        "median_statement_wall_ns": 13853436,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.31,
+        "median_join_time_ms": 0.34003,
+        "median_peak_rss_kib": 97396,
+        "median_pool_peak_bytes": 26092592,
+        "median_statement_wall_ns": 12607310,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "sparse_int_dup100": {
+      "A": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 30.73,
+        "median_join_time_ms": 0.03766,
+        "median_peak_rss_kib": 127616,
+        "median_pool_peak_bytes": 55651696,
+        "median_statement_wall_ns": 31783999,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 27.5 MB remain available for the total memory pool: greedy(used: 36.5 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      },
+      "C": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 27.5 MB remain available for the total memory pool: greedy(used: 36.5 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      }
+    },
+    "sparse_int_unique": {
+      "A": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 37.31,
+        "median_join_time_ms": 0.02811,
+        "median_peak_rss_kib": 133072,
+        "median_pool_peak_bytes": 55651696,
+        "median_statement_wall_ns": 38408958,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 27.5 MB remain available for the total memory pool: greedy(used: 36.5 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      },
+      "C": {
+        "failure_excerpt": {
+          "resource_exhausted": "Error: Shared(ResourcesExhausted(\"Failed to allocate additional 34.0 MB for HashJoinInput with 0.0 B already allocated for this reservation - 27.5 MB remain available for the total memory pool: greedy(used: 36.5 MB, pool_size: 64.0 MB)\"))\n"
+        },
+        "status": {
+          "resource_exhausted": 5
+        }
+      }
+    }
+  },
+  "memory-unbounded-001": {
+    "dense_dup100": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.79,
+        "median_join_time_ms": 0.03191,
+        "median_peak_rss_kib": 101696,
+        "median_pool_peak_bytes": 32060976,
+        "median_statement_wall_ns": 13056371,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 18.86,
+        "median_join_time_ms": 0.04143,
+        "median_peak_rss_kib": 108560,
+        "median_pool_peak_bytes": 34371584,
+        "median_statement_wall_ns": 19852678,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.88,
+        "median_join_time_ms": 0.04518,
+        "median_peak_rss_kib": 103760,
+        "median_pool_peak_bytes": 32060976,
+        "median_statement_wall_ns": 12961965,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "dense_unique": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.61,
+        "median_join_time_ms": 0.024530000000000003,
+        "median_peak_rss_kib": 92848,
+        "median_pool_peak_bytes": 24060976,
+        "median_statement_wall_ns": 12734873,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.4,
+        "median_join_time_ms": 0.023420000000000003,
+        "median_peak_rss_kib": 93568,
+        "median_pool_peak_bytes": 34250296,
+        "median_statement_wall_ns": 12376681,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 10.67,
+        "median_join_time_ms": 0.02847,
+        "median_peak_rss_kib": 94492,
+        "median_pool_peak_bytes": 24060976,
+        "median_statement_wall_ns": 11598132,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "general_composite": {
+      "A": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 42.48,
+        "median_join_time_ms": 0.04372,
+        "median_peak_rss_kib": 169248,
+        "median_pool_peak_bytes": 71651696,
+        "median_statement_wall_ns": 43768844,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 68.62,
+        "median_join_time_ms": 0.05094,
+        "median_peak_rss_kib": 183852,
+        "median_pool_peak_bytes": 94267176,
+        "median_statement_wall_ns": 70047349,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 70.75,
+        "median_join_time_ms": 0.05809,
+        "median_peak_rss_kib": 183868,
+        "median_pool_peak_bytes": 94267176,
+        "median_statement_wall_ns": 71948900,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "mixed_singletons_hot_key": {
+      "A": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 10.86,
+        "median_join_time_ms": 0.6610199999999999,
+        "median_peak_rss_kib": 95604,
+        "median_pool_peak_bytes": 26092592,
+        "median_statement_wall_ns": 12455943,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 12.96,
+        "median_join_time_ms": 0.34985000000000005,
+        "median_peak_rss_kib": 96752,
+        "median_pool_peak_bytes": 35375372,
+        "median_statement_wall_ns": 14329810,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "1"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 11.5,
+        "median_join_time_ms": 0.38305,
+        "median_peak_rss_kib": 97408,
+        "median_pool_peak_bytes": 26092592,
+        "median_statement_wall_ns": 12823486,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "sparse_int_dup100": {
+      "A": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 31.64,
+        "median_join_time_ms": 0.033490000000000006,
+        "median_peak_rss_kib": 127536,
+        "median_pool_peak_bytes": 55651696,
+        "median_statement_wall_ns": 32763009,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 49.02,
+        "median_join_time_ms": 0.048659999999999995,
+        "median_peak_rss_kib": 141884,
+        "median_pool_peak_bytes": 77981920,
+        "median_statement_wall_ns": 50224578,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 49.87,
+        "median_join_time_ms": 0.05103,
+        "median_peak_rss_kib": 141988,
+        "median_pool_peak_bytes": 77981920,
+        "median_statement_wall_ns": 50850623,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    },
+    "sparse_int_unique": {
+      "A": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 37.17,
+        "median_join_time_ms": 0.02793,
+        "median_peak_rss_kib": 132720,
+        "median_pool_peak_bytes": 55651696,
+        "median_statement_wall_ns": 38150728,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "B": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 40.48,
+        "median_join_time_ms": 0.03839,
+        "median_peak_rss_kib": 139768,
+        "median_pool_peak_bytes": 73901912,
+        "median_statement_wall_ns": 41567718,
+        "status": {
+          "succeeded": 5
+        }
+      },
+      "C": {
+        "array_map_created_count": [
+          "0"
+        ],
+        "build_input_rows": [
+          "1.00 M"
+        ],
+        "input_rows": [
+          "3"
+        ],
+        "median_build_time_ms": 41.13,
+        "median_join_time_ms": 0.03642,
+        "median_peak_rss_kib": 139336,
+        "median_pool_peak_bytes": 73901912,
+        "median_statement_wall_ns": 42179903,
+        "status": {
+          "succeeded": 5
+        }
+      }
+    }
+  }
+}
