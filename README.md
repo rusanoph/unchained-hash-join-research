@@ -63,6 +63,10 @@ graph workload. [Threshold measurements](datafusion/docs/results.md#lowering-the
 
 The benchmark tables summarize recorded campaigns. The build and
 smoke commands verify the supplied code on small fixtures.
+The v1.0.0 release includes an archive of 24,282 per-observation
+measurements with a Python script that recomputes the main results.
+[Download the measurement archive](https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/unchained-hash-join-measurements-v1.0.0.zip)
+
 [CI](.github/workflows/verify.yml) tests both standalone cores and
 rebuilds the figures and paper.
 
