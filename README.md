@@ -71,8 +71,9 @@ The v1.0.0 release includes an archive of 24,282 per-observation
 measurements with a Python script that recomputes the main results.
 [Download the measurement archive](https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/unchained-hash-join-measurements-v1.0.0.zip) · [Cite the dataset on Zenodo](https://doi.org/10.5281/zenodo.24519430)
 
-[CI](.github/workflows/verify.yml) tests both standalone cores and
-rebuilds the figures and paper.
+[CI](.github/workflows/verify.yml) tests both standalone cores, verifies the
+v1.0.0 measurement archive by SHA-256, and recomputes its published statistics.
+It also rebuilds the figures and paper from the bundled summaries.
 
 ## Licenses
 

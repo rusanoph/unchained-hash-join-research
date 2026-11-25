@@ -28,6 +28,23 @@ jobs:
       - run: rustup toolchain install 1.97.0 --profile minimal
       - run: cargo +1.97.0 test --manifest-path datafusion/core/Cargo.toml --offline
 
+  recompute-statistics:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Verify release archive and recompute published statistics
+        run: |
+          cd "$RUNNER_TEMP"
+          archive=unchained-hash-join-measurements-v1.0.0.zip
+          curl --fail --location --silent --show-error --retry 2 \
+            --connect-timeout 10 --max-time 60 \
+            --output "$archive" \
+            "https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/$archive"
+          printf '%s  %s\n' 0273a132917430a377628aaec68faa0089f8075d912947bd0fb810b29946be74 "$archive" \
+            | sha256sum --check --strict
+          python3 -m zipfile -e "$archive" measurements
+          python3 measurements/analysis/recompute.py
+
   research-paper:
     runs-on: ubuntu-24.04
     steps:
