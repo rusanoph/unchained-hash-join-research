@@ -10,6 +10,11 @@ selection at the 200,000-row build threshold on the same engine build
 and 11.7% on JOB. Figure 5 reports the follow-up comparison of two auto
 thresholds. [DataFusion results](../datafusion/docs/results.md#native-join-versus-auto-mode)
 
+Section 6 derives a break-even rule in terms of true pairs per probe, extra
+candidate visits, and layout construction and gather costs. The Enron
+degree counts supply a worked example of probe demand.
+[Model inputs and verification](VERIFICATION.md#cost-model-check)
+
 ## Rebuild the PDF
 
 From the repository root on Linux or WSL, run

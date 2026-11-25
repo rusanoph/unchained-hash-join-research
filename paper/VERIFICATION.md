@@ -1,6 +1,6 @@
 # Editorial verification
 
-The four-page browser-printed article has been replaced by a twelve-page LaTeX paper. Sections 4 and 5 each cover the native operator, integration, activation, timings, diagnosis and engineering decision. Section 6 derives the condition for recovering build and materialization costs, allowing the native and contiguous indexes to examine different numbers of candidates. Figures 1, 4 and 6 illustrate the layouts, payload reads and analytical break-even boundary. Figures 2, 3 and 5 use archived point estimates and confidence limits at full precision.
+Sections 4 and 5 cover the native operators, integrations, activation, timings and engineering decisions. Section 6 derives a per-probe break-even rule using the overlap of the two key distributions and the cost of extra candidate visits. Figures 1, 4 and 6 illustrate the layouts, payload reads and the effect of candidate penalties on the break-even boundary. Figures 2, 3 and 5 use archived point estimates and confidence limits at full precision.
 
 ## Evidence used
 
@@ -18,6 +18,37 @@ The four-page browser-printed article has been replaced by a twelve-page LaTeX p
 - Recreated the eight summary rows from the bundled JSON. The row-order chart adds ten per-query medians and their pointwise 95% intervals. Recomputed Table 1 from the recorded times.
 - Rendered all twelve A4 pages with MuPDF and inspected the title block, figures, tables, equation labels, page breaks and bibliography. Adjusted a clipped axis label, overflowing text and the engine section openings during proofing.
 - Checked searchable text, embedded fonts, internal destinations, DOI links and engine source pins. The standalone PDF links to the project on GitHub. Its four package and results links use HTTPS and point to files present at artifact revision `b33f6e504467b7c381943539dc57e45d543de1c5`.
-- Built the paper in a clean clone using pdfTeX 1.40.22 and BibTeX 0.99d. Its SHA-256 was `f0fdf0412c7ef9d1f399991cd373b7027c70cd1fd136c4111d27eed6a663bbf3`, identical to the release PDF. Regenerating the CSV and six vector figures with Matplotlib 3.10.1 also reproduced their committed bytes.
+- Built the paper in a clean clone using pdfTeX 1.40.22 and BibTeX 0.99d. Its SHA-256 was `85ba9f3275f7fcc362af5980b234e00cedf0848d762b1863f0b640f78810f1cc`, identical to the checked-in PDF. Regenerating the CSV and six vector figures with Matplotlib 3.10.1 also reproduced their checked-in bytes.
 - Ran the Enron example from the repository root with the hash-verified SNAP input. Both thresholds returned 5,982,269 and 58,340,459,753. The worker recorded one 183,831-row build at each threshold, using `native_array` at 200K and `csr_exact` at 50K. Substituting the other index in either report made the check fail with the SQL result intact. [Enron reproduction](../datafusion/docs/results.md#run-the-enron-two-hop-query)
 - The engine patches and workers match the original research packages. All performance measurements come from the recorded campaigns.
+
+## Cost model check
+
+For Enron, the build keys are the destination vertices and the probe keys
+are the source vertices of the retained edges. First run the
+[Enron example](../datafusion/docs/results.md#run-the-enron-two-hop-query),
+then run this SQL in DuckDB from the repository root.
+
+```sql
+WITH edges AS (
+    SELECT * FROM read_parquet('datafusion/build/enron/enron_file.parquet')
+),
+build_keys AS (SELECT dst AS k, count(*) AS n FROM edges GROUP BY dst),
+probe_keys AS (SELECT src AS k, count(*) AS n FROM edges GROUP BY src)
+SELECT
+    (SELECT sum(n) FROM build_keys) AS build_rows,
+    (SELECT sum(n) FROM probe_keys) AS probe_rows,
+    (SELECT sum(b.n * p.n) FROM build_keys b JOIN probe_keys p USING (k)) AS pairs,
+    (SELECT sum(n * n) FROM build_keys) AS build_square_sum,
+    (SELECT sum(n * n) FROM probe_keys) AS probe_square_sum;
+```
+
+The five values are 183,831, 183,831, 5,982,269, 3,759,983 and 35,776,927.
+Dividing the pair count by the probe rows gives 32.5422. Dividing the
+build square sum by the build rows gives the 20.4535 build-only proxy.
+Dividing the pair count by the geometric mean of the two square sums
+gives a cosine similarity of 0.515788. For JOB 22d, dividing the gross
+scatter and grouping time by three probe rows gives 123.3 ms per probe
+row. These checks use observed counts and recorded phase timings. The
+candidate penalties in the break-even figure are illustrative.
+[JOB phase timings](../duckdb/docs/results.md#why-build-cost-matters)

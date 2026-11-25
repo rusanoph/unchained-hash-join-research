@@ -56,16 +56,16 @@ def layout():
 
 
 def break_even():
-    fig, ax = plt.subplots(figsize=(6.55, 2.0))
-    fig.subplots_adjust(left=.09, right=.985, top=.96, bottom=.30)
-    ax.set(xlim=(0, 1.1), ylim=(0, 1.1),
-           xlabel="Lookup savings / cost", ylabel="Visit savings / cost")
-    ax.set_xticks([0, .25, .5, .75, 1.0])
-    ax.set_yticks([0, .5, 1.0])
-    ax.fill_between([0, 1, 1.1], [1, 0, 0], 1.1, color="#e1f0ec")
-    ax.plot([0, 1], [1, 0], color=TEAL, lw=1.5)
-    ax.text(.66, .76, "Contiguous faster", ha="center", color=TEAL)
-    ax.text(.25, .20, "Native faster", ha="center")
+    fig, ax = plt.subplots(figsize=(6.55, 2.2))
+    fig.subplots_adjust(left=.10, right=.985, top=.96, bottom=.24)
+    ax.set(xlim=(0, 40), ylim=(0, 42), xlabel="True pairs per probe",
+           ylabel="Normalized cost per probe")
+    ax.fill_between([8, 40], [0, 32], color="#e1f0ec")
+    ax.plot([0, 40], [0, 40], color=TEAL, lw=1.5, label="No extra-candidate penalty")
+    ax.plot([8, 40], [0, 32], color=INK, lw=1.2, linestyle="--",
+            label="Extra-candidate penalty of 8")
+    ax.legend(loc="upper left", frameon=False, fontsize=8)
+    ax.text(26, 6, "Contiguous faster under both cases", ha="center", color=TEAL)
     ax.spines[["top", "right"]].set_visible(False)
     ax.spines[["left", "bottom"]].set_color(RULE)
     ax.tick_params(length=2, pad=4)

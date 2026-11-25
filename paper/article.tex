@@ -2,7 +2,7 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,microtype}
 \usepackage[a4paper,left=28mm,right=28mm,top=24mm,bottom=25mm,footskip=12mm]{geometry}
-\usepackage{amsmath,booktabs,tabularx,graphicx,xcolor}
+\usepackage{amsmath,amssymb,booktabs,tabularx,graphicx,xcolor}
 \usepackage[font=small,labelfont=bf,justification=raggedright,singlelinecheck=false]{caption}
 \usepackage{hyperref}
 \definecolor{link}{HTML}{185D58}
@@ -408,7 +408,7 @@ general auto default from 200K. Keeping both decisions follows from the probe wo
 lower floor. Index selection can be correct for a repeated graph shape even when the same size
 band includes analytical joins with little traversal to accelerate.
 
-\section{A break-even condition for contiguous traversal}
+\section{A workload model for layout selection}
 \label{sec:model}
 Consider a fixed query and physical plan, with one join choosing between native ($n$) and
 contiguous ($c$) representations. Attribute elapsed time once to each phase in this serial
@@ -446,51 +446,84 @@ $s_\ell=\ell_n-\ell_c$ and $s_v=v_n-v_c$. The condition for lower elapsed time r
 \end{equation}
 Each side has units of time. A negative $\Delta G$, for instance, credits the contiguous layout
 for cheaper output gathers. Moving payloads during construction then appears as a debit in $\Delta
-B$. Figure~\ref{fig:cost} illustrates the trade-off when the net cost is positive.
+B$.
+
+\paragraph{Probe demand and extra candidates.}
+For a bag inner equijoin with ordinary SQL equality, let $f_B(k)$ and $f_P(k)$ denote
+matchable key frequencies after input filters. Before residual join predicates, the true
+equality pairs number $M=\sum_k f_B(k)f_P(k)$. For $N$ build rows and $P$ probe rows with
+matchable keys, write $p_B=f_B/N$ and $p_P=f_P/P$. For this full-enumeration model, take
+one lookup per such probe. The true pairs per probe are
+\begin{equation}
+  m=\frac{M}{P}=N\langle p_B,p_P\rangle
+    =N\|p_B\|_2\,\|p_P\|_2\cos\theta ,
+  \label{eq:overlap}
+\end{equation}
+where $\theta$ is the angle between the key-frequency vectors. The build-only size-biased
+multiplicity is $N\|p_B\|_2^2$. It gives the correct fanout if probes follow the build
+distribution. With the same build, disjoint probe keys give $m=0$, while probes concentrated
+on a largest build key give $m=\max_k f_B(k)$.
+
+For a prefix index that scans the entire bucket $h(k)$, let $F_B(b)$ and $F_P(b)$ be the
+row counts mapped to bucket $b$ on the two sides. Then
+\begin{equation}
+  R=\sum_b F_B(b) F_P(b)-M
+  \label{eq:collision}
+\end{equation}
+counts visits to entries with unequal keys.
+It upper-bounds extra visits when filters prune bucket entries before inspection. Exact-key
+enumeration has $R=0$ after locating the range. If distinct keys collide with probability
+$1/H$ over a hash family with $H$ buckets, then $\mathbb E[R]=(NP-M)/H$ by linearity of
+expectation. The realized count can differ for a fixed hash and skewed input.
+
+\paragraph{A per-probe decision rule.}
+In full enumeration, write $V_j=M+R_j$. Let $s_m$ be the saving per true pair during
+traversal, and let $r_j$ be the mean cost of visiting an extra candidate in layout $j$.
+Separate these two costs in Eq.~\eqref{eq:general} and divide by $P>0$:
+\begin{equation}
+  m s_m >
+  \underbrace{\frac{\Delta B+\Delta G+\Delta O}{P}}_{\text{net cost per probe}}
+     -s_\ell + \frac{R_c r_c-R_n r_n}{P}.
+  \label{eq:probe-model}
+\end{equation}
+For $s_m>0$, dividing the right-hand side by $s_m$ gives the minimum fanout at parity.
+A native chain with good locality can make $s_m$ small or negative. Extra candidate work
+then matters even at high fanout. Payload permutation increases construction cost and can
+reduce gather cost. The coefficients apply to the fixed plan and workload. In particular,
+residual predicates can reduce the output work in $G_j$ while leaving the pre-residual pair
+count $M$ unchanged. Early-exit joins require traversal counts that reflect stopping.
 
 \begin{figure}[htbp]
 \centering\widefigure{break-even}
-\caption{Break-even boundary from Eq.~\ref{eq:break} for a fixed positive net cost $C=\Delta
-B+\Delta G+\Delta O$ and nonnegative probe savings. One unit on either axis recovers the entire
-cost. The boundary is analytical.}\label{fig:cost}
+\caption{Illustrative boundaries from Eq.~\ref{eq:probe-model} for positive saving $s_m$.
+The vertical axis is net cost per probe after lookup savings, divided by $s_m$. The dashed
+line charges an extra candidate penalty equivalent to eight true-pair savings per probe.
+Contiguous traversal wins below the applicable line.}\label{fig:cost}
 \end{figure}
 
-\paragraph{Which duplicates are visited?}
-For a bag inner equijoin on ordinary SQL equality, let $f_B(k)$ and $f_P(k)$ be the frequencies of
-matchable key $k$ on the two inputs after input filters. Before any residual join predicate, the
-number of true equality pairs is
-\begin{equation}
- M=\sum_k f_B(k)\,f_P(k). \label{eq:pairs}
-\end{equation}
-An exact index that enumerates all such pairs needs to emit $M$ row pairs. A hash-prefix index may
-examine additional entries for colliding keys. A residual predicate may discard some of the $M$
-pairs after equality succeeds. Early-exit joins can stop traversal sooner. The size-biased
-multiplicity available from a build sample is related to $\sum_k f_B(k)^2/\sum_k f_B(k)$. That
-statistic emphasizes popular build keys. Equation~\eqref{eq:pairs} also requires that those keys
-occur on the probe side. Two equally large builds with identical histograms can therefore see very
-different demand.
+Before probing, a uniform sample of $s$ probe rows can estimate $m$ by averaging $f_B(k)$
+over sampled keys. With replacement and exact build frequencies, this estimate is unbiased
+with variance $\operatorname{Var}_{k\sim p_P}[f_B(k)]/s$. A few hot keys can make the
+variance large. The sample must represent probe rows after input filters. A selector would
+also need to charge sampling overhead, estimate visit and gather costs, and respect a peak
+memory budget.
 
-\paragraph{What moves the crossing point?}
-With fixed mean fanout $m=V/P$ for $P>0$, equal candidate counts and positive $s_\ell+m s_v$,
-Eq.~\eqref{eq:break} takes the familiar form $P>(\Delta B+\Delta G+\Delta O)/(s_\ell+m s_v)$.
-Holding those costs fixed illustrates amortization. Changing the key mix or physical row order can
-change the cost per visit as well as $m$, moving the break-even point. Wider records raise scatter
-traffic. A native duplicate chain whose nodes already occupy adjacent cache lines reduces $s_v$. A
-compact index can improve that saving while leaving random payload gathers in $G_c$.
+\paragraph{Instantiating the model.}
+In the Enron self-join, grouping the two endpoints of the 183,831 retained edges gives
+5,982,269 pairs, or 32.54 matches per probe-side input row. This is fanout before any
+engine-side probe pruning. The ideal build-only proxy is 20.45, about 37\% below the
+observed fanout. The frequency vectors give $\cos\theta=0.516$, with substantially
+greater concentration on the probe side. These are exact input statistics for this query.
+The deployed gate uses an estimate from a build sample. In
+JOB 22d, the 345\,ms scatter and 25\,ms grouping correspond to roughly 123\,ms per probe
+row over three probe rows. This is a gross charge for the two phases. The incremental build cost $\Delta B$
+also depends on work displaced from the native build. If all other phase costs were equal, savings would have to cover
+that charge. The ablation and end-to-end timings establish the observed loss. These two
+cases constrain different terms and leave the per-visit coefficients unmeasured.
 
-In JOB 22d the large build and three lookups put substantial weight on $\Delta B$ and almost none
-on the lookup-count term. A single probe could in principle match many rows, so three probes alone
-cannot determine the sign. The scatter profile and the remaining gap to stock with exact ranges
-disabled provide the additional evidence. In the Enron two-hop case, by contrast, the measured
-pair count makes repeated enumeration tangible, and admission at 50K changed the actual index. The
-interval for the graph cohort includes the cost of scanning the files and building the new index.
-Neither experiment measures all the coefficients in Eq.~\eqref{eq:general}.
-
-DataFusion's auto policy acts on row count, an estimate of probe cardinality when available, and sampled
-build multiplicity. These are quantities an engine can obtain before the probe runs. They
-approximate different terms of the inequality while leaving the joint key frequencies and realized
-cache costs unknown. The gate is an empirical policy tested by the threshold intervention. The
-decomposition explains its successes and misses without fitting a universal selector.
+DataFusion's auto gate uses build rows, a probe cardinality estimate when available, and
+sampled build multiplicity. These inputs are available before probing. Joint key frequencies
+and realized cache costs would require additional measurements.
 
 \section{Cross-engine discussion}
 The most consequential integration choice is what to move. DuckDB already has the row and its hash
@@ -547,19 +580,10 @@ and the DataFusion integration \texttt{v10b}. The DuckDB package verifies its so
 records the patch digest. The DataFusion package checks the upstream files before patching them
 and supplies the Rust worker lockfile.
 
-For a compact functional reproduction, install the dependencies listed in each README and run the
-commands below from the corresponding package root on Linux or WSL.
-\begin{quote}\small\begin{minipage}{\linewidth}
-\textit{DuckDB}\\
-\texttt{bash scripts/build-duckdb.sh}\\
-\texttt{python3 -B scripts/smoke.py build/hashman-duckdb}\\[4pt]
-\textit{DataFusion}\\
-\texttt{bash scripts/build-worker.sh}\\
-\texttt{python3 -B scripts/smoke.py build/target/release/hashman-df-worker}
-\end{minipage}\end{quote}
-The first smoke test checks SQL output against SQLite, experimental execution, fallback and
-required-mode rejection. The second checks the two CSR paths and the native decision on small
-builds. The Enron example runs the two-hop query at both thresholds and checks the integer result
+Both package guides provide build and smoke-test commands for Linux and WSL. The DuckDB
+smoke test checks SQL output against SQLite, experimental execution, fallback and required-mode
+rejection. The DataFusion test checks both CSR paths and native fallback on small builds.
+The Enron example runs the two-hop query at both thresholds and checks the integer result
 against an independent answer. It also checks that the 183,831-row build used
 the native array at 200K and the exact-key CSR index at 50K.
 

@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite the accompanying research report."
+title: "Unchained Hash Join Research"
+type: software
+authors:
+  - family-names: Rusanov
+    given-names: Maxim
+repository-code: "https://github.com/rusanoph/unchained-hash-join-research"
+preferred-citation:
+  type: report
+  title: "When Contiguous Hash Joins Pay Off in DuckDB and DataFusion"
+  authors:
+    - family-names: Rusanov
+      given-names: Maxim
+  year: 2026
+  month: 11
+  url: "https://github.com/rusanoph/unchained-hash-join-research/blob/main/paper/article.pdf"

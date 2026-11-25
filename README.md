@@ -1,13 +1,23 @@
 # Unchained Hash Join Research
 
-Two implementations of contiguous build-side indexes for hash joins,
-evaluated on one thread in DuckDB 1.5.6 and Apache DataFusion 55.2.0.
-The experiments ask when the cost of arranging build rows into contiguous
-ranges pays off during probing. [Original Unchained paper](https://doi.org/10.1145/3662010.3663442)
+When does the cost of building contiguous ranges pay off in a hash join?
+This study integrates the layout into DuckDB 1.5.6 and Apache DataFusion 55.2.0
+and measures both against their native execution paths on one thread.
 
-[Read the paper (PDF)](paper/article.pdf) · [Source and build instructions](paper/README.md) ·
+**DataFusion SNAP: 73% less total query time. DuckDB JOB: 0.948× stock-to-policy time ratio.**
+These are within-engine comparisons on different workloads. The break-even
+model links the difference to the cost of moving build rows, the keys reached
+by probes, and the layout of the payload.
+
+[Paper (PDF)](paper/article.pdf) · [Reproduce an Enron join](datafusion/docs/results.md#run-the-enron-two-hop-query) ·
+[DuckDB implementation](duckdb/README.md) · [DataFusion implementation](datafusion/README.md) ·
+[Cite this work](CITATION.cff)
+
+![Linked duplicates versus contiguous ranges of matching keys](paper/figures/layout.png)
+
 [Build DuckDB](duckdb/README.md#build-and-verify) ·
-[Build DataFusion](datafusion/README.md#build-and-verify)
+[Build DataFusion](datafusion/README.md#build-and-verify) ·
+[Rebuild the paper](paper/README.md) · [Original Unchained paper](https://doi.org/10.1145/3662010.3663442)
 
 ## Compared with the native join
 
@@ -53,6 +63,8 @@ graph workload. [Threshold measurements](datafusion/docs/results.md#lowering-the
 
 The benchmark tables summarize recorded campaigns. The build and
 smoke commands verify the supplied code on small fixtures.
+[CI](.github/workflows/verify.yml) tests both standalone cores and
+rebuilds the figures and paper.
 
 ## Licenses
 
@@ -61,3 +73,6 @@ The patches retain the [DuckDB license](duckdb/licenses/duckdb-LICENSE.txt)
 and the [Apache DataFusion license](datafusion/licenses/datafusion-LICENSE.txt)
 and [notice](datafusion/NOTICE), respectively.
 [DuckDB implementation license](duckdb/LICENSE) · [DataFusion implementation license](datafusion/LICENSE)
+
+The code licenses cover the implementations. Contact the author for
+reuse permissions for the article, figures and research evidence.

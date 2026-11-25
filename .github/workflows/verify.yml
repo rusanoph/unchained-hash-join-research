@@ -1,0 +1,56 @@
+name: Verify research artifacts
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  cpp-core:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and test with ASan and UBSan
+        run: |
+          cmake -S duckdb -B duckdb/build/core -DCMAKE_BUILD_TYPE=Debug -DUNCHAINED_BENCHMARKS=OFF
+          cmake --build duckdb/build/core --parallel 2
+          ctest --test-dir duckdb/build/core --output-on-failure
+        env:
+          UBSAN_OPTIONS: halt_on_error=1
+
+  rust-core:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - run: rustup toolchain install 1.97.0 --profile minimal
+      - run: cargo +1.97.0 test --manifest-path datafusion/core/Cargo.toml --offline
+
+  research-paper:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-latex-recommended lmodern poppler-utils
+          python -m pip install matplotlib==3.10.1
+      - name: Recreate figures and build paper
+        run: |
+          python paper/build.py
+          git diff --exit-code -- paper/results.csv
+          make -C paper paper
+      - name: Check published artifact links
+        run: |
+          prefix="$(sed -n 's/.*artifactrepo\/blob\/\([0-9a-f]\{40\}\).*/\1/p' paper/article.tex)"
+          [[ -n "$prefix" ]]
+          pdfinfo -url paper/article.pdf > paper/build/urls.txt
+          for path in duckdb/README.md datafusion/README.md duckdb/docs/results.md datafusion/docs/results.md; do
+            test -f "$path"
+            grep -F "https://github.com/rusanoph/unchained-hash-join-research/blob/$prefix/$path" paper/build/urls.txt
+          done
