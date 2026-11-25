@@ -1,5 +1,9 @@
 # Unchained Hash Join Research
 
+[![Paper DOI](https://img.shields.io/badge/Paper_DOI-10.5281%2Fzenodo.24519118-blue)](https://doi.org/10.5281/zenodo.24519118)
+[![Dataset DOI](https://img.shields.io/badge/Dataset_DOI-10.5281%2Fzenodo.24519430-teal)](https://doi.org/10.5281/zenodo.24519430)
+[![Verify research artifacts](https://github.com/rusanoph/unchained-hash-join-research/actions/workflows/verify.yml/badge.svg?branch=main)](https://github.com/rusanoph/unchained-hash-join-research/actions/workflows/verify.yml)
+
 When does the cost of building contiguous ranges pay off in a hash join?
 This study integrates the layout into DuckDB 1.5.6 and Apache DataFusion 55.2.0
 and measures both against their native execution paths on one thread.
@@ -65,7 +69,7 @@ The benchmark tables summarize recorded campaigns. The build and
 smoke commands verify the supplied code on small fixtures.
 The v1.0.0 release includes an archive of 24,282 per-observation
 measurements with a Python script that recomputes the main results.
-[Download the measurement archive](https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/unchained-hash-join-measurements-v1.0.0.zip)
+[Download the measurement archive](https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/unchained-hash-join-measurements-v1.0.0.zip) · [Cite the dataset on Zenodo](https://doi.org/10.5281/zenodo.24519430)
 
 [CI](.github/workflows/verify.yml) tests both standalone cores and
 rebuilds the figures and paper.

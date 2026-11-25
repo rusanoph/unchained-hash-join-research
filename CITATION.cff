@@ -16,4 +16,5 @@ preferred-citation:
       given-names: Maxim
   year: 2026
   month: 11
+  doi: "10.5281/zenodo.24519118"
   url: "https://github.com/rusanoph/unchained-hash-join-research/releases/download/v1.0.0/article.pdf"
