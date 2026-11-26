@@ -1,17 +1,13 @@
 """Verify a portable evidence bundle and restore its run-directory layout."""
 
 import argparse
-import gzip
 import hashlib
 import json
 from pathlib import Path
 import re
 import shutil
 
-
-def rows(path):
-    with gzip.open(path, "rt", encoding="utf-8") as stream:
-        yield from map(json.loads, stream)
+from evidence.archives import read_rows
 
 
 def main():
@@ -24,9 +20,9 @@ def main():
     raw = args.results / "raw"
     registration = raw / f"{args.run}-registration.json"
     slots = json.loads(registration.read_bytes())["slots"]
-    observations = list(rows(raw / f"{args.run}.jsonl.gz"))
+    observations = list(read_rows(raw / f"{args.run}.jsonl.gz"))
     plans = {}
-    for plan in rows(args.results / "plans" / f"{args.run}.jsonl.gz"):
+    for plan in read_rows(args.results / "plans" / f"{args.run}.jsonl.gz"):
         sha = plan["sha256"]
         text = plan["text"].encode()
         assert re.fullmatch(r"[a-f0-9]{64}", sha)

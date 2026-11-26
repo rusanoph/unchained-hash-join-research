@@ -1,29 +1,24 @@
 """Bind exact binary SNAP input statistics to the observed physical join orientation."""
 
 import argparse
-import gzip
 import json
 from pathlib import Path
 import re
 
-from join_metrics import parse
+from evidence.archives import read_plans, read_rows
+from evidence.metrics import parse
 
 PACKAGE = Path(__file__).resolve().parents[1]
-
-
-def rows(path):
-    with gzip.open(path, "rt", encoding="utf-8") as stream:
-        yield from map(json.loads, stream)
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("results", type=Path)
     args = parser.parse_args()
-    plans = {row["sha256"]: row["text"] for row in rows(args.results / "plans/snap-001.jsonl.gz")}
+    plans = read_plans(args.results / "plans/snap-001.jsonl.gz")
     oracle = json.loads((PACKAGE / "workloads/graph-oracle.json").read_bytes())["queries"]
     output = {}
-    for row in rows(args.results / "raw/snap-001.jsonl.gz"):
+    for row in read_rows(args.results / "raw/snap-001.jsonl.gz"):
         if row["block"] != 0:
             continue
         assert row["status"] == "succeeded" and row["oracle_match"]
