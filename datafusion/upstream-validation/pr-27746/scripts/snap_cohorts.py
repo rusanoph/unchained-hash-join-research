@@ -2,17 +2,16 @@
 
 import argparse
 import json
-import math
 from pathlib import Path
-import statistics
+
+from summarize import geometric
 
 
 def aggregate(rows):
     a = sum(q["A_median_ms"] for q in rows)
     b = sum(q["B_median_ms"] for q in rows)
     return {"n": len(rows), "sum_a_ms": a, "sum_b_ms": b, "reduction_pct": 100 * (1 - b / a),
-            "geomean_a_over_b": math.exp(statistics.mean(
-                math.log(q["A_median_ms"] / q["B_median_ms"]) for q in rows))}
+            "geomean_a_over_b": geometric(q["A_median_ms"] / q["B_median_ms"] for q in rows)}
 
 
 def main():

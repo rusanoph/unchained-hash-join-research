@@ -2,20 +2,19 @@
 
 import argparse
 import collections
-import gzip
 import json
 from pathlib import Path
 import random
 import statistics
 
+from evidence.archives import read_rows
 from summarize import interval
 
 
 def iter_observations(path, archive):
     if archive is not None:
-        with gzip.open(archive, "rt", encoding="utf-8") as stream:
-            for row in map(json.loads, stream):
-                yield row["index"], row
+        for row in read_rows(archive):
+            yield row["index"], row
     else:
         for file in sorted(path.glob("[0-9][0-9][0-9][0-9].json")):
             yield int(file.stem), json.loads(file.read_bytes())

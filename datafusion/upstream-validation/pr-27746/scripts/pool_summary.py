@@ -2,17 +2,12 @@
 
 import argparse
 import collections
-import gzip
 import json
 from pathlib import Path
 import statistics
 
-from join_metrics import parse
-
-
-def read(path):
-    with gzip.open(path, "rt", encoding="utf-8") as stream:
-        yield from map(json.loads, stream)
+from evidence.archives import read_plans, read_rows
+from evidence.metrics import parse
 
 
 def main():
@@ -22,9 +17,8 @@ def main():
     args = parser.parse_args()
     whole = {}
     for run in args.runs:
-        rows = list(read(args.results / "raw" / (run + ".jsonl.gz")))
-        plans = {text["sha256"]: text["text"] for text in
-                 read(args.results / "plans" / (run + ".jsonl.gz"))}
+        rows = list(read_rows(args.results / "raw" / (run + ".jsonl.gz")))
+        plans = read_plans(args.results / "plans" / (run + ".jsonl.gz"))
         cells = collections.defaultdict(list)
         for row in rows:
             cells[row["query"], row["arm"]].append(row)

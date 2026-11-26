@@ -1,7 +1,6 @@
 """Verify the published evidence using only the Python standard library."""
 
 import collections
-import gzip
 import hashlib
 import json
 from pathlib import Path
@@ -11,6 +10,7 @@ import sys
 import tempfile
 
 from digests import sha256
+from evidence.archives import read_rows
 from summarize import summarize
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,11 +24,6 @@ def require(condition, message):
 
 def read(path):
     return json.loads(path.read_bytes())
-
-
-def rows(path):
-    with gzip.open(path, "rt", encoding="utf-8") as stream:
-        return list(map(json.loads, stream))
 
 
 def script(name, *args):
@@ -119,7 +114,7 @@ def main():
                         and all(row["status"] != "mismatch" for row in checks), key + " correctness")
             print(f"{name}: {total} verified slots")
     legacy = read(RESULTS / "correctness/job-001-legacy.json")["job-001.jsonl.gz"]
-    job_counts = collections.Counter(r["query"] for r in rows(RESULTS / "raw/job-001.jsonl.gz"))
+    job_counts = collections.Counter(r["query"] for r in read_rows(RESULTS / "raw/job-001.jsonl.gz"))
     require(legacy == {q: {"matched": n} for q, n in job_counts.items()}, "Legacy JOB coverage")
     memory = script("pool_summary.py", RESULTS, "memory-unbounded-001", "memory-64mib-001")
     require(json.loads(memory) == read(RESULTS / "summaries/memory-controlled.json"), "Memory summary")
@@ -131,15 +126,15 @@ def main():
     hj = script("hj_summary.py", reg, "--archive", raw)
     require(hj.replace(b"\r\n", b"\n") == (RESULTS / "summaries/hj-official-sf10-002.json").read_bytes(),
             "hj summary")
-    observed = rows(raw)
+    observed = list(read_rows(raw))
     require(len(observed) == len(read(reg)["slots"]) == 90 and all(
         r["returncode"] == 0 and len(r["dfbench"]["queries"][0]["iterations"]) == 3
         and r["dfbench"]["context"]["num_cpus"] == 1 for r in observed), "hj coverage")
     check = read(RESULTS / "correctness/hj-sf10-registration.json")
     require(check["worker_sha256"] == worker, "hj correctness provenance")
-    evidence = {row["case"]: row for row in rows(RESULTS / "correctness/hj-sf10-digests.jsonl.gz")}
+    evidence = {row["case"]: row for row in read_rows(RESULTS / "correctness/hj-sf10-digests.jsonl.gz")}
     require(len(evidence) == 18, "hj correctness coverage")
-    plans = rows(RESULTS / "plans/hj-sf10-diagnostics.jsonl.gz")
+    plans = list(read_rows(RESULTS / "plans/hj-sf10-diagnostics.jsonl.gz"))
     known = {p["sha256"] for p in plans}
     require(len(known) == len(plans) and all(hashlib.sha256(p["text"].encode()).hexdigest() == p["sha256"]
                                             for p in plans), "hj diagnostic plan integrity")
