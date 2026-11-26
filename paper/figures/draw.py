@@ -72,6 +72,13 @@ def break_even():
     save(fig, "break-even")
 
 
+def style_ratio_axis(ax):
+    ax.grid(axis="x", color="#e3e8ea", linewidth=.65)
+    ax.tick_params(length=0, pad=4)
+    ax.spines[["top", "right", "left"]].set_visible(False)
+    ax.spines["bottom"].set_color(RULE)
+
+
 def forest(rows, labels, ticks, limits, xlabel, name):
     fig = plt.figure(figsize=(6.55, 1.82))
     ax = fig.add_axes([.23, .28, .54, .67])
@@ -80,10 +87,7 @@ def forest(rows, labels, ticks, limits, xlabel, name):
     ax.set_xticks(ticks, [f"{x:g}" for x in ticks])
     ax.axvline(1, color=RULE, linewidth=1, linestyle="--")
     ax.set_axisbelow(True)
-    ax.grid(axis="x", color="#e3e8ea", linewidth=.65)
-    ax.tick_params(length=0, pad=4)
-    ax.spines[["top", "right", "left"]].set_visible(False)
-    ax.spines["bottom"].set_color(RULE)
+    style_ratio_axis(ax)
     for y, row in enumerate(rows):
         ratio, lo, hi = [float(row[k]) for k in ("speedup", "ci95_low", "ci95_high")]
         ax.errorbar(ratio, y, xerr=[[ratio-lo], [hi-ratio]], color=TEAL,
@@ -116,11 +120,8 @@ def row_order():
            xlabel="Stock time / contiguous-row policy time")
     ax.set_yticks(range(len(graphs)), graphs.values())
     ax.set_xticks([.8, .9, 1, 1.1, 1.2, 1.3, 1.4, 1.5])
-    ax.grid(axis="x", color="#e3e8ea", linewidth=.65)
+    style_ratio_axis(ax)
     ax.set_axisbelow(True)
-    ax.spines[["top", "right", "left"]].set_visible(False)
-    ax.spines["bottom"].set_color(RULE)
-    ax.tick_params(length=0, pad=4)
     ax.legend(loc="lower left", bbox_to_anchor=(0, 1.02), ncol=2,
               frameon=False, borderaxespad=0)
     save(fig, "row-order")
